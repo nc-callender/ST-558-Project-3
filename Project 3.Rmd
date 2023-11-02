@@ -1,11 +1,78 @@
 ---
 title: "Project 3"
 author: "Yvette Callender"
-date: "`r Sys.Date()`"
-output: github_document
+date: '"` r "Sys.Date()`"'
+output: 
+    html_document:
+        toc: TRUE
+        toc_depth: 2
+params: 
+    education_level: "no_high_school"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+The following libraries were used in this project.
+
+```{r}
+library(tidyverse)
+```
+
+# Introduction
+
+In this project, data related to diabetes health was analyzed using a variety of models.  
+
+## Data 
+A Diabetes Health Indicators Dataset , `diabetes_binary_health_indicators_BRFSS2015.csv` was used for this project.  This dataset can be found online [on Kaggle.](https://www.kaggle.com/code/jerryodegua/eda-prediction-of-diabetes-data)
+
+## Variables
+The dataset contains 21 variables than can potentially be used in the analysis.  A subset was chosen and they are described below.
+
+The variable `diabetes_binary` is the response variable for this analysis. It is either a 0 (corresponding to a lack of either prediabetes or diabetes) or a 1 (corresponding to the presence of either prediabetes or diabetes).
+
+The variable `HighBP` is a binary variable with 1 corresponding to high blood pressure and 0 corresponding to normal blood pressure.
+
+The variable `HighChol` is a binary variable with 1 corresponding to high cholesterol levels and 0 corresponding to normal cholesterol levels.
+
+The variable `BMI` (Body Mass Index) is a numeric variable.  As part of the analysis, it was converted to a categorical variable with values corresponding to underweight, normal, overweight and obese.
+
+The variable `HeartDiseaseorAttack` is a binary variable where 1 indicates a history of heart disease or attack and a 0 indicates a lack thereof.
+
+The variable `GenHlth` is a categorical variable describing the the reported level of general health as described below:
+
+|Level|Description|
+|:---|:---------:|
+|1|excellent|
+|2|very good|
+|3|good|
+|4|fair|
+|5|poor|
+
+The variable `PhysHlth` corresponds to the number of days out of the last 30 that the patient reports physical injury or illness. 
+
+The variable `DiffWalk` is binary with 1 corresponding to reported difficulty walking or climbing stairs and 0 corresponding to no reported 
+
+The variable `Age` corresponds to age in years. As part of this analysis it was transformed into a categorical variable corresponding to 10-year increments. 
+
+The variable `Education` is a categorical variable with the following levels. 
+
+|Education Level|Description|
+|:---|:---------:|
+|1|Never attended school or only kindergarten|
+|2|Grades 1 through 8 (Elementary)|
+|3|Grades 9-11 (Some high school)|
+|4|Grade 12 or GED (High school graduate)|
+|5|College 1 year to 3 years (Some college or technical school)|
+|6|College 4 years or more (College graduate)|
+
+For this analysis, data was divided into subsets based on the value of `Education`.  There are be five subsets: one for levels one and two combined, and one each for levels three, four, five, and six.
+
+## Purpose of EDA and Modeling and End Results
+
+The relationship between the presence of diabetes/prediabetes (as indicated by `diabetes_binary`) and the predictor variables `()`HighBP`, `HighChol`, `BMI` , `HeartDiseaseorAttack`, `GenHlth`,  `PhysHlth`, `DiffWalk` were explored at several levels of eduction.  After Exploratory Data Analysis, the relationships were modeled using a variety or approaches (logistic regression, LASSO logistic regression, classification tree, random forest, *other 1, and other 2*) and a best model was chosen for each level of education. 
+
+#Data
+#Summarizations
+(group means sds, contingency tables six graphs)
