@@ -7,7 +7,7 @@ output:
         toc: TRUE
         toc_depth: 2
 params: 
-    education_level: "no_high_school"
+    EducationLevel: "Elementary"
 ---
 
 ```{r setup, include=FALSE}
@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The following libraries were used in this project.
 
-```{r}
+```{r, message = FALSE}
 library(tidyverse)
 ```
 
@@ -25,7 +25,7 @@ library(tidyverse)
 In this project, data related to diabetes health was analyzed using a variety of models.  
 
 ## Data 
-A Diabetes Health Indicators Dataset , `diabetes_binary_health_indicators_BRFSS2015.csv` was used for this project.  This dataset can be found online [on Kaggle.](https://www.kaggle.com/code/jerryodegua/eda-prediction-of-diabetes-data)
+A Diabetes Health Indicators Dataset: `diabetes_binary_health_indicators_BRFSS2015.csv` was used for this project.  This dataset can be found online [on Kaggle.](https://www.kaggle.com/code/jerryodegua/eda-prediction-of-diabetes-data) along with descriptions of the variabless.
 
 ## Variables
 The dataset contains 21 variables than can potentially be used in the analysis.  A subset was chosen and they are described below.
@@ -36,30 +36,46 @@ The variable `HighBP` is a binary variable with 1 corresponding to high blood pr
 
 The variable `HighChol` is a binary variable with 1 corresponding to high cholesterol levels and 0 corresponding to normal cholesterol levels.
 
-The variable `BMI` (Body Mass Index) is a numeric variable.  As part of the analysis, it was converted to a categorical variable with values corresponding to underweight, normal, overweight and obese.
+The variable `BMI` (Body Mass Index) is a numeric variable.  As part of the analysis, it was converted to a categorical variable with values corresponding to underweight ($BMI \le 18.5$), normal ($18.5 \le BMI \le24.9$), overweight ($25.0 \le BMI \le29.9$) and obese ($30 \le BMI$).
 
 The variable `HeartDiseaseorAttack` is a binary variable where 1 indicates a history of heart disease or attack and a 0 indicates a lack thereof.
 
 The variable `GenHlth` is a categorical variable describing the the reported level of general health as described below:
 
 |Level|Description|
-|:---|:---------:|
+|:---|:-----------:|
 |1|excellent|
 |2|very good|
 |3|good|
 |4|fair|
 |5|poor|
 
-The variable `PhysHlth` corresponds to the number of days out of the last 30 that the patient reports physical injury or illness. 
 
 The variable `DiffWalk` is binary with 1 corresponding to reported difficulty walking or climbing stairs and 0 corresponding to no reported 
 
-The variable `Age` corresponds to age in years. As part of this analysis it was transformed into a categorical variable corresponding to 10-year increments. 
+The variable `Age` is a categorical variable with the following levels.  
+
+|Level|Description|
+|:---|:-----------:|
+|1|18-24 years old|
+|2|25-29 years old|
+|3|30-34 years old|
+|4|35-39 years old|
+|5|40-44 years old|
+|6|45-54 years old|
+|7|50-54 years old|
+|8|55-59 years old|
+|9|60-64 years old|
+|10|65-69 years old|
+|11|70-74 years old|
+|12|75-79 years old|
+|13|$\ge$ 80 years old|
+
 
 The variable `Education` is a categorical variable with the following levels. 
 
 |Education Level|Description|
-|:---|:---------:|
+|:---|:-----------:|
 |1|Never attended school or only kindergarten|
 |2|Grades 1 through 8 (Elementary)|
 |3|Grades 9-11 (Some high school)|
@@ -67,12 +83,90 @@ The variable `Education` is a categorical variable with the following levels.
 |5|College 1 year to 3 years (Some college or technical school)|
 |6|College 4 years or more (College graduate)|
 
-For this analysis, data was divided into subsets based on the value of `Education`.  There are be five subsets: one for levels one and two combined, and one each for levels three, four, five, and six.
+For this analysis, data was divided into subsets based on the value of `Education`.  There are five subsets: one for levels one and two combined, and one each for levels three, four, five, and six.
 
 ## Purpose of EDA and Modeling and End Results
 
-The relationship between the presence of diabetes/prediabetes (as indicated by `diabetes_binary`) and the predictor variables `()`HighBP`, `HighChol`, `BMI` , `HeartDiseaseorAttack`, `GenHlth`,  `PhysHlth`, `DiffWalk` were explored at several levels of eduction.  After Exploratory Data Analysis, the relationships were modeled using a variety or approaches (logistic regression, LASSO logistic regression, classification tree, random forest, *other 1, and other 2*) and a best model was chosen for each level of education. 
+The relationship between the presence of diabetes/prediabetes (as indicated by `diabetes_binary`) and the predictor variables (`HighBP`, `HighChol`, `BMI` , `HeartDiseaseorAttack`, `GenHlth`, `DiffWalk`, and `Age`) were explored at several levels of education.  After Exploratory Data Analysis, the relationships were modeled using a variety or approaches (logistic regression, LASSO logistic regression, classification tree, random forest, *other 1, and other 2*) and a best model was chosen for each level of education. 
 
 #Data
+
+Data was imported and converted to a tibble.  Columns corresponding to categorical variables were converted to factors.
+
+```{r}
+
+#Read in Data
+diabetes_data <- read.csv ("diabetes_binary_health_indicators_BRFSS2015.csv") %>% 
+                 as_tibble
+
+
+#Select Desired Columns
+diabetes_data <- diabetes_data %>%
+    select(Diabetes_binary, HighBP, HighChol, BMI, HeartDiseaseorAttack, GenHlth,
+           DiffWalk, Age, Education)
+
+#For education make a new column where 1 and 2 are combined
+diabetes_data$EducationDerived <- ifelse(diabetes_data$Education == 1 |
+                                         diabetes_data$Education == 2 , '1_and_2',
+                                         diabetes_data$Education)
+
+#Convert EducationDerived to factor with labels
+diabetes_data$EducationDerived <- factor(diabetes_data$EducationDerived, 
+                                            levels = c('1_and_2', '3','4','5','6'), 
+                                            labels = c("Elementary", "Some High School",
+                                                       "High School Graduate", 
+                                                       "Some College or Technical School",
+                                                       "College Graduate"))
+
+#Convert of binary variable to factors
+diabetes_data <- diabetes_data %>% 
+    mutate(Diabetes_binary = factor(Diabetes_binary, levels = c("0","1"), 
+        labels = c("Non-diabetic", "Diabetic"))) %>%
+    mutate(HighBP = factor(HighBP, levels = c("0","1"), 
+        labels = c("Normal BP", "High BP"))) %>%
+    mutate(HighChol = factor(HighChol, levels = c("0","1"), 
+        labels = c("Normal Cholesterol", "High Cholesterol"))) %>%
+    mutate(HeartDiseaseorAttack = factor(HeartDiseaseorAttack, levels = c("0","1"), 
+        labels = c("No History", "History of Heart Disease or Attack"))) %>%
+    mutate(DiffWalk = factor(DiffWalk, levels = c("0","1"), 
+        labels = c("No Difficulty Walking or Climbing Stairs", 
+                   "Difficulty Walking or Climbing Stairs"))) 
+
+#Convert BMI to factors
+
+diabetes_data <- diabetes_data %>% 
+    mutate(BMIFactor = ifelse (BMI <- 18.5, "Underweight",
+                       ifelse (BMI <- 24.9, "Healthy",
+                       ifelse (BMI <- 29.9, "Overweight", "Obese"))))
+
+#Convert age to factors 
+diabetes_data <- diabetes_data %>% 
+    mutate(Age = factor(Age, 
+        levels =  c("1","2","3","4","5","6","7","8","9","10", "11", "12", "13"), 
+                 labels = c("18-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54",
+                          "55-59", "60-64", "65-69", "70-74", "75-79", ">= 80" ))) 
+
+# Convert GenHlth to factors
+
+diabetes_data <- diabetes_data %>% 
+    mutate(GenHlth = factor(GenHlth, 
+        levels =  c("1","2","3","4","5"), 
+                 labels = c("Excellent", "Very good", "Good", "Fair", "Poor")))
+```
+
+Data was filtered for the desired education level.
+
+```{r}
+#EducationDerived
+diabetes_data_subset <- diabetes_data %>% filter(EducationDerived==params$EducationLevel)
+knitr::kable(head(diabetes_data_subset, n=10))
+```
+
+
+
+```{r}
+
+```
+
 #Summarizations
 (group means sds, contingency tables six graphs)
