@@ -37,7 +37,7 @@ The variable `HighBP` is a binary variable with 1 corresponding to high blood pr
 
 The variable `HighChol` is a binary variable with 1 corresponding to high cholesterol levels and 0 corresponding to normal cholesterol levels.
 
-The variable `BMI` (Body Mass Index) is a numeric variable.  As part of the analysis, it was converted to a categorical variable with values corresponding to underweight($BMI \le 18.5$), normal($18.5 \le BMI \le24.9$), overweight($25.0 \le BMI \le29.9$) and obese($30 \le BMI$).
+The variable `BMI` (Body Mass Index) is a numeric variable.  As part of the analysis, it was converted to a categorical variable with values corresponding to underweight (BMI $\le$ 18.5), normal(18.5 $\le$ BMI $\le$ 24.9), overweight(25.0 $\le$ BMI $\le$ 29.9) and obese(30 $\le$ BMI).
 
 The variable `HeartDiseaseorAttack` is a binary variable where 1 indicates a history of heart disease or attack and a 0 indicates a lack thereof.
 
@@ -443,13 +443,22 @@ diabetes_data_subset_test <- diabetes_data_subset[-trainIndex,]
 
 ```
 
-
-
-```
-
 ## Log Loss Function
 
+Logarithmic loss (or log loss or cross-entropy loss) is a performance measure for a binary classification model which outputs a probability between 0 and 1.  Values for log loss can range from 0 to $\infty$ infinity, with 0 representing a perfect model.  The equation for determining Log Loss is:
+$$ LogLoss = -\frac{1}{N}\sum_{i=1}^{N} (y_ilog(p(y_i))+(1-y_i)log (1-p(y_i)) $$
+It has a desirable feature of being convex and having a single global minimum. This is in contrast to the MSE (mean square error) function used in linear regression which is not convex and can have many local minima, which makes it unsuitable for use in logistic regression.  
+
+When accuracy is used as a performance measure, it only takes right and wrong into account; whereas the log loss function has weighting terms that take into account just how wrong the model is.  While accuracy would treat probabilities of 0.05 and 0.45 for a true "1" as equally wrong, log loss would impose a much higher penalty (3.8 X greater) on the confident but wrong p=0.05.  
+
+Log loss analysis can be incorporated into `caret` by setting the `metric = logloss`.
+
 ## Logistic Regression
+
+Logistic Regression is a method used on dataset where the response (dependent) variable is binary. The response variable is fit as a logistic sigmoid function of independent variables which can be continuous or binary.  The general form of the equation is $$ y= \frac{1}{1+e^{-X}}$$
+where  X is a vector containing all the predictor variables.  The range of this function is 0-1 which works well with a binary dependent variable.  
+The logistic function is linked to the X vector with the logit function.
+$$log\frac{p}{1-p}=\beta_0 + \beta_1x_1 + \beta_2x_2+ ...+ \beta_px_p$$
 
 ### Model 1 
 ### Training
@@ -465,11 +474,24 @@ diabetes_data_subset_test <- diabetes_data_subset[-trainIndex,]
 
 ## LASSO Logistic Regression
 
+Least Absolute Shrinkage and Selection Operator (LASSO) is a penalized method for modelling.It is used in an attempt to balance accuracy and simplicity.  The penalty (assuming n predictor variables) is calculated as $$L_1 = \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)$$
+
+$\lambda$ is a tuning parameter.  Larger values of $\lambda$ push more coefficients to zero leading to sparser models, while smaller values of $\lambda$ allow more non-zero coefficients, corresponding to more complex models. 
+
+During the modelling the function that is minimized- referred to as the objective function- is the sum of the penalty function and the cost function (which for this logistic regression will be log loss). $$Objective Function = Log Loss + L_1 = Log Loss + \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)$$
+
+
 ## Training
 
 
 ## Classification Tree Model
+Classification trees involve splitting the predictor space into regions, and predictions are made based on the regions, usually the most prevalent class is used as the prediction.  Strengths of classifications trees include ease of understanding and interpretability, the fact that predictors do  no require scaling, no statistical assumptions are necessary, and variable selection is built in.  Weaknesses include sensitivity to small changes in the data, a need for a greedy algorithm, and a need for pruning.  
+
+
+
 Vary complexity factor
+
+
 ### Training
 
 
