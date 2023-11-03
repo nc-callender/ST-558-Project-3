@@ -1,7 +1,7 @@
 ---
 title: "Project 3"
 author: "Yvette Callender"
-date: '"` r "Sys.Date()`"'
+date: "`r Sys.Date()`"
 output: 
     html_document:
         toc: TRUE
@@ -18,6 +18,7 @@ The following libraries were used in this project.
 
 ```{r, message = FALSE}
 library(tidyverse)
+library(caret)
 ```
 
 # Introduction
@@ -36,7 +37,7 @@ The variable `HighBP` is a binary variable with 1 corresponding to high blood pr
 
 The variable `HighChol` is a binary variable with 1 corresponding to high cholesterol levels and 0 corresponding to normal cholesterol levels.
 
-The variable `BMI` (Body Mass Index) is a numeric variable.  As part of the analysis, it was converted to a categorical variable with values corresponding to underweight ($BMI \le 18.5$), normal ($18.5 \le BMI \le24.9$), overweight ($25.0 \le BMI \le29.9$) and obese ($30 \le BMI$).
+The variable `BMI` (Body Mass Index) is a numeric variable.  As part of the analysis, it was converted to a categorical variable with values corresponding to underweight($BMI \le 18.5$), normal($18.5 \le BMI \le24.9$), overweight($25.0 \le BMI \le29.9$) and obese($30 \le BMI$).
 
 The variable `HeartDiseaseorAttack` is a binary variable where 1 indicates a history of heart disease or attack and a 0 indicates a lack thereof.
 
@@ -132,12 +133,13 @@ diabetes_data <- diabetes_data %>%
         labels = c("No Difficulty Walking or Climbing Stairs", 
                    "Difficulty Walking or Climbing Stairs"))) 
 
-#Convert BMI to factors
-
+#Convert BMI to ordered factors
 diabetes_data <- diabetes_data %>% 
     mutate(BMIFactor = if_else (BMI <= 18.5, "Underweight",
                                 if_else (BMI <= 24.9, "Healthy",
                                     if_else (BMI <= 29.9, "Overweight", "Obese"))))
+diabetes_data$BMIFactor <- ordered(diabetes_data$BMIFactor, 
+                                   levels = c("Underweight","Healthy","Overweight","Obese"))
 
 #Convert age to factors 
 diabetes_data <- diabetes_data %>% 
@@ -147,7 +149,6 @@ diabetes_data <- diabetes_data %>%
                           "55-59", "60-64", "65-69", "70-74", "75-79", ">= 80" ))) 
 
 # Convert GenHlth to factors
-
 diabetes_data <- diabetes_data %>% 
     mutate(GenHlth = factor(GenHlth, 
         levels =  c("1","2","3","4","5"), 
@@ -165,7 +166,7 @@ knitr::kable(head(diabetes_data_subset, n=10))
 
 # Summarizations for Education = `r params$EducationLevel`
 
-## Diabetes_binary
+## Response Variable: `Diabetes_binary`
 
 The  amounts of nondiabetics and diabetics in this dataset are:
 
@@ -186,10 +187,10 @@ figure1 <- ggplot(diabetes_data_subset, aes(x = Diabetes_binary))
 figure1 + geom_bar() +
     labs( x = "Diabetes Status",
           y = "Count",
-          title = "Diabetes Status Distibution")
+          title = "Figure 1. Diabetes Status Distribution")
 ```
 
-## HighBP
+## Predictor variable: `HighBP`
 
 The distribution in this dataset for high blood pressure is:
 
@@ -215,10 +216,11 @@ figure2 <- ggplot(diabetes_data_subset, aes(x = Diabetes_binary), )
 figure2 + geom_bar(aes(fill = HighBP)) +
     labs( x = "Diabetes Status",
           y = "Count",
-          title = "Diabetes Status Distibution vs Blood Pressure Status")
+          title = "Figure 2. Diabetes Status Distribution versus Blood Pressure Status") +
+    guides(fill = guide_legend(title = "Blood Pressure"))
 ```
 
-## HighChol
+## Predictor variable: `HighChol`
 The distribution in this dataset for high cholesterol is:
 
 ```{r, Table-4}
@@ -243,10 +245,11 @@ figure3 <- ggplot(diabetes_data_subset, aes(x = Diabetes_binary), )
 figure3 + geom_bar(aes(fill = HighChol)) +
     labs( x = "Diabetes Status",
           y = "Count",
-          title = "Diabetes Status Distibution vs Cholesterol Status")
+          title = "Figure 3. Diabetes Status Distribution versus Cholesterol Status") +
+    guides(fill = guide_legend(title = "Cholesterol"))
 ```
 
-## BMI
+## Predictor variable: `BMI`
 The distribution in this dataset for BMI as a numeric value is:
 
 ```{r, Table-6}
@@ -263,36 +266,228 @@ knitr::kable(table6)
 
 ```
 
-``{r, Table-7}
-#Make and print table
-table7 <- table(diabetes_data_subset$BMIFactor)
-knitr::kable(table7, col.names = c("BMI", "Frequency"))
+This can be visualized as a boxplot:
+
+```{r, Figure 4}
+figure4<-ggplot() +
+         geom_boxplot(aes (y=diabetes_data_subset$BMI))+
+         labs (y= "BMI",
+               title= "Figure 4. Boxplot for BMI")+
+         theme(axis.title.x = element_blank(),
+               axis.text.x = element_blank(),
+               axis.ticks.x = element_blank())
+figure4
 ```
 
-The distribution for diabetes status in this dataset as a function of cholesterol status is:
-``{r, Table-8}
+Based on [Center for Diseased Control  guidelines](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html), the variable BMIFactor was set to underweight, healthy, overweight, or obese.  The distribution with regard to BMI at Education = `r params$EducationLevel` is shown here. 
+
+```{r, Figure-5}
+#Base layer
+figure5 <- ggplot(diabetes_data_subset, aes(x = BMIFactor)) 
+#Build up
+figure5 + geom_bar() +
+    labs( x = "BMI Classification",
+          y = "Count",
+          title = "Figure 5. BMI Classification Distribution")
+```
+
+The effect of BMI of the relative amounts of nondiabetics versus diabeticsis shown here.
+
+```{r, Figure-6}
+#Base layer
+figure6 <- ggplot(diabetes_data_subset, aes(x = BMIFactor), )
+#Build up
+figure6 + geom_bar(aes(fill = Diabetes_binary), position= "dodge") +
+    labs( x = "BMI Classification",
+          y = "Count",
+          title = "Figure 6. Diabetes Status Distribution versus BMI ") +
+    guides(fill = guide_legend(title = "Diabetes Status"))
+
+```
+
+## Predictor variable: `HeartDiseaseorAttack`
+The distribution in this dataset for a history of heart disease or attack is:
+
+```{r, Table-7}
 #Make and print table
-table8 <- table(diabetes_data_subset$Diabetes_binary,diabetes_data_subset$BMIFactor)
+table7 <- table(diabetes_data_subset$HeartDiseaseorAttack)
+knitr::kable(table7, col.names = c("History of Heart Trouble", "Frequency"))
+```
+
+The distribution for diabetes status in this dataset as a function of whether the subject has had a heart diseased or attack is:
+
+```{r, Table-8}
+#Make and print table
+table8 <- table(diabetes_data_subset$Diabetes_binary,diabetes_data_subset$HeartDiseaseorAttack)
 knitr::kable(table8)
 ```
 
 This can be seen graphically here.
 
-``{r, Figure-4}
+```{r, Figure-7}
 #Base layer
-figure4 <- ggplot(diabetes_data_subset, aes(x = Diabetes_binary), )
+figure7 <- ggplot(diabetes_data_subset, aes(x = Diabetes_binary), )
 #Build up
-figure4 + geom_bar(aes(fill = BMIFactor)) +
+figure7 + geom_bar(aes(fill = HeartDiseaseorAttack)) +
     labs( x = "Diabetes Status",
           y = "Count",
-          title = "Diabetes Status Distibution vs BMI Classification")
+          title = "Figure 7. Diabetes Status Distribution versus History of Heart Disease or Attack") +
+    guides(fill = guide_legend(title = "History of Heart Trouble"))
+```
+
+
+## Predictor variable: `GenHlth`
+The distribution in this dataset for a history of heart disease or attack is:
+
+```{r, Table-9}
+#Make and print table
+table9 <- table(diabetes_data_subset$GenHlth)
+knitr::kable(table9, col.names = c("Subject Description of General Health", "Frequency"))
+```
+
+The distribution for diabetes status in this dataset as a function of whether the subject has had a heart diseased or attack is:
+
+```{r, Table-10}
+#Make and print table
+table10 <- table(diabetes_data_subset$Diabetes_binary,diabetes_data_subset$GenHlth)
+knitr::kable(table10)
+```
+
+This can be seen graphically here.
+
+```{r, Figure-8}
+#Base layer
+figure8 <- ggplot(diabetes_data_subset, aes(x = GenHlth), )
+#Build up
+figure8 + geom_bar(aes(fill = Diabetes_binary), position= "dodge") +
+    labs( x = "General Health of Subject",
+          y = "Count",
+          title = "Figure 8. Diabetes Status Distribution versus General Health")+
+    guides(fill = guide_legend(title = "Diabetes Status"))
+```
+
+## Predictor variable: `DiffWalk`
+The distribution in this dataset for a history of heart disease or attack is:
+
+```{r, Table-11}
+#Make and print table
+table11 <- table(diabetes_data_subset$DiffWalk)
+knitr::kable(table11, col.names = c(" ", "Frequency"))
+```
+
+The distribution for diabetes status in this dataset as a function of whether the subject has had a heart diseased or attack is:
+
+```{r, Table-12}
+#Make and print table
+table12 <- table(diabetes_data_subset$Diabetes_binary,diabetes_data_subset$DiffWalk)
+knitr::kable(table12)
+```
+
+This can be seen graphically here.
+
+```{r, Figure-9}
+#Base layer
+figure9 <- ggplot(diabetes_data_subset, aes(x = Diabetes_binary), )
+#Build up
+figure9 + geom_bar(aes(fill = DiffWalk), position="dodge") +
+    labs( x = "Diabetes Status",
+          y = "Count",
+          title = "Figure 9. Diabetes Status Distribution versus Difficulty Walking or Climbing Stairs") +
+      guides(fill = guide_legend(title = " "))
+```
+
+## Predictor variable: `Age`
+The distribution in this dataset for age is:
+```{r, Table-13}
+#Make and print table
+table13 <- table(diabetes_data_subset$Age) 
+knitr::kable(table13, col.names = c("Age Range ", "Frequency"))
+```
+
+The distribution for diabetes status in this dataset as a function of age is:
+
+```{r, Table-14}
+#Make and print table
+table14 <- table(diabetes_data_subset$Diabetes_binary,diabetes_data_subset$Age)
+knitr::kable(table14)
+```
+
+This can be seen graphically here.
+
+```{r, Figure-10}
+#Base layer
+figure10 <- ggplot(diabetes_data_subset, aes(x = Age))
+#Build up
+figure10 + geom_bar(aes(fill = Diabetes_binary), position="dodge") +
+    labs( x = "Age",
+          y = "Count",
+          title = "Figure 10. Diabetes Status Distribution versus Age") +
+    guides(fill = guide_legend(title = "Diabetes Status "))
+```
+
+# Modeling
+
+## Split Data Into Training and Test
+
+The `createDataPartition` from `caret` was used to partition the data into training (70% of the data) and test (30% of the data) sets. Diabetics and non-diabetics were split separately.
+
+```{r}
+#for reproducibility
+set.seed(1331)
+#generate indices for split 
+trainIndex <-createDataPartition(diabetes_data_subset$Diabetes_binary, p =0.7, list=FALSE)
+
+#split data
+diabetes_data_subset_train <- diabetes_data_subset[trainIndex,]
+diabetes_data_subset_test <- diabetes_data_subset[-trainIndex,]
+
 ```
 
 
 
-## HeartDiseaseorAttack
-## GenHlth
-## DiffWalk
-## Age
+```
 
-(group means sds, contingency tables six graphs)
+## Log Loss Function
+
+## Logistic Regression
+
+### Model 1 
+### Training
+
+
+### Model 2 
+### Training
+
+
+### Model 3 
+### Training
+
+
+## LASSO Logistic Regression
+
+## Training
+
+
+## Classification Tree Model
+Vary complexity factor
+### Training
+
+
+## Random Forest Model
+why choose instead of classification tree
+
+### Training
+
+
+## Other Model 1
+
+### Training
+
+
+
+## Other Model 2
+
+### Training
+
+
+# Final Model Selection
