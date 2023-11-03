@@ -89,7 +89,7 @@ For this analysis, data was divided into subsets based on the value of `Educatio
 
 The relationship between the presence of diabetes/prediabetes (as indicated by `diabetes_binary`) and the predictor variables (`HighBP`, `HighChol`, `BMI` , `HeartDiseaseorAttack`, `GenHlth`, `DiffWalk`, and `Age`) were explored at several levels of education.  After Exploratory Data Analysis, the relationships were modeled using a variety or approaches (logistic regression, LASSO logistic regression, classification tree, random forest, *other 1, and other 2*) and a best model was chosen for each level of education. 
 
-#Data
+# Data Set-Up
 
 Data was imported and converted to a tibble.  Columns corresponding to categorical variables were converted to factors.
 
@@ -157,16 +157,14 @@ diabetes_data <- diabetes_data %>%
 Data was filtered for the desired education level.
 
 ```{r}
-#EducationDerived
-diabetes_data_subset <- diabetes_data %>% filter(EducationDerived==params$EducationLevel)
+diabetes_data_subset <- diabetes_data %>% 
+    filter(EducationDerived == params$EducationLevel)
 knitr::kable(head(diabetes_data_subset, n=10))
 ```
 
 
+# Summarizations for Education = `r params$EducationLevel`
 
-```{r}
 
-```
 
-#Summarizations
 (group means sds, contingency tables six graphs)
