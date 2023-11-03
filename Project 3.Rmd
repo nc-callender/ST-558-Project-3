@@ -93,7 +93,7 @@ The relationship between the presence of diabetes/prediabetes (as indicated by `
 
 Data was imported and converted to a tibble.  Columns corresponding to categorical variables were converted to factors.
 
-```{r}
+```{r, cache=TRUE}
 
 #Read in Data
 diabetes_data <- read.csv ("diabetes_binary_health_indicators_BRFSS2015.csv") %>% 
@@ -135,9 +135,9 @@ diabetes_data <- diabetes_data %>%
 #Convert BMI to factors
 
 diabetes_data <- diabetes_data %>% 
-    mutate(BMIFactor = ifelse (BMI <- 18.5, "Underweight",
-                       ifelse (BMI <- 24.9, "Healthy",
-                       ifelse (BMI <- 29.9, "Overweight", "Obese"))))
+    mutate(BMIFactor = if_else (BMI <= 18.5, "Underweight",
+                                if_else (BMI <= 24.9, "Healthy",
+                                    if_else (BMI <= 29.9, "Overweight", "Obese"))))
 
 #Convert age to factors 
 diabetes_data <- diabetes_data %>% 
@@ -165,6 +165,134 @@ knitr::kable(head(diabetes_data_subset, n=10))
 
 # Summarizations for Education = `r params$EducationLevel`
 
+## Diabetes_binary
 
+The  amounts of nondiabetics and diabetics in this dataset are:
+
+```{r, Table-1}
+#Make and print table
+table1 <- table(diabetes_data_subset$Diabetes_binary)
+knitr::kable(table1, col.names = c("Diabetes Status", "Frequency"))
+```
+
+`r paste0("There are ",  round(table1[1]/table1[2],1), "X as many nondiabetics as diabetics in the dataset at Education = ",  params$EducationLevel, ".")`
+
+This can be seen graphically here.
+
+```{r, Figure-1}
+#Base layer
+figure1 <- ggplot(diabetes_data_subset, aes(x = Diabetes_binary))
+#Build up
+figure1 + geom_bar() +
+    labs( x = "Diabetes Status",
+          y = "Count",
+          title = "Diabetes Status Distibution")
+```
+
+## HighBP
+
+The distribution in this dataset for high blood pressure is:
+
+```{r, Table-2}
+#Make and print table
+table2 <- table(diabetes_data_subset$HighBP)
+knitr::kable(table2, col.names = c("Blood Pressure", "Frequency"))
+```
+
+The distribution for diabetes status in this dataset as a function of blood pressure status is:
+```{r, Table-3}
+#Make and print table
+table3 <- table(diabetes_data_subset$Diabetes_binary,diabetes_data_subset$HighBP)
+knitr::kable(table3)
+```
+
+This can be seen graphically here.
+
+```{r, Figure-2}
+#Base layer
+figure2 <- ggplot(diabetes_data_subset, aes(x = Diabetes_binary), )
+#Build up
+figure2 + geom_bar(aes(fill = HighBP)) +
+    labs( x = "Diabetes Status",
+          y = "Count",
+          title = "Diabetes Status Distibution vs Blood Pressure Status")
+```
+
+## HighChol
+The distribution in this dataset for high cholesterol is:
+
+```{r, Table-4}
+#Make and print table
+table4 <- table(diabetes_data_subset$HighChol)
+knitr::kable(table4, col.names = c("Cholesterol", "Frequency"))
+```
+
+The distribution for diabetes status in this dataset as a function of cholesterol status is:
+```{r, Table-5}
+#Make and print table
+table5 <- table(diabetes_data_subset$Diabetes_binary,diabetes_data_subset$HighChol)
+knitr::kable(table5)
+```
+
+This can be seen graphically here.
+
+```{r, Figure-3}
+#Base layer
+figure3 <- ggplot(diabetes_data_subset, aes(x = Diabetes_binary), )
+#Build up
+figure3 + geom_bar(aes(fill = HighChol)) +
+    labs( x = "Diabetes Status",
+          y = "Count",
+          title = "Diabetes Status Distibution vs Cholesterol Status")
+```
+
+## BMI
+The distribution in this dataset for BMI as a numeric value is:
+
+```{r, Table-6}
+#Make and print table
+table6 <- diabetes_data_subset %>% 
+    summarize (Variable ="BMI",
+               Minimum = min(BMI),
+               Median= median(BMI),
+               Maximum=max(BMI),
+               Mean = round(mean (BMI),1),
+               StdDev=round(sd(BMI),1)
+              )
+knitr::kable(table6)
+
+```
+
+``{r, Table-7}
+#Make and print table
+table7 <- table(diabetes_data_subset$BMIFactor)
+knitr::kable(table7, col.names = c("BMI", "Frequency"))
+```
+
+The distribution for diabetes status in this dataset as a function of cholesterol status is:
+``{r, Table-8}
+#Make and print table
+table8 <- table(diabetes_data_subset$Diabetes_binary,diabetes_data_subset$BMIFactor)
+knitr::kable(table8)
+```
+
+This can be seen graphically here.
+
+``{r, Figure-4}
+#Base layer
+figure4 <- ggplot(diabetes_data_subset, aes(x = Diabetes_binary), )
+#Build up
+figure4 + geom_bar(aes(fill = BMIFactor)) +
+    labs( x = "Diabetes Status",
+          y = "Count",
+          title = "Diabetes Status Distibution vs BMI Classification")
+```
+
+
+
+## HeartDiseaseorAttack
+## GenHlth
+## DiffWalk
+## Age
 
 (group means sds, contingency tables six graphs)
