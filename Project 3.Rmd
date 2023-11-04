@@ -19,6 +19,7 @@ The following libraries were used in this project.
 ```{r, message = FALSE}
 library(tidyverse)
 library(caret)
+library(MLmetrics)
 ```
 
 # Introduction
@@ -88,7 +89,7 @@ For this analysis, data was divided into subsets based on the value of `Educatio
 
 ## Purpose of EDA and Modeling and End Results
 
-The relationship between the presence of diabetes/prediabetes (as indicated by `diabetes_binary`) and the predictor variables (`HighBP`, `HighChol`, `BMI` , `HeartDiseaseorAttack`, `GenHlth`, `DiffWalk`, and `Age`) were explored at several levels of education.  After Exploratory Data Analysis, the relationships were modeled using a variety or approaches (logistic regression, LASSO logistic regression, classification tree, random forest, *other 1, and other 2*) and a best model was chosen for each level of education. 
+The relationship between the presence of diabetes/prediabetes (as indicated by `diabetes_binary`) and the predictor variables (`HighBP`, `HighChol`, `BMI` , `HeartDiseaseorAttack`, `GenHlth`, `DiffWalk`, and `Age`) were explored at several levels of education.  After Exploratory Data Analysis, the relationships were modeled using a variety or approaches (logistic regression, LASSO logistic regression, classification tree, random forest, ridge, and elastic net) and a best model was chosen for each level of education. 
 
 # Data Set-Up
 
@@ -479,7 +480,7 @@ variables <- c('HighBP','HighChol','BMIFactor','HeartDiseaseorAttack','GenHlth',
 formula_logistic_1 <- as.formula(paste (outcome, 
                                         paste(variables, collapse = " + "), 
                                         sep = " ~ "))
-formula_logistic_1 
+formula_logistic_1
 
 #Perform fit using logLoss with 5 fold cross validation
 fit_logistic_1 <- train(formula_logistic_1,
@@ -492,7 +493,7 @@ fit_logistic_1 <- train(formula_logistic_1,
                         metric = "logLoss"
                         )
 
-fit_logistic_1[[4]][2]
+knitr::kable(fit_logistic_1[[4]][2], digits =4, align = "l")
 
 ```
 
@@ -522,8 +523,7 @@ fit_logistic_2 <- train(formula_logistic_2,
                         metric = "logLoss"
                         )
 
-fit_logistic_2[[4]][2]
-
+knitr::kable(fit_logistic_2[[4]][2], digits =4, align = "l")
 ```
 ### Model 3 
 The third candidate logistic regression model includes all the following variables: 
@@ -549,8 +549,7 @@ fit_logistic_3 <- train(formula_logistic_2,
                         metric = "logLoss"
                         )
 
-fit_logistic_3[[4]][2]
-
+knitr::kable(fit_logistic_3[[4]][2], digits =4, align = "l")
 ```
 
 ### Selection of Best Model 
@@ -566,10 +565,10 @@ if (fit_logistic_1[[4]][2]<fit_logistic_2[[4]][2]  &
 
 # Store method and logloss to facilitate comparison
 logistic_results <- as_tibble(fit_logistic[[4]][2]) %>% 
-    mutate (method = "Logistic") %>%
-    select (method, logLoss)
+    mutate (Method = "Logistic") %>%
+    select (Method, logLoss)
 
-logistic_results
+knitr::kable(logistic_results, digits =4, align ='ll')
 ```
 
 
@@ -618,8 +617,8 @@ fit_lasso$bestTune$lambda
 #Extract logLoss and store with method to facilitate comparison
 lasso_results <- fit_lasso[[4]] %>% 
     filter(lambda==fit_lasso$bestTune$lambda) %>%
-    mutate(method ="LASSO") %>%
-    select(method, logLoss)
+    mutate(Method ="LASSO") %>%
+    select(Method, logLoss)
 
 lasso_results
 
@@ -661,8 +660,8 @@ fit_classification_tree$bestTune$cp
 #Extract logLoss and store with method to facilitate comparison
 classification_tree_results <- fit_classification_tree[[4]] %>% 
     filter(cp == fit_classification_tree$bestTune$cp) %>%
-    mutate(method = "Classification Tree") %>%
-    select(method, logLoss)
+    mutate(Method = "Classification Tree") %>%
+    select(Method, logLoss)
 
 classification_tree_results
 ```
@@ -705,8 +704,8 @@ fit_random_forest$bestTune$mtry
 #Extract logLoss and store with method to facilitate comparison
 random_forest_results <- fit_random_forest[[4]] %>% 
     filter(mtry == fit_random_forest$bestTune$mtry) %>%
-    mutate(method = "Random Forest") %>%
-    select(method, logLoss)
+    mutate(Method = "Random Forest") %>%
+    select(Method, logLoss)
 
 random_forest_results
 
@@ -757,8 +756,8 @@ fit_ridge$bestTune$lambda
 #Extract logLoss and store with method to facilitate comparison
 ridge_results <- fit_ridge[[4]] %>% 
     filter(lambda == fit_ridge$bestTune$lambda) %>%
-    mutate(method = "Ridge") %>%
-    select(method, logLoss)
+    mutate(Method = "Ridge") %>%
+    select(Method, logLoss)
 
 ridge_results
 
@@ -817,14 +816,14 @@ fit_elastic_net$bestTune$lambda
 elastic_net_results <- fit_elastic_net[[4]] %>% 
     filter(alpha == fit_elastic_net$bestTune$alpha) %>%
     filter(lambda == fit_elastic_net$bestTune$lambda) %>%
-    mutate(method = "Elastic Net") %>%
-    select(method, logLoss)
+    mutate(Method = "Elastic Net") %>%
+    select(Method, logLoss)
 
 elastic_net_results
 
 ```
 
-## Final Model Selection using Lof Loss from Cross Validation
+## Final Model Selection using Log Loss from Cross Validation
 ```{r}
 comparison_results <- bind_rows(logistic_results, 
                                 lasso_results, 
@@ -842,4 +841,120 @@ Of the models studied, the "best model", exhibiting the lowest log loss during c
 
 For each of logistic regression, LASSO logistic regression, classification tree model, random forest model, ridge logistic regression and, elastic net regression, the optimized model from training was used to make a prediction for the test data set.  The effectiveness of that prediction was evaluated using the log loss function. 
 
+```{r, prediction for logistic }
+#Make prediction
+pred_log <- predict (fit_logistic, newdata = diabetes_data_subset_test)
+
+#Generate confusion matrix
+pred_log_results <- confusionMatrix(data = diabetes_data_subset_test$Diabetes_binary, 
+                                    reference = pred_log)
+
+#Generate summary to facilitate comparison
+pred_log_summary <- as_tibble(pred_log_results$overall[1]) %>% 
+    rename("Accuracy" = 1) %>%
+    mutate(Kappa = pred_log_results$overall[2]) %>%
+    mutate(Method = "Logistic") %>%
+    select (Method, Accuracy, Kappa)
+
+knitr::kable(pred_log_summary, digits = 4)
+```
+
+```{r, prediction for LASSO }
+#Make prediction
+pred_lasso <- predict (fit_lasso, newdata = diabetes_data_subset_test)
+
+#Generate confusion matrix
+pred_lasso_results <- confusionMatrix(data = diabetes_data_subset_test$Diabetes_binary, 
+                                      reference = pred_lasso)
+
+#Generate summary to facilitate comparison
+pred_lasso_summary <- as_tibble(pred_lasso_results$overall[1]) %>% 
+    rename("Accuracy" = 1) %>%
+    mutate(Kappa = pred_lasso_results$overall[2]) %>%
+    mutate(Method = "LASSO") %>%
+    select (Method, Accuracy, Kappa)
+
+knitr::kable(pred_lasso_summary, digits = 4)
+```
+
+```{r, prediction for classification tree }
+#Make prediction
+pred_classification_tree <- predict (fit_classification_tree, 
+                                     newdata = diabetes_data_subset_test)
+
+#Generate confusion matrix
+pred_classification_tree_results <- confusionMatrix(data = diabetes_data_subset_test$Diabetes_binary,                                                     reference = pred_classification_tree)
+
+#Generate summary to facilitate comparison
+pred_classification_tree_summary <- as_tibble(pred_classification_tree_results$overall[1]) %>% 
+    rename("Accuracy" = 1) %>%
+    mutate(Kappa = pred_classification_tree_results$overall[2]) %>%
+    mutate(Method = "Classification Tree") %>%
+    select (Method, Accuracy, Kappa)
+
+knitr::kable(pred_classification_tree_summary, digits = 4)
+```
+
+```{r, prediction for random forest }
+#Make prediction
+pred_random_forest <- predict (fit_random_forest, newdata = diabetes_data_subset_test)
+
+#Generate confusion matrix
+pred_random_forest_results <- confusionMatrix(data = diabetes_data_subset_test$Diabetes_binary,                                                    reference = pred_random_forest)
+
+#Generate summary to facilitate comparison
+pred_random_forest_summary <- as_tibble(pred_random_forest_results$overall[1]) %>% 
+    rename("Accuracy" = 1) %>%
+    mutate(Kappa = pred_random_forest_results$overall[2]) %>%
+    mutate(Method = "Random Forest") %>%
+    select (Method, Accuracy, Kappa)
+
+knitr::kable(pred_random_forest_summary, digits = 4)
+```
+
+```{r, prediction for ridge }
+#Make prediction
+pred_ridge <- predict (fit_ridge, newdata = diabetes_data_subset_test)
+
+#Generate confusion matrix
+pred_ridge_results <- confusionMatrix(data = diabetes_data_subset_test$Diabetes_binary,                                                    reference = pred_ridge)
+pred_ridge_results
+#Generate summary to facilitate comparison
+pred_ridge_summary <- as_tibble(pred_ridge_results$overall[1]) %>% 
+    rename("Accuracy" = 1) %>%
+    mutate(Kappa = pred_ridge_results$overall[2]) %>%
+    mutate(Method = "Ridge") %>%
+    select (Method, Accuracy, Kappa)
+
+knitr::kable(pred_ridge_summary, digits = 4)
+```
+
+```{r, prediction for elastic net }
+#Make prediction
+pred_elastic_net <- predict (fit_elastic_net, newdata = diabetes_data_subset_test)
+
+#Generate confusion matrix
+pred_elastic_net_results <- confusionMatrix(data = diabetes_data_subset_test$Diabetes_binary,                                                    reference = pred_elastic_net)
+
+#Generate summary to facilitate comparison
+pred_elastic_net_summary <- as_tibble(pred_elastic_net_results$overall[1]) %>% 
+    rename("Accuracy" = 1) %>%
+    mutate(Kappa = pred_elastic_net_results$overall[2]) %>%
+    mutate(Method = "Elastic Net") %>%
+    select (Method, Accuracy, Kappa)
+
+knitr::kable(pred_elastic_net_summary, digits = 4)
+```
+
+```{r,comparison}
+comparison_results <-bind_rows(pred_log_summary,
+                               pred_lasso_summary,
+                               pred_classification_tree_summary,
+                               pred_random_forest_summary,
+                               pred_ridge_summary,
+                               pred_elastic_net_summary) %>%
+    arrange(desc(Accuracy))
+
+knitr::kable(comparison_results, digits = 4)
+```
 
