@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 output: 
     html_document:
         toc: TRUE
-        toc_depth: 2
+        toc_depth: 3
 params: 
     EducationLevel: "Elementary"
 ---
@@ -457,6 +457,8 @@ Log loss analysis can be incorporated into `caret` by setting the `metric = logl
 ## Logistic Regression
 [Reference](https://www.youtube.com/watch?v=MztgenIfGgM)  
 
+### Description
+
 Logistic Regression is a method used on dataset where the response (dependent) variable is binary. The response variable is fit as a logistic sigmoid function of independent variables which can be continuous or binary.  The general form of the equation is $$ y= \frac{1}{1+e^{-X}}$$
 where  X is a vector containing all the predictor variables.  The range of this function is 0-1 which works well with a binary dependent variable.  
 The logistic function is linked to the X vector with the logit function.
@@ -562,14 +564,20 @@ if (fit_logistic_1[[4]][2]<fit_logistic_2[[4]][2]  &
           fit_logistic <-fit_logistic_2
           } else {fit_logistic <-fit_logistic_2}
 
-fit_logistic[[4]][2]
+# Store method and logloss to facilitate comparison
+logistic_results <- as_tibble(fit_logistic[[4]][2]) %>% 
+    mutate (method = "Logistic") %>%
+    select (method, logLoss)
 
+logistic_results
 ```
 
 
 
 ## LASSO Logistic Regression
 [Reference](https://www.mygreatlearning.com/blog/understanding-of-lasso-regression/)  
+
+### Description
 
 Least Absolute Shrinkage and Selection Operator (LASSO) is a penalized method for modelling. It is used in an attempt to balance accuracy and simplicity.  The penalty (assuming n predictor variables) is calculated as $$L_1 = \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)$$
 
@@ -578,7 +586,7 @@ $\lambda$ is a tuning parameter.  Larger values of $\lambda$ push more coefficie
 During the modelling the function that is minimized- referred to as the objective function- is the sum of the penalty function and the cost function (which for this logistic regression will be log loss). $$Objective Function = Log Loss + L_1 = Log Loss + \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)$$
 
 
-## Training
+### Model
 ```{r, lasso}
 
 #Set up formula
@@ -605,37 +613,110 @@ fit_lasso <- train(formula_lasso,
                    )
 
 #Best lambda after tuning
-fit_lasso$finalModel$lambdaOpt
+fit_lasso$bestTune$lambda
 
-fit_lasso
+#Extract logLoss and store with method to facilitate comparison
+lasso_results <- fit_lasso[[4]] %>% 
+    filter(lambda==fit_lasso$bestTune$lambda) %>%
+    mutate(method ="LASSO") %>%
+    select(method, logLoss)
+
+lasso_results
 
 ```
 
 ## Classification Tree Model
+### Description
 Classification trees involve splitting the predictor space into regions, and predictions are made based on the regions, usually the most prevalent class is used as the prediction.  Strengths of classifications trees include ease of understanding and interpretability, the fact that predictors do  not require scaling, no statistical assumptions are necessary, and variable selection is built in.  Weaknesses include sensitivity to small changes in the data, a need for a greedy algorithm, and a need for pruning.  
 
 
+### Model
+```{r, class_tree}
 
-Vary complexity factor
+#Set up formula
+outcome <- "Diabetes_binary"
+variables <- c('HighBP','HighChol','BMIFactor','HeartDiseaseorAttack','GenHlth','DiffWalk', 'Age')
+formula_classification_tree <- as.formula(paste (outcome, 
+                                        paste(variables, collapse = " + "), 
+                                        sep = " ~ "))
+formula_classification_tree
 
+#Set up complexity parameter for tuneGrid
+cps <- seq(0,0.2, by=0.005)
 
-### Training
+#Perform fit using logLoss with 5 fold cross validation
+fit_classification_tree <- train(formula_classification_tree,
+                   data = diabetes_data_subset,
+                   method = "rpart",
+                   trControl = trainControl(method = "cv", number = 5,
+                                            classProbs = TRUE,               
+                                            summaryFunction = mnLogLoss),
+                   metric = "logLoss",
+                   tuneGrid = data.frame (cp = cps)
+                   )
 
+#Best complexity parameter from tuning
+fit_classification_tree$bestTune$cp
+
+#Extract logLoss and store with method to facilitate comparison
+classification_tree_results <- fit_classification_tree[[4]] %>% 
+    filter(cp == fit_classification_tree$bestTune$cp) %>%
+    mutate(method = "Classification Tree") %>%
+    select(method, logLoss)
+
+classification_tree_results
+```
 
 ## Random Forest Model
 [Reference](https://www.ibm.com/topics/random-forest)  
-
+### Description
 Random forest is a tree-based method of modeling.  It uses multiple decision trees to arrive at a single results.  It uses bootstrap/ aggregating  (bagging) and feature randomness to "create an uncorrelated forest of decision trees".  It is the feature randomness that distinguishes the random forest model from the classification tree.  There are three parameters that need to be set in the random forest model: node size, number of trees, and number of features sampled.  
 
 While classification trees are prone to overfit the data (making it conform too tightly to the training set), that risk is reduced in a random forest model due to the averaging of results from uncorrelated trees.  Another advantage of random forest over classification trees is that it is easier to evaluate the importance of different predictor variables.
 
-### Training
+### Model
+```{r, random_forest, cache=TRUE}
+
+#Set up formula
+outcome <- "Diabetes_binary"
+variables <- c('HighBP','HighChol','BMIFactor','HeartDiseaseorAttack','GenHlth','DiffWalk', 'Age')
+formula_random_forest <- as.formula(paste (outcome, 
+                                    paste(variables, collapse = " + "), 
+                                    sep = " ~ "))
+formula_random_forest
+
+#Set up mtrys for tuneGrid
+mtrys <- seq(1,15, by=1)
+
+#Perform fit using logLoss with 5 fold cross validation
+fit_random_forest <- train(formula_random_forest,
+                   data = diabetes_data_subset,
+                   method = "rf",
+                   trControl = trainControl(method = "cv", number = 5,
+                                            classProbs = TRUE,               
+                                            summaryFunction = mnLogLoss),
+                   metric = "logLoss",
+                   tuneGrid = data.frame (mtry = mtrys)
+                   )
+
+#Best tuning parameter 
+fit_random_forest$bestTune$mtry
+
+#Extract logLoss and store with method to facilitate comparison
+random_forest_results <- fit_random_forest[[4]] %>% 
+    filter(mtry == fit_random_forest$bestTune$mtry) %>%
+    mutate(method = "Random Forest") %>%
+    select(method, logLoss)
+
+random_forest_results
+
+```
 
 
 ## Ridge Logistic Regression
 
 [Reference](https://www.cvxpy.org/examples/machine_learning/ridge_regression.html)  
-
+### Description
 Ridge logistic regression is a penalized method for modelling. It is used in an attempt to balance accuracy and simplicity.  The penalty (assuming n predictor variables) is calculated as $$L_2 = \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
 
 $\lambda$ is a complexity parameter.  Larger values of $\lambda$ push more coefficients to zero while smaller values of $\lambda$ allow more coefficients to remain larger.  In ridge regression, coefficients will never be pushed to zero.
@@ -644,7 +725,44 @@ During the modelling the function that is minimized- referred to as the objectiv
 
 Because $L_2$ does not include an intercept term, it is necessary to standardize numeric predictor variables appropriately. 
 
-### Training
+### Model
+```{r, ridge, cache=TRUE}
+
+#Set up formula
+outcome <- "Diabetes_binary"
+variables <- c('HighBP','HighChol','BMIFactor','HeartDiseaseorAttack','GenHlth','DiffWalk', 'Age')
+formula_ridge <- as.formula(paste (outcome, 
+                                        paste(variables, collapse = " + "), 
+                                        sep = " ~ "))
+formula_ridge
+
+#Set up lambdas parameter for tuneGrid
+lambdas <- 10^seq(0, -4,by = -.1)
+
+#Perform fit using logLoss with 5 fold cross validation
+fit_ridge <- train(formula_ridge,
+                   data = diabetes_data_subset,
+                   method = "glmnet",
+                   family = "binomial",
+                   trControl = trainControl(method = "cv", number = 5,
+                                            classProbs = TRUE,               
+                                            summaryFunction = mnLogLoss),
+                   metric = "logLoss",
+                   tuneGrid = expand.grid (alpha = 0, lambda = lambdas)
+                   )
+
+#Best lambda after tuning
+fit_ridge$bestTune$lambda
+
+#Extract logLoss and store with method to facilitate comparison
+ridge_results <- fit_ridge[[4]] %>% 
+    filter(lambda == fit_ridge$bestTune$lambda) %>%
+    mutate(method = "Ridge") %>%
+    select(method, logLoss)
+
+ridge_results
+
+```
 
 
 
@@ -652,6 +770,7 @@ Because $L_2$ does not include an intercept term, it is necessary to standardize
 
 [Reference](https://machinelearningmastery.com/elastic-net-regression-in-python/)
 
+### Description
 Elastic net regression is a penalized method for modelling.  Its penalty is equal to a combination of the L~1~  penalty (based on the absolute value of the coefficients of the predictors) from the LASSO method and the L~2~ penalty (based on the square of the coefficients of the predictors) from the ridge method.  
 
 For elastic net, the parameter $\alpha$ controls the balance between the L~1~ and L~2~ penalties. $$ElasticNetPenalty = \alpha*L_1 + (1-\alpha)L_2 =$$
@@ -662,11 +781,65 @@ LASSO regression suffers from instability when predictors are collinear, arbitra
 
 While the LASSO and Ridge methods each only have one tuning parameter (called $\lambda$), elastic net requires a two tuning parameters ($\alpha$) and $\lambda$.  Having two tuning parameters makes use of elastic net more time-consuming and computationally expensive then the LASSO and ridge methods.
 
+### Model
+```{r, elastic_net, cache=TRUE, warning=FALSE}
 
-### Training
-pkg elasticnet
-enet
-fraction
-lambda
+#Set up formula
+outcome <- "Diabetes_binary"
+variables <- c('HighBP','HighChol','BMIFactor','HeartDiseaseorAttack','GenHlth','DiffWalk', 'Age')
+formula_elastic_net <- as.formula(paste (outcome, 
+                                        paste(variables, collapse = " + "), 
+                                        sep = " ~ "))
+formula_elastic_net
 
-# Final Model Selection
+#Set up parameters for tuneGrid
+lambdas <- 10^seq(0, -4,by = -.1)
+alphas <- seq(0,1, by = 0.05)
+
+#Perform fit using logLoss with 5 fold cross validation
+fit_elastic_net <- train(formula_elastic_net,
+                   data = diabetes_data_subset,
+                   method = "glmnet",
+                   family = "binomial",
+                   trControl = trainControl(method = "cv", number = 5,
+                                            classProbs = TRUE,               
+                                            summaryFunction = mnLogLoss),
+                   metric = "logLoss",
+                   tuneGrid = expand.grid (alpha = alphas, lambda = lambdas)
+                   )
+
+#Best alpha after tuning
+fit_elastic_net$bestTune$alpha
+#Best alpha after tuning
+fit_elastic_net$bestTune$lambda
+
+#Extract logLoss and store with method to facilitate comparison
+elastic_net_results <- fit_elastic_net[[4]] %>% 
+    filter(alpha == fit_elastic_net$bestTune$alpha) %>%
+    filter(lambda == fit_elastic_net$bestTune$lambda) %>%
+    mutate(method = "Elastic Net") %>%
+    select(method, logLoss)
+
+elastic_net_results
+
+```
+
+## Final Model Selection using Lof Loss from Cross Validation
+```{r}
+comparison_results <- bind_rows(logistic_results, 
+                                lasso_results, 
+                                classification_tree_results, 
+                                random_forest_results, 
+                                ridge_results, 
+                                elastic_net_results) %>%
+    arrange(logLoss)
+
+comparison_results
+```
+Of the models studied, the "best model", exhibiting the lowest log loss during cross validation is `r comparison_results[1,1]` with log loss = ``r comparison_results[1,2]`.
+
+# Applying Models to Test Set
+
+For each of logistic regression, LASSO logistic regression, classification tree model, random forest model, ridge logistic regression and, elastic net regression, the optimized model from training was used to make a prediction for the test data set.  The effectiveness of that prediction was evaluated using the log loss function. 
+
+
