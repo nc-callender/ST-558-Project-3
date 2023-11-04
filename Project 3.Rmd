@@ -495,7 +495,7 @@ fit_logistic_1[[4]][2]
 ```
 
 ### Model 2 
-The first candidate logistic regression model includes all the following variables: 
+The second candidate logistic regression model includes all the following variables: 
 `HighBP`,`HighChol`,`BMIFactor`,`HeartDiseaseorAttack`,`GenHlth`,and `DiffWalk`.
 
 
@@ -524,7 +524,8 @@ fit_logistic_2[[4]][2]
 
 ```
 ### Model 3 
-### Training
+The third candidate logistic regression model includes all the following variables: 
+`HighBP`,`HighChol`,`BMIFactor`,`HeartDiseaseorAttack`.
 ```{r, third_logistic_fit}
 
 #Set up formula
@@ -578,10 +579,40 @@ During the modelling the function that is minimized- referred to as the objectiv
 
 
 ## Training
+```{r, lasso}
 
+#Set up formula
+outcome <- "Diabetes_binary"
+variables <- c('HighBP','HighChol','BMIFactor','HeartDiseaseorAttack','GenHlth','DiffWalk', 'Age')
+formula_lasso <- as.formula(paste (outcome, 
+                                        paste(variables, collapse = " + "), 
+                                        sep = " ~ "))
+formula_lasso
+
+#Set up lambdas parameter for tuneGrid
+lambdas <- 10^seq(0, -4,by = -.1)
+
+#Perform fit using logLoss with 5 fold cross validation
+fit_lasso <- train(formula_lasso,
+                   data = diabetes_data_subset,
+                   method = "glmnet",
+                   family = "binomial",
+                   trControl = trainControl(method = "cv", number = 5,
+                                            classProbs = TRUE,               
+                                            summaryFunction = mnLogLoss),
+                   metric = "logLoss",
+                   tuneGrid = expand.grid (alpha = 1, lambda = lambdas)
+                   )
+
+#Best lambda after tuning
+fit_lasso$finalModel$lambdaOpt
+
+fit_lasso
+
+```
 
 ## Classification Tree Model
-Classification trees involve splitting the predictor space into regions, and predictions are made based on the regions, usually the most prevalent class is used as the prediction.  Strengths of classifications trees include ease of understanding and interpretability, the fact that predictors do  no require scaling, no statistical assumptions are necessary, and variable selection is built in.  Weaknesses include sensitivity to small changes in the data, a need for a greedy algorithm, and a need for pruning.  
+Classification trees involve splitting the predictor space into regions, and predictions are made based on the regions, usually the most prevalent class is used as the prediction.  Strengths of classifications trees include ease of understanding and interpretability, the fact that predictors do  not require scaling, no statistical assumptions are necessary, and variable selection is built in.  Weaknesses include sensitivity to small changes in the data, a need for a greedy algorithm, and a need for pruning.  
 
 
 
@@ -611,13 +642,13 @@ $\lambda$ is a complexity parameter.  Larger values of $\lambda$ push more coeff
 
 During the modelling the function that is minimized- referred to as the objective function- is the sum of the penalty function and the cost function (which for this logistic regression will be log loss). $$Objective Function = Log Loss + L_2 = Log Loss + \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
 
-Because $L_2$ does not include an intercept term, it is necessary to standardize predictor variables appropriately. 
+Because $L_2$ does not include an intercept term, it is necessary to standardize numeric predictor variables appropriately. 
 
 ### Training
 
 
 
-## Elastic net Logistic Regression
+## Elastic Net Logistic Regression
 
 [Reference](https://machinelearningmastery.com/elastic-net-regression-in-python/)
 
