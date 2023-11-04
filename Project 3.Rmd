@@ -463,15 +463,108 @@ The logistic function is linked to the X vector with the logit function.
 $$log\frac{p}{1-p}=\beta_0 + \beta_1x_1 + \beta_2x_2+ ...+ \beta_px_p$$
 
 ### Model 1 
-### Training
 
+The first candidate logistic regression model includes all the following variables: 
+`HighBP`,`HighChol`,`BMIFactor`,`HeartDiseaseorAttack`,`GenHlth`,`DiffWalk`, and `Age`.
+
+This [reference](https://machinelearningmastery.com/machine-learning-evaluation-metrics-in-r/) was used for incorporating log loss into `trControl` and `train`.
+
+```{r, first_logistic_fit}
+
+#Set up formula
+outcome <- "Diabetes_binary"
+variables <- c('HighBP','HighChol','BMIFactor','HeartDiseaseorAttack','GenHlth','DiffWalk','Age')
+formula_logistic_1 <- as.formula(paste (outcome, 
+                                        paste(variables, collapse = " + "), 
+                                        sep = " ~ "))
+formula_logistic_1 
+
+#Perform fit using logLoss with 5 fold cross validation
+fit_logistic_1 <- train(formula_logistic_1,
+                        data = diabetes_data_subset,
+                        method = "glm",
+                        family = "binomial",
+                        trControl = trainControl(method = "cv", number = 5,
+                                                 classProbs = TRUE, 
+                                                 summaryFunction = mnLogLoss),
+                        metric = "logLoss"
+                        )
+
+fit_logistic_1[[4]][2]
+
+```
 
 ### Model 2 
-### Training
+The first candidate logistic regression model includes all the following variables: 
+`HighBP`,`HighChol`,`BMIFactor`,`HeartDiseaseorAttack`,`GenHlth`,and `DiffWalk`.
 
 
+```{r, second_logistic_fit}
+
+#Set up formula
+outcome <- "Diabetes_binary"
+variables <- c('HighBP','HighChol','BMIFactor','HeartDiseaseorAttack','GenHlth','DiffWalk')
+formula_logistic_2 <- as.formula(paste (outcome, 
+                                        paste(variables, collapse = " + "), 
+                                        sep = " ~ "))
+formula_logistic_2
+
+#Perform fit using logLoss with 5 fold cross validation
+fit_logistic_2 <- train(formula_logistic_2,
+                        data = diabetes_data_subset,
+                        method = "glm",
+                        family = "binomial",
+                        trControl = trainControl(method = "cv", number = 5,
+                                                 classProbs = TRUE, 
+                                                 summaryFunction = mnLogLoss),
+                        metric = "logLoss"
+                        )
+
+fit_logistic_2[[4]][2]
+
+```
 ### Model 3 
 ### Training
+```{r, third_logistic_fit}
+
+#Set up formula
+outcome <- "Diabetes_binary"
+variables <- c('HighBP','HighChol','BMIFactor','GenHlth')
+formula_logistic_3 <- as.formula(paste (outcome, 
+                                        paste(variables, collapse = " + "), 
+                                        sep = " ~ "))
+formula_logistic_3
+
+#Perform fit using logLoss with 5 fold cross validation
+fit_logistic_3 <- train(formula_logistic_2,
+                        data = diabetes_data_subset,
+                        method = "glm",
+                        family = "binomial",
+                        trControl = trainControl(method = "cv", number = 5,
+                                                 classProbs = TRUE, 
+                                                 summaryFunction = mnLogLoss),
+                        metric = "logLoss"
+                        )
+
+fit_logistic_3[[4]][2]
+
+```
+
+### Selection of Best Model 
+
+```{r}
+fit_logistic <- fit_logistic_1
+if (fit_logistic_1[[4]][2]<fit_logistic_2[[4]][2]  &
+    fit_logistic_1[[4]][2]<fit_logistic_3[[4]][2]) {
+    fit_logistic <-fit_logistic_1
+    } else if (fit_logistic_2[[4]][2]<fit_logistic_3[[4]][2]) {
+          fit_logistic <-fit_logistic_2
+          } else {fit_logistic <-fit_logistic_2}
+
+fit_logistic[[4]][2]
+
+```
+
 
 
 ## LASSO Logistic Regression
