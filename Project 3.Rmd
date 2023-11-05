@@ -1,5 +1,5 @@
 ---
-title: "Project 3"
+title: "Project 3: Modelling of Diabetes Data for Patients with Education = `r params$EducationLevel`"
 author: "Yvette Callender"
 date: "`r Sys.Date()`"
 output: 
@@ -16,10 +16,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The following libraries were used in this project.
 
-```{r, message = FALSE}
+```{r, message = FALSE, warning=FALSE}
 library(tidyverse)
 library(caret)
-
+library(labelled)
 ```
 
 # Introduction
@@ -89,7 +89,7 @@ For this analysis, data was divided into subsets based on the value of `Educatio
 
 ## Purpose of EDA and Modeling and End Results
 
-The relationship between the presence of diabetes/prediabetes (as indicated by `diabetes_binary`) and the predictor variables (`HighBP`, `HighChol`, `BMI` , `HeartDiseaseorAttack`, `GenHlth`, `DiffWalk`, and `Age`) were explored at several levels of education, one of which is reported here.  After Exploratory Data Analysis, the relationships were modeled using a variety or approaches (logistic regression, LASSO logistic regression, classification tree, random forest, ridge, and elastic net), and a best model was chosen for each level of education. 
+The relationship between the presence of diabetes/prediabetes (as indicated by `diabetes_binary`) and the predictor variables (`HighBP`, `HighChol`, `BMI` , `HeartDiseaseorAttack`, `GenHlth`, `DiffWalk`, and `Age`) were explored at several levels of education, one of which (`r `params$EducationLevel`) is reported here.  After Exploratory Data Analysis, the relationships were modeled using a variety or approaches (logistic regression, LASSO logistic regression, classification tree, random forest, ridge, and elastic net), and a best model was chosen for the level of education. 
 
 # Data Set-Up
 
@@ -115,7 +115,8 @@ diabetes_data$EducationDerived <- ifelse(diabetes_data$Education == 1 |
 #Convert EducationDerived to factor with labels
 diabetes_data$EducationDerived <- factor(diabetes_data$EducationDerived, 
                                             levels = c('1_and_2', '3','4','5','6'), 
-                                            labels = c("Elementary", "Some High School",
+                                            labels = c("Elementary", 
+                                                       "Some High School",
                                                        "High School Graduate", 
                                                        "Some College or Technical School",
                                                        "College Graduate"))
@@ -161,7 +162,6 @@ Data was filtered for the desired education level.
 ```{r}
 diabetes_data_subset <- diabetes_data %>% 
     filter(EducationDerived == params$EducationLevel)
-knitr::kable(head(diabetes_data_subset, n=10))
 ```
 
 
@@ -264,7 +264,6 @@ table6 <- diabetes_data_subset %>%
                StdDev = round(sd(BMI),1)
               )
 knitr::kable(table6)
-
 ```
 
 This can be visualized as a boxplot:
@@ -280,7 +279,7 @@ figure4<-ggplot() +
 figure4
 ```
 
-Based on [Center for Diseased Control  guidelines](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html), the variable BMIFactor was set to underweight, healthy, overweight, or obese.  The distribution with regard to BMI at Education = `r params$EducationLevel` is shown here. 
+Based on [Center for Diseased Control  guidelines](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html), the variable `BMIFactor` was set to underweight, healthy, overweight, or obese.  The distribution with regard to `BMIFactor` at Education = `r params$EducationLevel` is shown here. 
 
 ```{r, Figure-5}
 #Base layer
@@ -296,12 +295,12 @@ The effect of BMI of the relative amounts of nondiabetics versus diabetics is sh
 
 ```{r, Figure-6}
 #Base layer
-figure6 <- ggplot(diabetes_data_subset, aes(x = BMIFactor), )
+figure6 <- ggplot(diabetes_data_subset, aes(x = BMIFactor))
 #Build up
-figure6 + geom_bar(aes(fill = Diabetes_binary), position= "dodge") +
+figure6 + geom_bar(aes(fill = Diabetes_binary), position = "dodge") +
     labs( x = "BMI Classification",
           y = "Count",
-          title = "Figure 6. Diabetes Status Distribution versus BMI ") +
+          title = "Figure 6. Diabetes Status Distribution versus BMI") +
     guides(fill = guide_legend(title = "Diabetes Status"))
 
 ```
@@ -315,7 +314,7 @@ table7 <- table(diabetes_data_subset$HeartDiseaseorAttack)
 knitr::kable(table7, col.names = c("History of Heart Trouble", "Frequency"))
 ```
 
-The distribution for diabetes status in this dataset as a function of whether the subject has had a heart diseased or attack is:
+The distribution for diabetes status in this dataset as a function of whether the subject has a history of  heart disease or attack is:
 
 ```{r, Table-8}
 #Make and print table
@@ -338,7 +337,7 @@ figure7 + geom_bar(aes(fill = HeartDiseaseorAttack)) +
 
 
 ## Predictor variable: `GenHlth`
-The distribution in this dataset for a history of heart disease or attack is:
+The distribution in this dataset for the subject's description of their general health is:
 
 ```{r, Table-9}
 #Make and print table
@@ -346,7 +345,7 @@ table9 <- table(diabetes_data_subset$GenHlth)
 knitr::kable(table9, col.names = c("Subject Description of General Health", "Frequency"))
 ```
 
-The distribution for diabetes status in this dataset as a function of whether the subject has had a heart diseased or attack is:
+The distribution for diabetes status in this dataset as a function of the subject's description of their general health is:
 
 ```{r, Table-10}
 #Make and print table
@@ -358,9 +357,9 @@ This can be seen graphically here.
 
 ```{r, Figure-8}
 #Base layer
-figure8 <- ggplot(diabetes_data_subset, aes(x = GenHlth), )
+figure8 <- ggplot(diabetes_data_subset, aes(x = GenHlth))
 #Build up
-figure8 + geom_bar(aes(fill = Diabetes_binary), position= "dodge") +
+figure8 + geom_bar(aes(fill = Diabetes_binary), position = "dodge") +
     labs( x = "General Health of Subject",
           y = "Count",
           title = "Figure 8. Diabetes Status Distribution versus General Health")+
@@ -368,7 +367,7 @@ figure8 + geom_bar(aes(fill = Diabetes_binary), position= "dodge") +
 ```
 
 ## Predictor variable: `DiffWalk`
-The distribution in this dataset for a history of heart disease or attack is:
+The distribution in this dataset for a whether the subject reports difficulty walking or climbing stairs is:
 
 ```{r, Table-11}
 #Make and print table
@@ -376,7 +375,7 @@ table11 <- table(diabetes_data_subset$DiffWalk)
 knitr::kable(table11, col.names = c(" ", "Frequency"))
 ```
 
-The distribution for diabetes status in this dataset as a function of whether the subject has had a heart diseased or attack is:
+The distribution for diabetes status in this dataset as a function of whether the subject reports difficulty walking or climbing stairs is:
 
 ```{r, Table-12}
 #Make and print table
@@ -435,6 +434,7 @@ The `createDataPartition` from `caret` was used to partition the data into train
 ```{r}
 #for reproducibility
 set.seed(1331)
+
 #generate indices for split 
 trainIndex <-createDataPartition(diabetes_data_subset$Diabetes_binary, p =0.7, list=FALSE)
 
@@ -453,7 +453,7 @@ It has a desirable feature of being convex and having a single global minimum. T
 
 When accuracy is used as a performance measure, it only takes right and wrong into account; whereas the log loss function has weighting terms that take into account just how wrong the model is.  While accuracy would treat probabilities of 0.05 and 0.45 for a true "1" as equally wrong, log loss would impose a much higher penalty (3.8 X greater) on the confident but wrong p=0.05.  
 
-Log loss analysis can be incorporated into `caret` by setting the `metric = logloss` and using `summaryFunction = mnLogLoss`in `trControl`.
+Log loss analysis can be incorporated into `caret` by setting the `metric = logloss` and using `summaryFunction = mnLogLoss` in `trControl`.
 
 ## Logistic Regression
 [Reference](https://www.youtube.com/watch?v=MztgenIfGgM)  
@@ -461,7 +461,7 @@ Log loss analysis can be incorporated into `caret` by setting the `metric = logl
 ### Description
 
 Logistic Regression is a method used on dataset where the response (dependent) variable is binary. The response variable is fit as a logistic sigmoid function of independent variables which can be continuous or binary.  The general form of the equation is $$ y= \frac{1}{1+e^{-X}}$$
-where  X is a vector containing all the predictor variables.  The range of this function is 0-1 which works well with a binary dependent variable.  
+where  X is a vector containing all the predictor variables.  The range of this function is 0-1, which works well with a binary dependent variable.  
 The logistic function is linked to the X vector with the logit function.
 $$log\frac{p}{1-p}=\beta_0 + \beta_1x_1 + \beta_2x_2+ ...+ \beta_px_p$$
 
@@ -482,9 +482,12 @@ formula_logistic_1 <- as.formula(paste (outcome,
                                         sep = " ~ "))
 formula_logistic_1
 
+#for reproducibility
+set.seed(1331)
+
 #Perform fit using logLoss with 5 fold cross validation
 fit_logistic_1 <- train(formula_logistic_1,
-                        data = diabetes_data_subset,
+                        data = diabetes_data_subset_train,
                         method = "glm",
                         family = "binomial",
                         trControl = trainControl(method = "cv", number = 5,
@@ -494,7 +497,6 @@ fit_logistic_1 <- train(formula_logistic_1,
                         )
 
 knitr::kable(fit_logistic_1[[4]][2], digits = 4, align = "l")
-
 ```
 
 ### Model 2 
@@ -512,9 +514,12 @@ formula_logistic_2 <- as.formula(paste (outcome,
                                         sep = " ~ "))
 formula_logistic_2
 
+#for reproducibility
+set.seed(1331)
+
 #Perform fit using logLoss with 5 fold cross validation
 fit_logistic_2 <- train(formula_logistic_2,
-                        data = diabetes_data_subset,
+                        data = diabetes_data_subset_train,
                         method = "glm",
                         family = "binomial",
                         trControl = trainControl(method = "cv", number = 5,
@@ -538,9 +543,12 @@ formula_logistic_3 <- as.formula(paste (outcome,
                                         sep = " ~ "))
 formula_logistic_3
 
+#for reproducibility
+set.seed(1331)
+
 #Perform fit using logLoss with 5 fold cross validation
 fit_logistic_3 <- train(formula_logistic_3,
-                        data = diabetes_data_subset,
+                        data = diabetes_data_subset_train,
                         method = "glm",
                         family = "binomial",
                         trControl = trainControl(method = "cv", number = 5,
@@ -555,6 +563,7 @@ knitr::kable(fit_logistic_3[[4]][2], digits = 4, align = "l")
 ### Selection of Best Model 
 
 ```{r}
+#Use if else statements to select logistic model with lowest Log Loss
 fit_logistic <- fit_logistic_1
 if (fit_logistic_1[[4]][2]<fit_logistic_2[[4]][2]  &
     fit_logistic_1[[4]][2]<fit_logistic_3[[4]][2]) {
@@ -580,7 +589,7 @@ knitr::kable(logistic_results, digits = 4, align = 'll')
 
 Least Absolute Shrinkage and Selection Operator (LASSO) is a penalized method for modelling. It is used in an attempt to balance accuracy and simplicity.  The penalty (assuming n predictor variables) is calculated as $$L_1 = \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)$$
 
-$\lambda$ is a tuning parameter.  Larger values of $\lambda$ push more coefficients to zero leading to sparser models, while smaller values of $\lambda$ allow more non-zero coefficients, corresponding to more complex models. 
+$\lambda$ is a tuning parameter.  Larger values of $\lambda$ push more coefficients to zero- leading to sparser models, while smaller values of $\lambda$ allow more non-zero coefficients- corresponding to more complex models. 
 
 During the modelling the function that is minimized- referred to as the objective function- is the sum of the penalty function and the cost function (which for this logistic regression will be log loss). $$Objective Function = Log Loss + L_1 = Log Loss + \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)$$
 
@@ -599,9 +608,12 @@ formula_lasso
 #Set up lambdas parameter for tuneGrid
 lambdas <- 10^seq(0, -4, by = -.1)
 
+#for reproducibility
+set.seed(1331)
+
 #Perform fit using logLoss with 5 fold cross validation
 fit_lasso <- train(formula_lasso,
-                   data = diabetes_data_subset,
+                   data = diabetes_data_subset_train,
                    method = "glmnet",
                    family = "binomial",
                    trControl = trainControl(method = "cv", number = 5,
@@ -621,12 +633,11 @@ lasso_results <- fit_lasso[[4]] %>%
     select(Method, logLoss)
 
 knitr::kable(lasso_results,digits = 4, align = "ll")
-
 ```
 
 ## Classification Tree Model
 ### Description
-Classification trees involve splitting the predictor space into regions, and predictions are made based on the regions, usually the most prevalent class is used as the prediction.  Strengths of classifications trees include ease of understanding and interpretability, the fact that predictors do  not require scaling, that no statistical assumptions are necessary, and that variable selection is built in.  Weaknesses include sensitivity to small changes in the data, a need for a greedy algorithm, and a need for pruning.  
+Classification trees involve splitting the predictor space into regions, and predictions are made based on the regions- usually the most prevalent class is used as the prediction.  Strengths of classifications trees include ease of understanding and interpretability, the fact that predictors do  not require scaling, that no statistical assumptions are necessary, and that variable selection is built in.  Weaknesses include sensitivity to small changes in the data, a need for a greedy algorithm, and a need for pruning.  
 
 
 ### Model
@@ -643,9 +654,12 @@ formula_classification_tree
 #Set up complexity parameter for tuneGrid
 cps <- seq(0,0.2, by = 0.005)
 
+#for reproducibility
+set.seed(1331)
+
 #Perform fit using logLoss with 5 fold cross validation
 fit_classification_tree <- train(formula_classification_tree,
-                                 data = diabetes_data_subset,
+                                 data = diabetes_data_subset_train,
                                  method = "rpart",
                                  trControl = trainControl(method = "cv", number = 5,
                                                           classProbs = TRUE,               
@@ -670,9 +684,13 @@ knitr::kable(classification_tree_results, digits = 4, align = "ll")
 [Reference](https://www.ibm.com/topics/random-forest)  
 
 ### Description
-Random forest is a tree-based method of modeling.  It uses multiple decision trees to arrive at a single result.  It uses bootstrap/ aggregating  (bagging) and feature randomness to "create an uncorrelated forest of decision trees".  It is the feature randomness that distinguishes the random forest model from the classification tree.  There are three parameters that need to be set in the random forest model: node size, number of trees, and number of features sampled.  
+Random forest is a tree-based method of modeling.  It uses multiple decision trees to arrive at a single result.  It uses bootstrap/ aggregating  (bagging) and feature randomness to "create an uncorrelated forest of decision trees".  It is the feature randomness that distinguishes the random forest model from the classification tree.  There are three parameters that control the random forest model: node size, number of trees, and number of features sampled.  
 
-While classification trees are prone to overfitting the data (making it conform too tightly to the training set), that risk is reduced in a random forest model due to the averaging of results from uncorrelated trees.  Another advantage of random forest over classification trees is that it is easier to evaluate the importance of different predictor variables.
+While classification trees are prone to overfitting the data (making it conform too tightly to the training set), that risk is reduced in a random forest model due to the averaging of results from uncorrelated trees.  Another advantage of random forest over classification trees is that it is easier to evaluate the importance of different predictor variables.  
+
+In `caret`, `mtry`is a tuning parameter for the number of variables.  A general guideline is to tune up to the square root of the number of parameters. Here, the number of parameters corresponds to a summation across the parameters of number of levels-1. 
+$$Parameter = (2-1) + (2-1) +(4-1) + (2-1) + (5-1) + (2-1) + (13-1) = 23$$
+So the maximum value for `mtry` was set to 5.
 
 ### Model
 ```{r, random_forest, cache=TRUE}
@@ -689,15 +707,19 @@ formula_random_forest
 mtrys <- seq(2, 5, by = 1)
 
 
+#for reproducibility
+set.seed(1331)
+
 #Perform fit using logLoss with 5 fold cross validation
 fit_random_forest <- train(formula_random_forest,
-                           data = diabetes_data_subset,
+                           data = diabetes_data_subset_train,
                            method = "rf",
                            trControl = trainControl(method = "cv", number = 5,
                                                     classProbs = TRUE,               
                                                     summaryFunction = mnLogLoss),
                            metric = "logLoss",
-                           tuneGrid = expand.grid (mtry = mtrys)
+                           tuneGrid = expand.grid (mtry = mtrys),
+                           ntree=100
                            )
 
 #Best tuning parameter 
@@ -710,7 +732,6 @@ random_forest_results <- fit_random_forest[[4]] %>%
     select(Method, logLoss)
 
 knitr::kable(random_forest_results, digits = 4, align = "ll")
-
 ```
 
 
@@ -721,11 +742,11 @@ knitr::kable(random_forest_results, digits = 4, align = "ll")
 ### Description
 Ridge logistic regression is a penalized method for modelling. It is used in an attempt to balance accuracy and simplicity.  The penalty (assuming n predictor variables) is calculated as $$L_2 = \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
 
-$\lambda$ is a complexity parameter.  Larger values of $\lambda$ push more coefficients toward zero while smaller values of $\lambda$ allow coefficients to remain larger.  In ridge regression, coefficients will never be pushed all the way to zero.
+$\lambda$ is a complexity parameter.  Larger values of $\lambda$ push more coefficients toward zero, while smaller values of $\lambda$ allow coefficients to remain larger.  In ridge regression, coefficients will never be pushed all the way to zero.
 
 During the modelling the function that is minimized- referred to as the objective function- is the sum of the penalty function and the cost function (which for this logistic regression will be log loss). $$Objective Function = Log Loss + L_2 = Log Loss + \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
 
-Because L~2~ does not include an intercept term, it is necessary to standardize numeric predictor variables appropriately. 
+Because L~2~ does not include an intercept term, it is necessary to standardize numeric predictor variables appropriately.  Since all the variables here are categorical, no pre-processing is necessary.
 
 ### Model
 ```{r, ridge, cache=TRUE}
@@ -741,9 +762,12 @@ formula_ridge
 #Set up lambdas parameter for tuneGrid
 lambdas <- 10^seq(0, -4,by = -.1)
 
+#for reproducibility
+set.seed(1331)
+
 #Perform fit using logLoss with 5 fold cross validation
 fit_ridge <- train(formula_ridge,
-                   data = diabetes_data_subset,
+                   data = diabetes_data_subset_train,
                    method = "glmnet",
                    family = "binomial",
                    trControl = trainControl(method = "cv", number = 5,
@@ -763,9 +787,7 @@ ridge_results <- fit_ridge[[4]] %>%
     select(Method, logLoss)
 
 knitr::kable(ridge_results, digits = 4, align = "ll")
-
 ```
-
 
 
 ## Elastic Net Logistic Regression
@@ -781,7 +803,7 @@ $\alpha$ can range from 0 to 1.  When $\alpha = 0$, elastic net is equivalent to
 
 LASSO regression suffers from instability when predictors are collinear, arbitrarily selecting one predictor over another. Ridge regression may keep too many predictors in a similar situation.  Elastic net can strike a balance between the other two.  
 
-While the LASSO and Ridge methods each only have one tuning parameter (called $\lambda$), elastic net requires a two tuning parameters ($\alpha$) and $\lambda$.  Having two tuning parameters makes use of elastic net more time-consuming and computationally expensive then the LASSO and ridge methods.
+While the LASSO and Ridge methods each only have one tuning parameter (called $\lambda$), elastic net requires a two tuning parameters ($\alpha$ and $\lambda$).  Having two tuning parameters makes use of elastic net more time-consuming and computationally expensive then the LASSO and ridge methods.
 
 ### Model
 ```{r, elastic_net, cache=TRUE, warning=FALSE}
@@ -798,9 +820,12 @@ formula_elastic_net
 lambdas <- 10^seq(0, -4, by = -0.2)
 alphas <- seq(0, 1, by = 0.05)
 
+#for reproducibility
+set.seed(1331)
+
 #Perform fit using logLoss with 5 fold cross validation
 fit_elastic_net <- train(formula_elastic_net,
-                         data = diabetes_data_subset,
+                         data = diabetes_data_subset_train,
                          method = "glmnet",
                          family = "binomial",
                          trControl = trainControl(method = "cv", number = 5,
@@ -812,7 +837,7 @@ fit_elastic_net <- train(formula_elastic_net,
 
 #Best alpha after tuning
 fit_elastic_net$bestTune$alpha
-#Best alpha after tuning
+#Best lambda after tuning
 fit_elastic_net$bestTune$lambda
 
 #Extract logLoss and store with method to facilitate comparison
@@ -823,10 +848,10 @@ elastic_net_results <- fit_elastic_net[[4]] %>%
     select(Method, logLoss)
 
 knitr::kable(elastic_net_results, digits = 4, align = "ll")
-
 ```
 
 ## Final Model Selection using Log Loss from Cross Validation
+
 ```{r}
 comparison_results <- bind_rows(logistic_results, 
                                 lasso_results, 
@@ -842,98 +867,230 @@ Of the models studied, the "best model", exhibiting the lowest log loss during c
 
 # Applying Models to Test Set
 
-For each of logistic regression, LASSO logistic regression, classification tree model, random forest model, ridge logistic regression and, elastic net regression, the optimized model from training was used to make a prediction for the test data set.  The effectiveness of that prediction was evaluated using the log loss function. 
+For each of logistic regression, LASSO logistic regression, classification tree model, random forest model, ridge logistic regression and, elastic net regression, the optimized model from training was used to make a prediction for the test data set.  The effectiveness of that prediction was evaluated using the log loss function.  This [reference](https://www.analyticsvidhya.com/blog/2020/11/binary-cross-entropy-aka-log-loss-the-cost-function-used-in-logistic-regression/) was used in setting up the calculation of the log loss function.  
+
+For comparison, accuracy results were also generated.
+
 
 ## Logistic Regression
-```{r, prediction for logistic }
+
+```{r, prediction for logistic log_loss}
 #Make prediction
-pred_log <- predict (fit_logistic, newdata = diabetes_data_subset_test)
+pred_log <- predict (fit_logistic, newdata = diabetes_data_subset_test, type = "prob")
 
-#Generate confusion matrix
-pred_log_results <- confusionMatrix(data = diabetes_data_subset_test$Diabetes_binary, 
-                                    reference = pred_log)
+#generate the term contributing to log loss for each row
+pred_log_working <- diabetes_data_subset_test %>% 
+    select(Diabetes_binary) %>% 
+    cbind(pred_log) %>%
+    mutate(correct_prob = if_else(Diabetes_binary == "Nondiabetic", Nondiabetic, Diabetic)) %>%
+    mutate(log_correct_prob = log(correct_prob))
 
-#Generate summary to facilitate comparison
-pred_log_summary <- as_tibble(pred_log_results$overall[1]) %>% 
-    rename("Accuracy" = 1) %>%
-    mutate(Kappa = pred_log_results$overall[2]) %>%
+
+#generate -mean log loss and label for use in comparison
+test_results_logistic <- pred_log_working %>% 
+    summarize (LogLoss = -mean(log_correct_prob)) %>%
     mutate(Method = "Logistic") %>%
-    select (Method, Accuracy, Kappa)
-
-knitr::kable(pred_log_summary, digits = 4)
+    select(Method, LogLoss)
 ```
 
-## LASSO Logistic Regression
-```{r, prediction for LASSO }
-#Make prediction
-pred_lasso <- predict (fit_lasso, newdata = diabetes_data_subset_test)
+```{r, prediction for logistic accuracy}
+#Prediction for use with accuracy
+pred_log_acc <- predict (fit_logistic, newdata = diabetes_data_subset_test)
 
 #Generate confusion matrix
-pred_lasso_results <- confusionMatrix(data = diabetes_data_subset_test$Diabetes_binary, 
-                                      reference = pred_lasso)
+pred_log_acc_results <- confusionMatrix(data = diabetes_data_subset_test$Diabetes_binary, 
+                                        reference = pred_log_acc)
 
-#Generate summary to facilitate comparison
-pred_lasso_summary <- as_tibble(pred_lasso_results$overall[1]) %>% 
-    rename("Accuracy" = 1) %>%
-    mutate(Kappa = pred_lasso_results$overall[2]) %>%
-    mutate(Method = "LASSO") %>%
-    select (Method, Accuracy, Kappa)
+#Add accuracy to summary table for logistic
+test_results_logistic <- test_results_logistic %>% 
+    mutate (Accuracy = pred_log_acc_results$overall[1])
 
-knitr::kable(pred_lasso_summary, digits = 4)
+#print results
+knitr::kable(test_results_logistic, digits = 4)
 ```
+
+## LASSO Regression
+```{r, prediction for lasso log_loss}
+#Make prediction
+pred_lasso <- predict (fit_lasso, newdata = diabetes_data_subset_test, type = "prob")
+
+#generate the term contributing to log loss for each row
+pred_lasso_working <- diabetes_data_subset_test %>% 
+    select(Diabetes_binary) %>% 
+    cbind(pred_lasso) %>%
+    mutate(correct_prob = if_else(Diabetes_binary == "Nondiabetic", Nondiabetic, Diabetic)) %>%
+    mutate(log_correct_prob = log(correct_prob))
+
+
+#generate -mean log loss and label for use in comparison
+test_results_lasso <- pred_lasso_working %>% 
+    summarize (LogLoss = -mean(log_correct_prob)) %>%
+    mutate(Method = "LASSO") %>%
+    select(Method, LogLoss)
+```
+
+```{r, prediction for lasso accuracy}
+#Prediction for use with accuracy
+pred_lasso_acc <- predict (fit_lasso, newdata = diabetes_data_subset_test)
+
+#Generate confusion matrix
+pred_lasso_acc_results <- confusionMatrix(data = diabetes_data_subset_test$Diabetes_binary, 
+                                          reference = pred_lasso_acc)
+
+#Add accuracy to summary table for logistic
+test_results_lasso <- test_results_lasso %>% 
+    mutate (Accuracy = pred_lasso_acc_results$overall[1])
+
+#print results
+knitr::kable(test_results_lasso, digits = 4)
+```
+
 ## Classification Tree 
-```{r, prediction for classification tree }
+
+```{r, prediction for classification tree log_loss}
 #Make prediction
 pred_classification_tree <- predict (fit_classification_tree, 
-                                     newdata = diabetes_data_subset_test)
+                                     newdata = diabetes_data_subset_test, type = "prob")
 
-#Generate confusion matrix
-pred_classification_tree_results <- confusionMatrix(data = diabetes_data_subset_test$Diabetes_binary,                                                     reference = pred_classification_tree)
+#generate the term contributing to log loss for each row
+pred_classification_tree_working <- diabetes_data_subset_test %>% 
+    select(Diabetes_binary) %>% 
+    cbind(pred_classification_tree) %>%
+    mutate(correct_prob = if_else(Diabetes_binary == "Nondiabetic", Nondiabetic, Diabetic)) %>%
+    mutate(log_correct_prob = log(correct_prob))
 
-#Generate summary to facilitate comparison
-pred_classification_tree_summary <- as_tibble(pred_classification_tree_results$overall[1]) %>% 
-    rename("Accuracy" = 1) %>%
-    mutate(Kappa = pred_classification_tree_results$overall[2]) %>%
+
+#generate -mean log loss and label for use in comparison
+test_results_classification_tree <- pred_classification_tree_working %>% 
+    summarize (LogLoss = -mean(log_correct_prob)) %>%
     mutate(Method = "Classification Tree") %>%
-    select (Method, Accuracy, Kappa)
-
-knitr::kable(pred_classification_tree_summary, digits = 4)
+    select(Method, LogLoss)
 ```
+
+```{r, prediction for classification accuracy}
+#Prediction for use with accuracy
+pred_classification_tree_acc <- predict (fit_classification_tree, 
+                                         newdata = diabetes_data_subset_test)
+
+#Generate confusion matrix
+pred_classification_tree_acc_results <- confusionMatrix(
+                                        data = diabetes_data_subset_test$Diabetes_binary, 
+                                        reference = pred_classification_tree_acc)
+
+#Add accuracy to summary table for logistic
+test_results_classification_tree <- test_results_classification_tree %>% 
+    mutate (Accuracy = pred_classification_tree_acc_results$overall[1])
+
+#print results
+knitr::kable(test_results_classification_tree, digits = 4)
+```
+
 ## Random Forest
-```{r, prediction for random forest }
+
+```{r, prediction for random forest log_loss}
 #Make prediction
-pred_random_forest <- predict (fit_random_forest, newdata = diabetes_data_subset_test)
+pred_random_forest <- predict (fit_random_forest, newdata = diabetes_data_subset_test, type = "prob")
 
-#Generate confusion matrix
-pred_random_forest_results <- confusionMatrix(data = diabetes_data_subset_test$Diabetes_binary,                                                    reference = pred_random_forest)
+#generate the term contributing to log loss for each row
+pred_random_forest_working <- diabetes_data_subset_test %>% 
+    select(Diabetes_binary) %>% 
+    cbind(pred_random_forest) %>%
+    mutate(correct_prob = if_else(Diabetes_binary == "Nondiabetic", Nondiabetic, Diabetic)) %>%
+    mutate(log_correct_prob = log(correct_prob))
 
-#Generate summary to facilitate comparison
-pred_random_forest_summary <- as_tibble(pred_random_forest_results$overall[1]) %>% 
-    rename("Accuracy" = 1) %>%
-    mutate(Kappa = pred_random_forest_results$overall[2]) %>%
+#generate -mean log loss and label for use in comparison
+test_results_random_forest <- pred_random_forest_working %>% 
+    summarize (LogLoss = -mean(log_correct_prob)) %>%
     mutate(Method = "Random Forest") %>%
-    select (Method, Accuracy, Kappa)
-
-knitr::kable(pred_random_forest_summary, digits = 4)
+    select(Method, LogLoss)
 ```
-## Ridge Logistic Regression
-```{r, prediction for ridge }
-#Make prediction
-pred_ridge <- predict (fit_ridge, newdata = diabetes_data_subset_test)
+
+```{r, prediction for random forest accuracy}
+#Prediction for use with accuracy
+pred_random_forest_acc <- predict (fit_random_forest, newdata = diabetes_data_subset_test)
 
 #Generate confusion matrix
-pred_ridge_results <- confusionMatrix(data = diabetes_data_subset_test$Diabetes_binary,                                                    reference = pred_ridge)
+pred_random_forest_acc_results <- confusionMatrix(data = diabetes_data_subset_test$Diabetes_binary, 
+                                                  reference = pred_random_forest_acc)
 
-#Generate summary to facilitate comparison
-pred_ridge_summary <- as_tibble(pred_ridge_results$overall[1]) %>% 
-    rename("Accuracy" = 1) %>%
-    mutate(Kappa = pred_ridge_results$overall[2]) %>%
+#Add accuracy to summary table for logistic
+test_results_random_forest <- test_results_random_forest %>% 
+    mutate (Accuracy = pred_random_forest_acc_results$overall[1])
+
+#print results
+knitr::kable(test_results_random_forest, digits = 4)
+```
+## Ridge Regression
+
+```{r, prediction for ridge log_loss}
+#Make prediction
+pred_ridge <- predict (fit_ridge, newdata = diabetes_data_subset_test, type = "prob")
+
+#generate the term contributing to log loss for each row
+pred_ridge_working <- diabetes_data_subset_test %>% 
+    select(Diabetes_binary) %>% 
+    cbind(pred_ridge) %>%
+    mutate(correct_prob = if_else(Diabetes_binary == "Nondiabetic", Nondiabetic, Diabetic)) %>%
+    mutate(log_correct_prob = log(correct_prob))
+
+#generate -mean log loss and label for use in comparison
+test_results_ridge <- pred_ridge_working %>% 
+    summarize (LogLoss = -mean(log_correct_prob)) %>%
     mutate(Method = "Ridge") %>%
-    select (Method, Accuracy, Kappa)
+    select(Method, LogLoss)
+```
 
-knitr::kable(pred_ridge_summary, digits = 4)
+```{r, prediction for ridge accuracy}
+#Prediction for use with accuracy
+pred_ridge_acc <- predict (fit_ridge, newdata = diabetes_data_subset_test)
+
+#Generate confusion matrix
+pred_ridge_acc_results <- confusionMatrix(data = diabetes_data_subset_test$Diabetes_binary,
+                                                 reference = pred_ridge_acc)
+
+#Add accuracy to summary table for logistic
+test_results_ridge <- test_results_ridge %>% 
+    mutate (Accuracy = pred_ridge_acc_results$overall[1])
+
+#print results
+knitr::kable(test_results_ridge, digits = 4)
 ```
 ## Elastic Net Regression
+
+```{r, prediction for elastic net log_loss}
+#Make prediction
+pred_elastic_net <- predict (fit_elastic_net, newdata = diabetes_data_subset_test, type = "prob")
+
+#generate the term contributing to log loss for each row
+pred_elastic_net_working <- diabetes_data_subset_test %>% 
+    select(Diabetes_binary) %>% 
+    cbind(pred_elastic_net) %>%
+    mutate(correct_prob = if_else(Diabetes_binary == "Nondiabetic", Nondiabetic, Diabetic)) %>%
+    mutate(log_correct_prob = log(correct_prob))
+
+#generate -mean log loss and label for use in comparison
+test_results_elastic_net <- pred_elastic_net_working %>% 
+    summarize (LogLoss = -mean(log_correct_prob)) %>%
+    mutate(Method = "Elastic Net") %>%
+    select(Method, LogLoss)
+```
+
+```{r, prediction for elastic net accuracy}
+#Prediction for use with accuracy
+pred_elastic_net_acc <- predict (fit_elastic_net, newdata = diabetes_data_subset_test)
+
+#Generate confusion matrix
+pred_elastic_net_acc_results <- confusionMatrix(data = diabetes_data_subset_test$Diabetes_binary, 
+                                                 reference = pred_elastic_net_acc)
+
+#Add accuracy to summary table for logistic
+test_results_elastic_net <- test_results_elastic_net %>% 
+    mutate (Accuracy = pred_elastic_net_acc_results$overall[1])
+
+#print results
+knitr::kable(test_results_elastic_net, digits = 4)
+```
+
 ```{r, prediction for elastic net }
 #Make prediction
 pred_elastic_net <- predict (fit_elastic_net, newdata = diabetes_data_subset_test)
@@ -952,16 +1109,26 @@ knitr::kable(pred_elastic_net_summary, digits = 4)
 ```
 ## Selection of Best Model Based on Performance with Test Set
 ```{r,comparison}
-comparison_results <-bind_rows(pred_log_summary,
-                               pred_lasso_summary,
-                               pred_classification_tree_summary,
-                               pred_random_forest_summary,
-                               pred_ridge_summary,
-                               pred_elastic_net_summary) %>%
+comparison_results <-bind_rows(test_results_logistic,
+                               test_results_lasso,
+                               test_results_classification_tree,
+                               test_results_random_forest,
+                               test_results_ridge,
+                               test_results_elastic_net) %>%
     arrange(desc(Accuracy))
 
 knitr::kable(comparison_results, digits = 4)
 ```
 
 
-Based on accuracy in prediction of the test set- of the models studied- the "best model" for Education = `r params$EducationLevel` is `r comparison_results[1,1]` with accuracy = `r round(comparison_results[1,2],4)`.
+Based on accuracy in prediction of the test set, the "best model" (of the models studied) for Education = `r params$EducationLevel` is `r comparison_results[1,1]` which has accuracy = 
+`r round(comparison_results[1,3],4)`.
+  
+
+
+```{r,comparison Log Loss}
+comparison_results2 <-comparison_results %>%
+    arrange(LogLoss)
+
+```
+If comparisons are made based on Log Loss in prediction of the test set, the "best model" (of the models studied) for Education = `r params$EducationLevel` is `r comparison_results2[1,1]` with Log Loss = `r round(comparison_results2[1,2],4)`.
