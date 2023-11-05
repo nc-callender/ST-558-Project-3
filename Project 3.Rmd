@@ -19,7 +19,7 @@ The following libraries were used in this project.
 ```{r, message = FALSE}
 library(tidyverse)
 library(caret)
-library(MLmetrics)
+
 ```
 
 # Introduction
@@ -27,7 +27,7 @@ library(MLmetrics)
 In this project, data related to diabetes health was analyzed using a variety of models.  
 
 ## Data 
-A Diabetes Health Indicators Dataset: `diabetes_binary_health_indicators_BRFSS2015.csv` was used for this project.  This dataset can be found online [on Kaggle.](https://www.kaggle.com/code/jerryodegua/eda-prediction-of-diabetes-data) along with descriptions of the variabless.
+A Diabetes Health Indicators Dataset: `diabetes_binary_health_indicators_BRFSS2015.csv` was used for this project.  This dataset can be found online [on Kaggle](https://www.kaggle.com/code/jerryodegua/eda-prediction-of-diabetes-data) along with descriptions of the variables.
 
 ## Variables
 The dataset contains 21 variables than can potentially be used in the analysis.  A subset was chosen and they are described below.
@@ -53,7 +53,7 @@ The variable `GenHlth` is a categorical variable describing the the reported lev
 |5|poor|
 
 
-The variable `DiffWalk` is binary with 1 corresponding to reported difficulty walking or climbing stairs and 0 corresponding to no reported 
+The variable `DiffWalk` is a binary variable with 1 corresponding to reported difficulty walking or climbing stairs and 0 corresponding to no reported difficulty walking or climbing stairs.
 
 The variable `Age` is a categorical variable with the following levels.  
 
@@ -89,7 +89,7 @@ For this analysis, data was divided into subsets based on the value of `Educatio
 
 ## Purpose of EDA and Modeling and End Results
 
-The relationship between the presence of diabetes/prediabetes (as indicated by `diabetes_binary`) and the predictor variables (`HighBP`, `HighChol`, `BMI` , `HeartDiseaseorAttack`, `GenHlth`, `DiffWalk`, and `Age`) were explored at several levels of education.  After Exploratory Data Analysis, the relationships were modeled using a variety or approaches (logistic regression, LASSO logistic regression, classification tree, random forest, ridge, and elastic net) and a best model was chosen for each level of education. 
+The relationship between the presence of diabetes/prediabetes (as indicated by `diabetes_binary`) and the predictor variables (`HighBP`, `HighChol`, `BMI` , `HeartDiseaseorAttack`, `GenHlth`, `DiffWalk`, and `Age`) were explored at several levels of education, one of which is reported here.  After Exploratory Data Analysis, the relationships were modeled using a variety or approaches (logistic regression, LASSO logistic regression, classification tree, random forest, ridge, and elastic net), and a best model was chosen for each level of education. 
 
 # Data Set-Up
 
@@ -212,7 +212,7 @@ This can be seen graphically here.
 
 ```{r, Figure-2}
 #Base layer
-figure2 <- ggplot(diabetes_data_subset, aes(x = Diabetes_binary), )
+figure2 <- ggplot(diabetes_data_subset, aes(x = Diabetes_binary))
 #Build up
 figure2 + geom_bar(aes(fill = HighBP)) +
     labs( x = "Diabetes Status",
@@ -241,7 +241,7 @@ This can be seen graphically here.
 
 ```{r, Figure-3}
 #Base layer
-figure3 <- ggplot(diabetes_data_subset, aes(x = Diabetes_binary), )
+figure3 <- ggplot(diabetes_data_subset, aes(x = Diabetes_binary))
 #Build up
 figure3 + geom_bar(aes(fill = HighChol)) +
     labs( x = "Diabetes Status",
@@ -256,12 +256,12 @@ The distribution in this dataset for BMI as a numeric value is:
 ```{r, Table-6}
 #Make and print table
 table6 <- diabetes_data_subset %>% 
-    summarize (Variable ="BMI",
+    summarize (Variable = "BMI",
                Minimum = min(BMI),
-               Median= median(BMI),
-               Maximum=max(BMI),
+               Median = median(BMI),
+               Maximum = max(BMI),
                Mean = round(mean (BMI),1),
-               StdDev=round(sd(BMI),1)
+               StdDev = round(sd(BMI),1)
               )
 knitr::kable(table6)
 
@@ -271,9 +271,9 @@ This can be visualized as a boxplot:
 
 ```{r, Figure 4}
 figure4<-ggplot() +
-         geom_boxplot(aes (y=diabetes_data_subset$BMI))+
-         labs (y= "BMI",
-               title= "Figure 4. Boxplot for BMI")+
+         geom_boxplot(aes (y = diabetes_data_subset$BMI))+
+         labs (y = "BMI",
+               title = "Figure 4. Boxplot for BMI")+
          theme(axis.title.x = element_blank(),
                axis.text.x = element_blank(),
                axis.ticks.x = element_blank())
@@ -292,7 +292,7 @@ figure5 + geom_bar() +
           title = "Figure 5. BMI Classification Distribution")
 ```
 
-The effect of BMI of the relative amounts of nondiabetics versus diabeticsis shown here.
+The effect of BMI of the relative amounts of nondiabetics versus diabetics is shown here.
 
 ```{r, Figure-6}
 #Base layer
@@ -327,7 +327,7 @@ This can be seen graphically here.
 
 ```{r, Figure-7}
 #Base layer
-figure7 <- ggplot(diabetes_data_subset, aes(x = Diabetes_binary), )
+figure7 <- ggplot(diabetes_data_subset, aes(x = Diabetes_binary))
 #Build up
 figure7 + geom_bar(aes(fill = HeartDiseaseorAttack)) +
     labs( x = "Diabetes Status",
@@ -388,9 +388,9 @@ This can be seen graphically here.
 
 ```{r, Figure-9}
 #Base layer
-figure9 <- ggplot(diabetes_data_subset, aes(x = Diabetes_binary), )
+figure9 <- ggplot(diabetes_data_subset, aes(x = Diabetes_binary))
 #Build up
-figure9 + geom_bar(aes(fill = DiffWalk), position="dodge") +
+figure9 + geom_bar(aes(fill = DiffWalk), position = "dodge") +
     labs( x = "Diabetes Status",
           y = "Count",
           title = "Figure 9. Diabetes Status Distribution versus Difficulty Walking or Climbing Stairs") +
@@ -419,7 +419,7 @@ This can be seen graphically here.
 #Base layer
 figure10 <- ggplot(diabetes_data_subset, aes(x = Age))
 #Build up
-figure10 + geom_bar(aes(fill = Diabetes_binary), position="dodge") +
+figure10 + geom_bar(aes(fill = Diabetes_binary), position = "dodge") +
     labs( x = "Age",
           y = "Count",
           title = "Figure 10. Diabetes Status Distribution versus Age") +
@@ -453,7 +453,7 @@ It has a desirable feature of being convex and having a single global minimum. T
 
 When accuracy is used as a performance measure, it only takes right and wrong into account; whereas the log loss function has weighting terms that take into account just how wrong the model is.  While accuracy would treat probabilities of 0.05 and 0.45 for a true "1" as equally wrong, log loss would impose a much higher penalty (3.8 X greater) on the confident but wrong p=0.05.  
 
-Log loss analysis can be incorporated into `caret` by setting the `metric = logloss`.
+Log loss analysis can be incorporated into `caret` by setting the `metric = logloss` and using `summaryFunction = mnLogLoss`in `trControl`.
 
 ## Logistic Regression
 [Reference](https://www.youtube.com/watch?v=MztgenIfGgM)  
@@ -493,7 +493,7 @@ fit_logistic_1 <- train(formula_logistic_1,
                         metric = "logLoss"
                         )
 
-knitr::kable(fit_logistic_1[[4]][2], digits =4, align = "l")
+knitr::kable(fit_logistic_1[[4]][2], digits = 4, align = "l")
 
 ```
 
@@ -523,11 +523,11 @@ fit_logistic_2 <- train(formula_logistic_2,
                         metric = "logLoss"
                         )
 
-knitr::kable(fit_logistic_2[[4]][2], digits =4, align = "l")
+knitr::kable(fit_logistic_2[[4]][2], digits = 4, align = "l")
 ```
 ### Model 3 
 The third candidate logistic regression model includes all the following variables: 
-`HighBP`,`HighChol`,`BMIFactor`,`HeartDiseaseorAttack`.
+`HighBP`,`HighChol`,`BMIFactor`, and `HeartDiseaseorAttack`.
 ```{r, third_logistic_fit}
 
 #Set up formula
@@ -539,7 +539,7 @@ formula_logistic_3 <- as.formula(paste (outcome,
 formula_logistic_3
 
 #Perform fit using logLoss with 5 fold cross validation
-fit_logistic_3 <- train(formula_logistic_2,
+fit_logistic_3 <- train(formula_logistic_3,
                         data = diabetes_data_subset,
                         method = "glm",
                         family = "binomial",
@@ -549,7 +549,7 @@ fit_logistic_3 <- train(formula_logistic_2,
                         metric = "logLoss"
                         )
 
-knitr::kable(fit_logistic_3[[4]][2], digits =4, align = "l")
+knitr::kable(fit_logistic_3[[4]][2], digits = 4, align = "l")
 ```
 
 ### Selection of Best Model 
@@ -568,7 +568,7 @@ logistic_results <- as_tibble(fit_logistic[[4]][2]) %>%
     mutate (Method = "Logistic") %>%
     select (Method, logLoss)
 
-knitr::kable(logistic_results, digits =4, align ='ll')
+knitr::kable(logistic_results, digits = 4, align = 'll')
 ```
 
 
@@ -592,12 +592,12 @@ During the modelling the function that is minimized- referred to as the objectiv
 outcome <- "Diabetes_binary"
 variables <- c('HighBP','HighChol','BMIFactor','HeartDiseaseorAttack','GenHlth','DiffWalk', 'Age')
 formula_lasso <- as.formula(paste (outcome, 
-                                        paste(variables, collapse = " + "), 
-                                        sep = " ~ "))
+                                   paste(variables, collapse = " + "), 
+                                   sep = " ~ "))
 formula_lasso
 
 #Set up lambdas parameter for tuneGrid
-lambdas <- 10^seq(0, -4,by = -.1)
+lambdas <- 10^seq(0, -4, by = -.1)
 
 #Perform fit using logLoss with 5 fold cross validation
 fit_lasso <- train(formula_lasso,
@@ -616,17 +616,17 @@ fit_lasso$bestTune$lambda
 
 #Extract logLoss and store with method to facilitate comparison
 lasso_results <- fit_lasso[[4]] %>% 
-    filter(lambda==fit_lasso$bestTune$lambda) %>%
-    mutate(Method ="LASSO") %>%
+    filter(lambda == fit_lasso$bestTune$lambda) %>%
+    mutate(Method = "LASSO") %>%
     select(Method, logLoss)
 
-lasso_results
+knitr::kable(lasso_results,digits = 4, align = "ll")
 
 ```
 
 ## Classification Tree Model
 ### Description
-Classification trees involve splitting the predictor space into regions, and predictions are made based on the regions, usually the most prevalent class is used as the prediction.  Strengths of classifications trees include ease of understanding and interpretability, the fact that predictors do  not require scaling, no statistical assumptions are necessary, and variable selection is built in.  Weaknesses include sensitivity to small changes in the data, a need for a greedy algorithm, and a need for pruning.  
+Classification trees involve splitting the predictor space into regions, and predictions are made based on the regions, usually the most prevalent class is used as the prediction.  Strengths of classifications trees include ease of understanding and interpretability, the fact that predictors do  not require scaling, that no statistical assumptions are necessary, and that variable selection is built in.  Weaknesses include sensitivity to small changes in the data, a need for a greedy algorithm, and a need for pruning.  
 
 
 ### Model
@@ -636,23 +636,23 @@ Classification trees involve splitting the predictor space into regions, and pre
 outcome <- "Diabetes_binary"
 variables <- c('HighBP','HighChol','BMIFactor','HeartDiseaseorAttack','GenHlth','DiffWalk', 'Age')
 formula_classification_tree <- as.formula(paste (outcome, 
-                                        paste(variables, collapse = " + "), 
-                                        sep = " ~ "))
+                                                 paste(variables, collapse = " + "), 
+                                                 sep = " ~ "))
 formula_classification_tree
 
 #Set up complexity parameter for tuneGrid
-cps <- seq(0,0.2, by=0.005)
+cps <- seq(0,0.2, by = 0.005)
 
 #Perform fit using logLoss with 5 fold cross validation
 fit_classification_tree <- train(formula_classification_tree,
-                   data = diabetes_data_subset,
-                   method = "rpart",
-                   trControl = trainControl(method = "cv", number = 5,
-                                            classProbs = TRUE,               
-                                            summaryFunction = mnLogLoss),
-                   metric = "logLoss",
-                   tuneGrid = data.frame (cp = cps)
-                   )
+                                 data = diabetes_data_subset,
+                                 method = "rpart",
+                                 trControl = trainControl(method = "cv", number = 5,
+                                                          classProbs = TRUE,               
+                                                          summaryFunction = mnLogLoss),
+                                 metric = "logLoss",
+                                 tuneGrid = data.frame (cp = cps)
+                                 )
 
 #Best complexity parameter from tuning
 fit_classification_tree$bestTune$cp
@@ -663,15 +663,16 @@ classification_tree_results <- fit_classification_tree[[4]] %>%
     mutate(Method = "Classification Tree") %>%
     select(Method, logLoss)
 
-classification_tree_results
+knitr::kable(classification_tree_results, digits = 4, align = "ll")
 ```
 
 ## Random Forest Model
 [Reference](https://www.ibm.com/topics/random-forest)  
-### Description
-Random forest is a tree-based method of modeling.  It uses multiple decision trees to arrive at a single results.  It uses bootstrap/ aggregating  (bagging) and feature randomness to "create an uncorrelated forest of decision trees".  It is the feature randomness that distinguishes the random forest model from the classification tree.  There are three parameters that need to be set in the random forest model: node size, number of trees, and number of features sampled.  
 
-While classification trees are prone to overfit the data (making it conform too tightly to the training set), that risk is reduced in a random forest model due to the averaging of results from uncorrelated trees.  Another advantage of random forest over classification trees is that it is easier to evaluate the importance of different predictor variables.
+### Description
+Random forest is a tree-based method of modeling.  It uses multiple decision trees to arrive at a single result.  It uses bootstrap/ aggregating  (bagging) and feature randomness to "create an uncorrelated forest of decision trees".  It is the feature randomness that distinguishes the random forest model from the classification tree.  There are three parameters that need to be set in the random forest model: node size, number of trees, and number of features sampled.  
+
+While classification trees are prone to overfitting the data (making it conform too tightly to the training set), that risk is reduced in a random forest model due to the averaging of results from uncorrelated trees.  Another advantage of random forest over classification trees is that it is easier to evaluate the importance of different predictor variables.
 
 ### Model
 ```{r, random_forest, cache=TRUE}
@@ -680,23 +681,24 @@ While classification trees are prone to overfit the data (making it conform too 
 outcome <- "Diabetes_binary"
 variables <- c('HighBP','HighChol','BMIFactor','HeartDiseaseorAttack','GenHlth','DiffWalk', 'Age')
 formula_random_forest <- as.formula(paste (outcome, 
-                                    paste(variables, collapse = " + "), 
-                                    sep = " ~ "))
+                                           paste(variables, collapse = " + "), 
+                                           sep = " ~ "))
 formula_random_forest
 
 #Set up mtrys for tuneGrid
-mtrys <- seq(1,15, by=1)
+mtrys <- seq(2, 5, by = 1)
+
 
 #Perform fit using logLoss with 5 fold cross validation
 fit_random_forest <- train(formula_random_forest,
-                   data = diabetes_data_subset,
-                   method = "rf",
-                   trControl = trainControl(method = "cv", number = 5,
-                                            classProbs = TRUE,               
-                                            summaryFunction = mnLogLoss),
-                   metric = "logLoss",
-                   tuneGrid = data.frame (mtry = mtrys)
-                   )
+                           data = diabetes_data_subset,
+                           method = "rf",
+                           trControl = trainControl(method = "cv", number = 5,
+                                                    classProbs = TRUE,               
+                                                    summaryFunction = mnLogLoss),
+                           metric = "logLoss",
+                           tuneGrid = expand.grid (mtry = mtrys)
+                           )
 
 #Best tuning parameter 
 fit_random_forest$bestTune$mtry
@@ -707,7 +709,7 @@ random_forest_results <- fit_random_forest[[4]] %>%
     mutate(Method = "Random Forest") %>%
     select(Method, logLoss)
 
-random_forest_results
+knitr::kable(random_forest_results, digits = 4, align = "ll")
 
 ```
 
@@ -715,14 +717,15 @@ random_forest_results
 ## Ridge Logistic Regression
 
 [Reference](https://www.cvxpy.org/examples/machine_learning/ridge_regression.html)  
+
 ### Description
 Ridge logistic regression is a penalized method for modelling. It is used in an attempt to balance accuracy and simplicity.  The penalty (assuming n predictor variables) is calculated as $$L_2 = \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
 
-$\lambda$ is a complexity parameter.  Larger values of $\lambda$ push more coefficients to zero while smaller values of $\lambda$ allow more coefficients to remain larger.  In ridge regression, coefficients will never be pushed to zero.
+$\lambda$ is a complexity parameter.  Larger values of $\lambda$ push more coefficients toward zero while smaller values of $\lambda$ allow coefficients to remain larger.  In ridge regression, coefficients will never be pushed all the way to zero.
 
 During the modelling the function that is minimized- referred to as the objective function- is the sum of the penalty function and the cost function (which for this logistic regression will be log loss). $$Objective Function = Log Loss + L_2 = Log Loss + \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
 
-Because $L_2$ does not include an intercept term, it is necessary to standardize numeric predictor variables appropriately. 
+Because L~2~ does not include an intercept term, it is necessary to standardize numeric predictor variables appropriately. 
 
 ### Model
 ```{r, ridge, cache=TRUE}
@@ -731,8 +734,8 @@ Because $L_2$ does not include an intercept term, it is necessary to standardize
 outcome <- "Diabetes_binary"
 variables <- c('HighBP','HighChol','BMIFactor','HeartDiseaseorAttack','GenHlth','DiffWalk', 'Age')
 formula_ridge <- as.formula(paste (outcome, 
-                                        paste(variables, collapse = " + "), 
-                                        sep = " ~ "))
+                                   paste(variables, collapse = " + "), 
+                                   sep = " ~ "))
 formula_ridge
 
 #Set up lambdas parameter for tuneGrid
@@ -759,7 +762,7 @@ ridge_results <- fit_ridge[[4]] %>%
     mutate(Method = "Ridge") %>%
     select(Method, logLoss)
 
-ridge_results
+knitr::kable(ridge_results, digits = 4, align = "ll")
 
 ```
 
@@ -787,25 +790,25 @@ While the LASSO and Ridge methods each only have one tuning parameter (called $\
 outcome <- "Diabetes_binary"
 variables <- c('HighBP','HighChol','BMIFactor','HeartDiseaseorAttack','GenHlth','DiffWalk', 'Age')
 formula_elastic_net <- as.formula(paste (outcome, 
-                                        paste(variables, collapse = " + "), 
-                                        sep = " ~ "))
+                                         paste(variables, collapse = " + "), 
+                                         sep = " ~ "))
 formula_elastic_net
 
 #Set up parameters for tuneGrid
-lambdas <- 10^seq(0, -4,by = -.1)
-alphas <- seq(0,1, by = 0.05)
+lambdas <- 10^seq(0, -4, by = -0.2)
+alphas <- seq(0, 1, by = 0.05)
 
 #Perform fit using logLoss with 5 fold cross validation
 fit_elastic_net <- train(formula_elastic_net,
-                   data = diabetes_data_subset,
-                   method = "glmnet",
-                   family = "binomial",
-                   trControl = trainControl(method = "cv", number = 5,
-                                            classProbs = TRUE,               
-                                            summaryFunction = mnLogLoss),
-                   metric = "logLoss",
-                   tuneGrid = expand.grid (alpha = alphas, lambda = lambdas)
-                   )
+                         data = diabetes_data_subset,
+                         method = "glmnet",
+                         family = "binomial",
+                         trControl = trainControl(method = "cv", number = 5,
+                                                  classProbs = TRUE,               
+                                                  summaryFunction = mnLogLoss),
+                         metric = "logLoss",
+                         tuneGrid = expand.grid (alpha = alphas, lambda = lambdas)
+                         )
 
 #Best alpha after tuning
 fit_elastic_net$bestTune$alpha
@@ -819,7 +822,7 @@ elastic_net_results <- fit_elastic_net[[4]] %>%
     mutate(Method = "Elastic Net") %>%
     select(Method, logLoss)
 
-elastic_net_results
+knitr::kable(elastic_net_results, digits = 4, align = "ll")
 
 ```
 
@@ -833,14 +836,15 @@ comparison_results <- bind_rows(logistic_results,
                                 elastic_net_results) %>%
     arrange(logLoss)
 
-comparison_results
+knitr::kable(comparison_results, digits = 4, align = "ll")
 ```
-Of the models studied, the "best model", exhibiting the lowest log loss during cross validation is `r comparison_results[1,1]` with log loss = ``r comparison_results[1,2]`.
+Of the models studied, the "best model", exhibiting the lowest log loss during cross validation is `r comparison_results[1,1]` with log loss = `r round(comparison_results[1,2],4)`.
 
 # Applying Models to Test Set
 
 For each of logistic regression, LASSO logistic regression, classification tree model, random forest model, ridge logistic regression and, elastic net regression, the optimized model from training was used to make a prediction for the test data set.  The effectiveness of that prediction was evaluated using the log loss function. 
 
+## Logistic Regression
 ```{r, prediction for logistic }
 #Make prediction
 pred_log <- predict (fit_logistic, newdata = diabetes_data_subset_test)
@@ -859,6 +863,7 @@ pred_log_summary <- as_tibble(pred_log_results$overall[1]) %>%
 knitr::kable(pred_log_summary, digits = 4)
 ```
 
+## LASSO Logistic Regression
 ```{r, prediction for LASSO }
 #Make prediction
 pred_lasso <- predict (fit_lasso, newdata = diabetes_data_subset_test)
@@ -876,7 +881,7 @@ pred_lasso_summary <- as_tibble(pred_lasso_results$overall[1]) %>%
 
 knitr::kable(pred_lasso_summary, digits = 4)
 ```
-
+## Classification Tree 
 ```{r, prediction for classification tree }
 #Make prediction
 pred_classification_tree <- predict (fit_classification_tree, 
@@ -894,7 +899,7 @@ pred_classification_tree_summary <- as_tibble(pred_classification_tree_results$o
 
 knitr::kable(pred_classification_tree_summary, digits = 4)
 ```
-
+## Random Forest
 ```{r, prediction for random forest }
 #Make prediction
 pred_random_forest <- predict (fit_random_forest, newdata = diabetes_data_subset_test)
@@ -911,14 +916,14 @@ pred_random_forest_summary <- as_tibble(pred_random_forest_results$overall[1]) %
 
 knitr::kable(pred_random_forest_summary, digits = 4)
 ```
-
+## Ridge Logistic Regression
 ```{r, prediction for ridge }
 #Make prediction
 pred_ridge <- predict (fit_ridge, newdata = diabetes_data_subset_test)
 
 #Generate confusion matrix
 pred_ridge_results <- confusionMatrix(data = diabetes_data_subset_test$Diabetes_binary,                                                    reference = pred_ridge)
-pred_ridge_results
+
 #Generate summary to facilitate comparison
 pred_ridge_summary <- as_tibble(pred_ridge_results$overall[1]) %>% 
     rename("Accuracy" = 1) %>%
@@ -928,7 +933,7 @@ pred_ridge_summary <- as_tibble(pred_ridge_results$overall[1]) %>%
 
 knitr::kable(pred_ridge_summary, digits = 4)
 ```
-
+## Elastic Net Regression
 ```{r, prediction for elastic net }
 #Make prediction
 pred_elastic_net <- predict (fit_elastic_net, newdata = diabetes_data_subset_test)
@@ -945,7 +950,7 @@ pred_elastic_net_summary <- as_tibble(pred_elastic_net_results$overall[1]) %>%
 
 knitr::kable(pred_elastic_net_summary, digits = 4)
 ```
-
+## Selection of Best Model Based on Performance with Test Set
 ```{r,comparison}
 comparison_results <-bind_rows(pred_log_summary,
                                pred_lasso_summary,
@@ -958,3 +963,5 @@ comparison_results <-bind_rows(pred_log_summary,
 knitr::kable(comparison_results, digits = 4)
 ```
 
+
+Based on accuracy in prediction of the test set- of the models studied- the "best model" for Education = `r params$EducationLevel` is `r comparison_results[1,1]` with accuracy = `r round(comparison_results[1,2],4)`.
