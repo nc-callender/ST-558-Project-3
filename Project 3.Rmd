@@ -1091,22 +1091,28 @@ test_results_elastic_net <- test_results_elastic_net %>%
 knitr::kable(test_results_elastic_net, digits = 4)
 ```
 
-```{r, prediction for elastic net }
-#Make prediction
-pred_elastic_net <- predict (fit_elastic_net, newdata = diabetes_data_subset_test)
+## "Pick the Most Popular Model"
 
-#Generate confusion matrix
-pred_elastic_net_results <- confusionMatrix(data = diabetes_data_subset_test$Diabetes_binary,                                                    reference = pred_elastic_net)
+The diabetes dataset was unbalanced with regard to diabetes status.  When the data is unbalanced, it is reasonable to compare the performance of any optimized model with a model that simply predicts the "most popular" status in the test data and assigns it to all observations in the "test" dataset. This comparison was performed.  For "Pick the Most Popular" model, the Log Loss will always be infinity because the wrong points will have a penalty of (log 0 = $\infty$). Indeed one of the advantages of using Log Loss as the performance metric in "training" is that it will drive the model away from "most popular".  
 
-#Generate summary to facilitate comparison
-pred_elastic_net_summary <- as_tibble(pred_elastic_net_results$overall[1]) %>% 
-    rename("Accuracy" = 1) %>%
-    mutate(Kappa = pred_elastic_net_results$overall[2]) %>%
-    mutate(Method = "Elastic Net") %>%
-    select (Method, Accuracy, Kappa)
+```{r, Most Popular Model}
+# Determine Most Popular Diabetic Status in Training Dataset
+train_most_popular <- diabetes_data_subset_train %>% group_by(Diabetes_binary) %>%
+    summarise(count = n()) %>% 
+    arrange(desc(count))
 
-knitr::kable(pred_elastic_net_summary, digits = 4)
+test_results_most_popular <- diabetes_data_subset_test %>% 
+    mutate(Predict_status = train_most_popular[1,1]$Diabetes_binary) %>% 
+    select(Diabetes_binary, Predict_status) %>%
+    mutate(accurate = if_else(Diabetes_binary == Predict_status, 1,0 )) %>%
+    summarise(Accuracy = mean(accurate)) %>% 
+    mutate (Method = "Most Popular")
+  
+knitr::kable(test_results_most_popular, digits =4)
+
 ```
+
+
 ## Selection of Best Model Based on Performance with Test Set
 ```{r,comparison}
 comparison_results <-bind_rows(test_results_logistic,
@@ -1114,7 +1120,8 @@ comparison_results <-bind_rows(test_results_logistic,
                                test_results_classification_tree,
                                test_results_random_forest,
                                test_results_ridge,
-                               test_results_elastic_net) %>%
+                               test_results_elastic_net,
+                               test_results_most_popular) %>%
     arrange(desc(Accuracy))
 
 knitr::kable(comparison_results, digits = 4)
