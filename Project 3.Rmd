@@ -1184,4 +1184,4 @@ Log Loss = `r round(comparison_results_test2[1,2],4)`.
 The model exhibiting the Highest Accuracy was **`r comparison_results_test[1,1]`** with:  
 Accuracy = `r round(comparison_results_test[1,3],4)`.  
 
-Since the dataset was unbalanced, it is informative to compare the accuracy of the model with a simple "pick the most popular model".  The accuracy of the most accurate model, `r comparison_results_test[1,1]`,  was: **`r round(comparison_results_test[1,4],2)`X** that of "pick the most popular" model.
+Since the dataset was unbalanced, it is informative to compare the accuracy of the model with a simple "pick the most popular model".  The accuracy of the most accurate model, `r comparison_results_test[1,1]`,  was: **`r round(comparison_results_test[1,4],3)`X** that of "pick the most popular" model.

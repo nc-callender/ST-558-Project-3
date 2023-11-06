@@ -723,7 +723,7 @@ formula_logistic_1
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x00000161090ddad0>
+    ## <environment: 0x00000161150350d8>
 
 ``` r
 #for reproducibility
@@ -766,7 +766,7 @@ formula_logistic_2
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk
-    ## <environment: 0x00000161090ddad0>
+    ## <environment: 0x00000161150350d8>
 
 ``` r
 #for reproducibility
@@ -806,7 +806,7 @@ formula_logistic_3
 ```
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + GenHlth
-    ## <environment: 0x00000161090ddad0>
+    ## <environment: 0x00000161150350d8>
 
 ``` r
 #for reproducibility
@@ -888,7 +888,7 @@ formula_lasso
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x00000161090ddad0>
+    ## <environment: 0x00000161150350d8>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
@@ -956,7 +956,7 @@ formula_classification_tree
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x00000161090ddad0>
+    ## <environment: 0x00000161150350d8>
 
 ``` r
 #Set up complexity parameter for tuneGrid
@@ -1038,7 +1038,7 @@ formula_random_forest
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x00000161090ddad0>
+    ## <environment: 0x00000161150350d8>
 
 ``` r
 #Set up mtrys for tuneGrid
@@ -1120,7 +1120,7 @@ formula_ridge
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x00000161090ddad0>
+    ## <environment: 0x00000161150350d8>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
@@ -1206,7 +1206,7 @@ formula_elastic_net
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x00000161090ddad0>
+    ## <environment: 0x00000161150350d8>
 
 ``` r
 #Set up parameters for tuneGrid
@@ -1657,5 +1657,5 @@ Accuracy = 0.7241.
 
 Since the dataset was unbalanced, it is informative to compare the
 accuracy of the model with a simple “pick the most popular model”. The
-accuracy of the most accurate model, Random Forest, was: **1.02X** that
+accuracy of the most accurate model, Random Forest, was: **1.022X** that
 of “pick the most popular” model.

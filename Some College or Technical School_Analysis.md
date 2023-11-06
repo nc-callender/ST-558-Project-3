@@ -284,7 +284,7 @@ figure1 + geom_bar() +
           title = "Figure 1. Diabetes Status Distribution")
 ```
 
-![](Some%20College%20or%20Technical%20School_Analysis_files/figure-gfm/Figure-1-1.png)<!-- -->
+![](SOMECO~1/figure-gfm/Figure-1-1.png)<!-- -->
 
 ## Predictor variable: `HighBP`
 
@@ -328,7 +328,7 @@ figure2 + geom_bar(aes(fill = HighBP)) +
     guides(fill = guide_legend(title = "Blood Pressure"))
 ```
 
-![](Some%20College%20or%20Technical%20School_Analysis_files/figure-gfm/Figure-2-1.png)<!-- -->
+![](SOMECO~1/figure-gfm/Figure-2-1.png)<!-- -->
 
 ## Predictor variable: `HighChol`
 
@@ -372,7 +372,7 @@ figure3 + geom_bar(aes(fill = HighChol)) +
     guides(fill = guide_legend(title = "Cholesterol"))
 ```
 
-![](Some%20College%20or%20Technical%20School_Analysis_files/figure-gfm/Figure-3-1.png)<!-- -->
+![](SOMECO~1/figure-gfm/Figure-3-1.png)<!-- -->
 
 ## Predictor variable: `BMI`
 
@@ -409,7 +409,7 @@ figure4<-ggplot() +
 figure4
 ```
 
-![](Some%20College%20or%20Technical%20School_Analysis_files/figure-gfm/Figure%204-1.png)<!-- -->
+![](SOMECO~1/figure-gfm/Figure%204-1.png)<!-- -->
 
 Based on [Center for Diseased Control
 guidelines](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html),
@@ -427,7 +427,7 @@ figure5 + geom_bar() +
           title = "Figure 5. BMI Classification Distribution")
 ```
 
-![](Some%20College%20or%20Technical%20School_Analysis_files/figure-gfm/Figure-5-1.png)<!-- -->
+![](SOMECO~1/figure-gfm/Figure-5-1.png)<!-- -->
 
 The effect of BMI on the relative amounts of nondiabetics versus
 diabetics is shown here.
@@ -443,7 +443,7 @@ figure6 + geom_bar(aes(fill = Diabetes_binary), position = "dodge") +
     guides(fill = guide_legend(title = "Diabetes Status"))
 ```
 
-![](Some%20College%20or%20Technical%20School_Analysis_files/figure-gfm/Figure-6-1.png)<!-- -->
+![](SOMECO~1/figure-gfm/Figure-6-1.png)<!-- -->
 
 ## Predictor variable: `HeartDiseaseorAttack`
 
@@ -488,7 +488,7 @@ figure7 + geom_bar(aes(fill = HeartDiseaseorAttack)) +
     guides(fill = guide_legend(title = "History of Heart Trouble"))
 ```
 
-![](Some%20College%20or%20Technical%20School_Analysis_files/figure-gfm/Figure-7-1.png)<!-- -->
+![](SOMECO~1/figure-gfm/Figure-7-1.png)<!-- -->
 
 ## Predictor variable: `GenHlth`
 
@@ -536,7 +536,7 @@ figure8 + geom_bar(aes(fill = Diabetes_binary), position = "dodge") +
     guides(fill = guide_legend(title = "Diabetes Status"))
 ```
 
-![](Some%20College%20or%20Technical%20School_Analysis_files/figure-gfm/Figure-8-1.png)<!-- -->
+![](SOMECO~1/figure-gfm/Figure-8-1.png)<!-- -->
 
 ## Predictor variable: `DiffWalk`
 
@@ -581,7 +581,7 @@ figure9 + geom_bar(aes(fill = DiffWalk), position = "dodge") +
       guides(fill = guide_legend(title = " "))
 ```
 
-![](Some%20College%20or%20Technical%20School_Analysis_files/figure-gfm/Figure-9-1.png)<!-- -->
+![](SOMECO~1/figure-gfm/Figure-9-1.png)<!-- -->
 
 ## Predictor variable: `Age`
 
@@ -636,7 +636,7 @@ figure10 + geom_bar(aes(fill = Diabetes_binary), position = "dodge") +
     guides(fill = guide_legend(title = "Diabetes Status "))
 ```
 
-![](Some%20College%20or%20Technical%20School_Analysis_files/figure-gfm/Figure-10-1.png)<!-- -->
+![](SOMECO~1/figure-gfm/Figure-10-1.png)<!-- -->
 
 # Modeling
 
@@ -723,7 +723,7 @@ formula_logistic_1
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000001610e7435b8>
+    ## <environment: 0x0000016113fc1a38>
 
 ``` r
 #for reproducibility
@@ -766,7 +766,7 @@ formula_logistic_2
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk
-    ## <environment: 0x000001610e7435b8>
+    ## <environment: 0x0000016113fc1a38>
 
 ``` r
 #for reproducibility
@@ -806,7 +806,7 @@ formula_logistic_3
 ```
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + GenHlth
-    ## <environment: 0x000001610e7435b8>
+    ## <environment: 0x0000016113fc1a38>
 
 ``` r
 #for reproducibility
@@ -888,7 +888,7 @@ formula_lasso
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000001610e7435b8>
+    ## <environment: 0x0000016113fc1a38>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
@@ -956,7 +956,7 @@ formula_classification_tree
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000001610e7435b8>
+    ## <environment: 0x0000016113fc1a38>
 
 ``` r
 #Set up complexity parameter for tuneGrid
@@ -1038,7 +1038,7 @@ formula_random_forest
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000001610e7435b8>
+    ## <environment: 0x0000016113fc1a38>
 
 ``` r
 #Set up mtrys for tuneGrid
@@ -1120,7 +1120,7 @@ formula_ridge
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000001610e7435b8>
+    ## <environment: 0x0000016113fc1a38>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
@@ -1206,7 +1206,7 @@ formula_elastic_net
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000001610e7435b8>
+    ## <environment: 0x0000016113fc1a38>
 
 ``` r
 #Set up parameters for tuneGrid
@@ -1657,5 +1657,5 @@ Accuracy = 0.8546.
 
 Since the dataset was unbalanced, it is informative to compare the
 accuracy of the model with a simple “pick the most popular model”. The
-accuracy of the most accurate model, Ridge, was: **1X** that of “pick
-the most popular” model.
+accuracy of the most accurate model, Ridge, was: **1.003X** that of
+“pick the most popular” model.
