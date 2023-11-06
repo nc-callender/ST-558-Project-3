@@ -850,7 +850,7 @@ elastic_net_results <- fit_elastic_net[[4]] %>%
 knitr::kable(elastic_net_results, digits = 4, align = "ll")
 ```
 
-## Final Model Selection using Log Loss from Cross Validation
+## Final Model Comparison using Log Loss from Cross Validation
 
 ```{r}
 comparison_results <- bind_rows(logistic_results, 
@@ -1101,41 +1101,74 @@ train_most_popular <- diabetes_data_subset_train %>% group_by(Diabetes_binary) %
     summarise(count = n()) %>% 
     arrange(desc(count))
 
+#Determine accuracy and label with method 
 test_results_most_popular <- diabetes_data_subset_test %>% 
     mutate(Predict_status = train_most_popular[1,1]$Diabetes_binary) %>% 
     select(Diabetes_binary, Predict_status) %>%
     mutate(accurate = if_else(Diabetes_binary == Predict_status, 1,0 )) %>%
     summarise(Accuracy = mean(accurate)) %>% 
-    mutate (Method = "Most Popular")
+    mutate (Method = "Most Popular") %>%
+    select(Method, Accuracy)
   
+#print
 knitr::kable(test_results_most_popular, digits =4)
+
+#set label for reference in later sections
+reference_accuracy <- test_results_most_popular$Accuracy
 
 ```
 
 
 ## Selection of Best Model Based on Performance with Test Set
 ```{r,comparison}
-comparison_results <-bind_rows(test_results_logistic,
-                               test_results_lasso,
-                               test_results_classification_tree,
-                               test_results_random_forest,
-                               test_results_ridge,
-                               test_results_elastic_net,
-                               test_results_most_popular) %>%
-    arrange(desc(Accuracy))
+#combine results, sort by accuracy, compare to "most popular"
+comparison_results_test <- bind_rows(test_results_logistic,
+                                     test_results_lasso,
+                                     test_results_classification_tree,
+                                     test_results_random_forest,
+                                     test_results_ridge,
+                                     test_results_elastic_net,
+                                     test_results_most_popular) %>%
+    arrange(desc(Accuracy)) %>% 
+    mutate ("Relative Accuracy" = Accuracy/reference_accuracy)
 
-knitr::kable(comparison_results, digits = 4)
+knitr::kable(comparison_results_test, digits = 4 )
 ```
 
 
-Based on accuracy in prediction of the test set, the "best model" (of the models studied) for Education = `r params$EducationLevel` is `r comparison_results[1,1]` which has accuracy = 
-`r round(comparison_results[1,3],4)`.
+
+Based on accuracy in prediction of the test set, the "best model" (of the models studied) for Education = `r params$EducationLevel` is `r comparison_results_test[1,1]` which has accuracy = 
+`r round(comparison_results_test[1,3],4)`.
   
 
 
 ```{r,comparison Log Loss}
-comparison_results2 <-comparison_results %>%
+comparison_results_test2 <-comparison_results_test %>%
     arrange(LogLoss)
 
 ```
-If comparisons are made based on Log Loss in prediction of the test set, the "best model" (of the models studied) for Education = `r params$EducationLevel` is `r comparison_results2[1,1]` with Log Loss = `r round(comparison_results2[1,2],4)`.
+If comparisons are made based on Log Loss in prediction of the test set, the "best model" (of the models studied) for Education = `r params$EducationLevel` is `r comparison_results_test2[1,1]` with Log Loss = `r round(comparison_results_test2[1,2],4)`.
+
+# Summary 
+ 
+A diabetes health indicators dataset was divided into subsets based on education level.  This report details analysis of the subset corresponding to Education = `r params$EducationLevel`.  Some Exploratary data analysis was conducted producing summary tables and graphs.  The dataset was then split into training and test sets.  Model training was conducted for the following models:  
+
+  - Logistic Regression Models (three attempts, best one chosen)  
+  - LASSO Regression Model  
+  - Classification Tree  
+  - Random Forest  
+  - Ridge Regression Model 
+  - Elastic Net Model  
+
+The training used 5-fold cross validation with Log Loss for the metric.  Of these models, `r comparison_results[1,1]` exhibited the lowest log loss during cross validation with:  
+Log Loss = `r round(comparison_results[1,2],4)`.
+
+The models were then used to make predictions on a test set.  The predictions were then analyzed using Log Loss and accuracy to compare performance of the models.  
+
+The model exhibiting the Lowest Log Loss was `r comparison_results_test2[1,1]` with:  
+Log Loss = `r round(comparison_results_test2[1,2],4)`.  
+
+The model exhibiting the Highest Accuracy was `r comparison_results_test[1,1]` with:  
+Accuracy = `r round(comparison_results_test[1,3],4)`.  
+
+Since the dataset was unbalanced, it is informative to compare the accuracy of the model with a simple "pick the most popular model".  The accuracy of the most accurate model, `r comparison_results_test[1,1]`,  was: `r round(comparison_results_test[1,4],2)`X that of "pick the most popular" model.
