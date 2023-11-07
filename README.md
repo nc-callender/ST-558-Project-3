@@ -30,9 +30,10 @@ apply(reports, MARGIN= 1, FUN = function(x){rmarkdown::render(input="Project 3.R
 
 ## Links
 Links to the html files for each level:  
+https://nc-callender.github.io/ST-558-Project-3/Elementary_Analysis
 
-  [Elementary](https://nc-callender.github.io/ST-558-Project-3/Elementary-Analysis.md)  
-  [Some High School]  
-  [High School Graduate]  
-  [Some College or Technical School]  
-  [College Graduate]  
+  [Elementary](https://nc-callender.github.io/ST-558-Project-3/Elementary_Analysis)  
+  [Some High School](https://nc-callender.github.io/ST-558-Project-3/Some%20High%20School_Analysis) 
+  [High School Graduate](https://nc-callender.github.io/ST-558-Project-3/High%20School%20Graduate_Analysis)  
+  [Some College or Technical School](https://nc-callender.github.io/ST-558-Project-3/Some%20College%20or%20Technical%20School_Analysis) 
+  [College Graduate](https://nc-callender.github.io/ST-558-Project-3/College%20Graduate_Analysis)  
