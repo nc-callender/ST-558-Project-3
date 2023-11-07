@@ -10,8 +10,9 @@ This repository contains documents relating to the analysis of a Diabetes Health
 For each education level, exploratory data analysis was conducted. Models were developed using a training set.  The models were then evaluated on their ability to predict response on a test set.
 
 The following R packages were used:  
-tidyverse  
-caret  
+
+- tidyverse  
+- caret    
 
 The following code was used to render a single parameterized rmd file to generate the five separate md files for github. 
 
