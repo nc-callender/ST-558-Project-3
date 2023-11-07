@@ -24,16 +24,17 @@ EducationLevel <- c("Elementary", "Some High School","High School Graduate", "So
 
 output_file <- paste0(EducationLevel, "_Analysis.md")
 
-params = lapply(EducationLevel, FUN = function(x){list(EducationLevel = x)})
-reports <- tibble(output_file, params)
+params = lapply(EducationLevel, FUN = function(x){list(EducationLevel = x)})  
+
+reports <- tibble(output_file, params)  
+
 apply(reports, MARGIN= 1, FUN = function(x){rmarkdown::render(input="Project 3.Rmd", output_file=x[[1]], params = x[[2]])})
 
 ## Links
 Links to the html files for each level:  
-https://nc-callender.github.io/ST-558-Project-3/Elementary_Analysis
 
   [Elementary](https://nc-callender.github.io/ST-558-Project-3/Elementary_Analysis)  
-  [Some High School](https://nc-callender.github.io/ST-558-Project-3/Some%20High%20School_Analysis) 
+  [Some High School](https://nc-callender.github.io/ST-558-Project-3/Some%20High%20School_Analysis)  
   [High School Graduate](https://nc-callender.github.io/ST-558-Project-3/High%20School%20Graduate_Analysis)  
-  [Some College or Technical School](https://nc-callender.github.io/ST-558-Project-3/Some%20College%20or%20Technical%20School_Analysis) 
-  [College Graduate](https://nc-callender.github.io/ST-558-Project-3/College%20Graduate_Analysis)  
+  [Some College or Technical School](https://nc-callender.github.io/ST-558-Project-3/Some%20College%20or%20Technical%20School_Analysis)   
+  [College Graduate](https://nc-callender.github.io/ST-558-Project-3/College%20Graduate_Analysis)    
