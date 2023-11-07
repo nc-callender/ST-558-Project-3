@@ -29,9 +29,10 @@ reports <- tibble(output_file, params)
 apply(reports, MARGIN= 1, FUN = function(x){rmarkdown::render(input="Project 3.Rmd", output_file=x[[1]], params = x[[2]])})
 
 ## Links
-Links to the html files for each level:
-[Elementary](https://nc-callender.github.io/ST-558-Project-3/Elementary-Analysis.md)
-[Some High School]
-[High School Graduate]
-[Some College or Technical School]
-[College Graduate]
+Links to the html files for each level:  
+
+  [Elementary](https://nc-callender.github.io/ST-558-Project-3/Elementary-Analysis.md)  
+  [Some High School]  
+  [High School Graduate]  
+  [Some College or Technical School]  
+  [College Graduate]  
