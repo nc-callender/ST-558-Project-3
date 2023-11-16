@@ -36,6 +36,10 @@ Yvette Callender
     - [Description](#description-1)
     - [Model](#model)
 
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
 ``` r
 EducationLevel <- c("Elementary")
 
@@ -85,18 +89,8 @@ levels.
 
 The variable `BMI` (Body Mass Index) is a numeric variable. As part of
 the analysis, it was converted to a categorical variable with values
-corresponding to underweight (BMI
-![\le](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cle "\le")
-18.5), normal(18.5
-![\le](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cle "\le")
-BMI
-![\le](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cle "\le")
-24.9), overweight(25.0
-![\le](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cle "\le")
-BMI
-![\le](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cle "\le")
-29.9) and obese(30
-![\le](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cle "\le")
+corresponding to underweight (BMI $\le$ 18.5), normal(18.5 $\le$ BMI
+$\le$ 24.9), overweight(25.0 $\le$ BMI $\le$ 29.9) and obese(30 $\le$
 BMI).
 
 The variable `HeartDiseaseorAttack` is a binary variable where 1
@@ -120,21 +114,21 @@ reported difficulty walking or climbing stairs.
 
 The variable `Age` is a categorical variable with the following levels.
 
-| Level |                                                  Description                                                  |
-|:------|:-------------------------------------------------------------------------------------------------------------:|
-| 1     |                                                18-24 years old                                                |
-| 2     |                                                25-29 years old                                                |
-| 3     |                                                30-34 years old                                                |
-| 4     |                                                35-39 years old                                                |
-| 5     |                                                40-44 years old                                                |
-| 6     |                                                45-54 years old                                                |
-| 7     |                                                50-54 years old                                                |
-| 8     |                                                55-59 years old                                                |
-| 9     |                                                60-64 years old                                                |
-| 10    |                                                65-69 years old                                                |
-| 11    |                                                70-74 years old                                                |
-| 12    |                                                75-79 years old                                                |
-| 13    | ![\ge](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cge "\ge") 80 years old |
+| Level |    Description     |
+|:------|:------------------:|
+| 1     |  18-24 years old   |
+| 2     |  25-29 years old   |
+| 3     |  30-34 years old   |
+| 4     |  35-39 years old   |
+| 5     |  40-44 years old   |
+| 6     |  45-54 years old   |
+| 7     |  50-54 years old   |
+| 8     |  55-59 years old   |
+| 9     |  60-64 years old   |
+| 10    |  65-69 years old   |
+| 11    |  70-74 years old   |
+| 12    |  75-79 years old   |
+| 13    | $\ge$ 80 years old |
 
 The variable `Education` is a categorical variable with the following
 levels.
@@ -649,13 +643,10 @@ diabetes_data_subset_test <- diabetes_data_subset[-trainIndex,]
 
 Logarithmic loss (or log loss or cross-entropy loss) is a performance
 measure for a binary classification model which outputs a probability
-between 0 and 1. Values for log loss can range from 0 to
-![\infty](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cinfty "\infty")
+between 0 and 1. Values for log loss can range from 0 to $\infty$
 infinity, with 0 representing a perfect model. The equation for
 determining Log Loss is:
-
-![LogLoss = -\frac{1}{N}\sum\_{i=1}^{N} (y_ilog(p(y_i))+(1-y_i)log (1-p(y_i))](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;LogLoss%20%3D%20-%5Cfrac%7B1%7D%7BN%7D%5Csum_%7Bi%3D1%7D%5E%7BN%7D%20%28y_ilog%28p%28y_i%29%29%2B%281-y_i%29log%20%281-p%28y_i%29%29 "LogLoss = -\frac{1}{N}\sum_{i=1}^{N} (y_ilog(p(y_i))+(1-y_i)log (1-p(y_i))")
-
+$$ LogLoss = -\frac{1}{N}\sum_{i=1}^{N} (y_ilog(p(y_i))+(1-y_i)log (1-p(y_i)) $$
 It has a desirable feature of being convex and having a single global
 minimum. This is in contrast to the MSE (mean square error) function
 used in linear regression which is not convex and can have many local
@@ -682,15 +673,11 @@ Logistic Regression is a method used on dataset where the response
 (dependent) variable is binary. The response variable is fit as a
 logistic sigmoid function of independent variables which can be
 continuous or binary. The general form of the equation is
-
-![y= \frac{1}{1+e^{-X}}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;y%3D%20%5Cfrac%7B1%7D%7B1%2Be%5E%7B-X%7D%7D "y= \frac{1}{1+e^{-X}}")
-
-where X is a vector containing all the predictor variables. The range of
-this function is 0-1, which works well with a binary dependent
-variable.  
+$$ y= \frac{1}{1+e^{-X}}$$ where X is a vector containing all the
+predictor variables. The range of this function is 0-1, which works well
+with a binary dependent variable.  
 The logistic function is linked to the X vector with the logit function.
-
-![log\frac{p}{1-p}=\beta_0 + \beta_1x_1 + \beta_2x_2+ ...+ \beta_px_p](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;log%5Cfrac%7Bp%7D%7B1-p%7D%3D%5Cbeta_0%20%2B%20%5Cbeta_1x_1%20%2B%20%5Cbeta_2x_2%2B%20...%2B%20%5Cbeta_px_p "log\frac{p}{1-p}=\beta_0 + \beta_1x_1 + \beta_2x_2+ ...+ \beta_px_p")
+$$log\frac{p}{1-p}=\beta_0 + \beta_1x_1 + \beta_2x_2+ ...+ \beta_px_p$$
 
 ### Model 1
 
@@ -715,7 +702,7 @@ formula_logistic_1
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000002d079940c28>
+    ## <environment: 0x000001a17f27bd78>
 
 ``` r
 #for reproducibility
@@ -758,7 +745,7 @@ formula_logistic_2
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk
-    ## <environment: 0x000002d079940c28>
+    ## <environment: 0x000001a17f27bd78>
 
 ``` r
 #for reproducibility
@@ -798,7 +785,7 @@ formula_logistic_3
 ```
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + GenHlth
-    ## <environment: 0x000002d079940c28>
+    ## <environment: 0x000001a17f27bd78>
 
 ``` r
 #for reproducibility
@@ -854,23 +841,17 @@ knitr::kable(logistic_results, digits = 4, align = 'll')
 Least Absolute Shrinkage and Selection Operator (LASSO) is a penalized
 method for modelling. It is used in an attempt to balance accuracy and
 simplicity. The penalty (assuming n predictor variables) is calculated
-as
+as $$L_1 = \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)$$
 
-![L_1 = \lambda \* (\|\beta_1\| + \|\beta_2\| + ... + \|\beta_n\|)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;L_1%20%3D%20%5Clambda%20%2A%20%28%7C%5Cbeta_1%7C%20%2B%20%7C%5Cbeta_2%7C%20%2B%20...%20%2B%20%7C%5Cbeta_n%7C%29 "L_1 = \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)")
-
-![\lambda](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Clambda "\lambda")
-is a tuning parameter. Larger values of
-![\lambda](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Clambda "\lambda")
-push more coefficients to zero- leading to sparser models, while smaller
-values of
-![\lambda](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Clambda "\lambda")
-allow more non-zero coefficients- corresponding to more complex models.
+$\lambda$ is a tuning parameter. Larger values of $\lambda$ push more
+coefficients to zero- leading to sparser models, while smaller values of
+$\lambda$ allow more non-zero coefficients- corresponding to more
+complex models.
 
 During the modelling the function that is minimized- referred to as the
 objective function- is the sum of the penalty function and the cost
 function (which for this logistic regression will be log loss).
-
-![Objective Function = Log Loss + L_1 = Log Loss + \lambda \* (\|\beta_1\| + \|\beta_2\| + ... + \|\beta_n\|)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;Objective%20Function%20%3D%20Log%20Loss%20%2B%20L_1%20%3D%20Log%20Loss%20%2B%20%5Clambda%20%2A%20%28%7C%5Cbeta_1%7C%20%2B%20%7C%5Cbeta_2%7C%20%2B%20...%20%2B%20%7C%5Cbeta_n%7C%29 "Objective Function = Log Loss + L_1 = Log Loss + \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)")
+$$Objective Function = Log Loss + L_1 = Log Loss + \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)$$
 
 ### Model
 
@@ -886,7 +867,7 @@ formula_lasso
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000002d079940c28>
+    ## <environment: 0x000001a17f27bd78>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
