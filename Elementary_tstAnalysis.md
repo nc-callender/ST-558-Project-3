@@ -715,7 +715,7 @@ formula_logistic_1
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000002d06b879f90>
+    ## <environment: 0x000002d079940c28>
 
 ``` r
 #for reproducibility
@@ -758,7 +758,7 @@ formula_logistic_2
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk
-    ## <environment: 0x000002d06b879f90>
+    ## <environment: 0x000002d079940c28>
 
 ``` r
 #for reproducibility
@@ -798,7 +798,7 @@ formula_logistic_3
 ```
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + GenHlth
-    ## <environment: 0x000002d06b879f90>
+    ## <environment: 0x000002d079940c28>
 
 ``` r
 #for reproducibility
@@ -886,7 +886,7 @@ formula_lasso
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000002d06b879f90>
+    ## <environment: 0x000002d079940c28>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
