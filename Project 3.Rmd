@@ -7,7 +7,6 @@ output:
         html_preview: FALSE
         toc: TRUE
         toc_depth: 3
-        math_method: webtex
 params: 
     EducationLevel: "Elementary"
 ---

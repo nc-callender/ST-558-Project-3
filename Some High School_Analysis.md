@@ -2,7 +2,7 @@ Project 3: Modelling of Diabetes Data for Patients with Education = Some
 High School
 ================
 Yvette Callender
-2023-11-16
+2023-11-30
 
 - [Introduction](#introduction)
   - [Data](#data)
@@ -110,18 +110,8 @@ levels.
 
 The variable `BMI` (Body Mass Index) is a numeric variable. As part of
 the analysis, it was converted to a categorical variable with values
-corresponding to underweight (BMI
-![\le](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cle "\le")
-18.5), normal(18.5
-![\le](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cle "\le")
-BMI
-![\le](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cle "\le")
-24.9), overweight(25.0
-![\le](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cle "\le")
-BMI
-![\le](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cle "\le")
-29.9) and obese(30
-![\le](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cle "\le")
+corresponding to underweight (BMI $\le$ 18.5), normal(18.5 $\le$ BMI
+$\le$ 24.9), overweight(25.0 $\le$ BMI $\le$ 29.9) and obese(30 $\le$
 BMI).
 
 The variable `HeartDiseaseorAttack` is a binary variable where 1
@@ -145,21 +135,21 @@ reported difficulty walking or climbing stairs.
 
 The variable `Age` is a categorical variable with the following levels.
 
-| Level |                                                  Description                                                  |
-|:------|:-------------------------------------------------------------------------------------------------------------:|
-| 1     |                                                18-24 years old                                                |
-| 2     |                                                25-29 years old                                                |
-| 3     |                                                30-34 years old                                                |
-| 4     |                                                35-39 years old                                                |
-| 5     |                                                40-44 years old                                                |
-| 6     |                                                45-54 years old                                                |
-| 7     |                                                50-54 years old                                                |
-| 8     |                                                55-59 years old                                                |
-| 9     |                                                60-64 years old                                                |
-| 10    |                                                65-69 years old                                                |
-| 11    |                                                70-74 years old                                                |
-| 12    |                                                75-79 years old                                                |
-| 13    | ![\ge](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cge "\ge") 80 years old |
+| Level |    Description     |
+|:------|:------------------:|
+| 1     |  18-24 years old   |
+| 2     |  25-29 years old   |
+| 3     |  30-34 years old   |
+| 4     |  35-39 years old   |
+| 5     |  40-44 years old   |
+| 6     |  45-54 years old   |
+| 7     |  50-54 years old   |
+| 8     |  55-59 years old   |
+| 9     |  60-64 years old   |
+| 10    |  65-69 years old   |
+| 11    |  70-74 years old   |
+| 12    |  75-79 years old   |
+| 13    | $\ge$ 80 years old |
 
 The variable `Education` is a categorical variable with the following
 levels.
@@ -294,7 +284,7 @@ figure1 + geom_bar() +
           title = "Figure 1. Diabetes Status Distribution")
 ```
 
-![](Some%20High%20School_Analysis_files/figure-gfm/Figure-1-1.png)<!-- -->
+![](SOMEHI~1/figure-gfm/Figure-1-1.png)<!-- -->
 
 ## Predictor variable: `HighBP`
 
@@ -338,7 +328,7 @@ figure2 + geom_bar(aes(fill = HighBP)) +
     guides(fill = guide_legend(title = "Blood Pressure"))
 ```
 
-![](Some%20High%20School_Analysis_files/figure-gfm/Figure-2-1.png)<!-- -->
+![](SOMEHI~1/figure-gfm/Figure-2-1.png)<!-- -->
 
 ## Predictor variable: `HighChol`
 
@@ -382,7 +372,7 @@ figure3 + geom_bar(aes(fill = HighChol)) +
     guides(fill = guide_legend(title = "Cholesterol"))
 ```
 
-![](Some%20High%20School_Analysis_files/figure-gfm/Figure-3-1.png)<!-- -->
+![](SOMEHI~1/figure-gfm/Figure-3-1.png)<!-- -->
 
 ## Predictor variable: `BMI`
 
@@ -419,7 +409,7 @@ figure4<-ggplot() +
 figure4
 ```
 
-![](Some%20High%20School_Analysis_files/figure-gfm/Figure%204-1.png)<!-- -->
+![](SOMEHI~1/figure-gfm/Figure%204-1.png)<!-- -->
 
 Based on [Center for Diseased Control
 guidelines](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html),
@@ -437,7 +427,7 @@ figure5 + geom_bar() +
           title = "Figure 5. BMI Classification Distribution")
 ```
 
-![](Some%20High%20School_Analysis_files/figure-gfm/Figure-5-1.png)<!-- -->
+![](SOMEHI~1/figure-gfm/Figure-5-1.png)<!-- -->
 
 The effect of BMI on the relative amounts of nondiabetics versus
 diabetics is shown here.
@@ -453,7 +443,7 @@ figure6 + geom_bar(aes(fill = Diabetes_binary), position = "dodge") +
     guides(fill = guide_legend(title = "Diabetes Status"))
 ```
 
-![](Some%20High%20School_Analysis_files/figure-gfm/Figure-6-1.png)<!-- -->
+![](SOMEHI~1/figure-gfm/Figure-6-1.png)<!-- -->
 
 ## Predictor variable: `HeartDiseaseorAttack`
 
@@ -498,7 +488,7 @@ figure7 + geom_bar(aes(fill = HeartDiseaseorAttack)) +
     guides(fill = guide_legend(title = "History of Heart Trouble"))
 ```
 
-![](Some%20High%20School_Analysis_files/figure-gfm/Figure-7-1.png)<!-- -->
+![](SOMEHI~1/figure-gfm/Figure-7-1.png)<!-- -->
 
 ## Predictor variable: `GenHlth`
 
@@ -546,7 +536,7 @@ figure8 + geom_bar(aes(fill = Diabetes_binary), position = "dodge") +
     guides(fill = guide_legend(title = "Diabetes Status"))
 ```
 
-![](Some%20High%20School_Analysis_files/figure-gfm/Figure-8-1.png)<!-- -->
+![](SOMEHI~1/figure-gfm/Figure-8-1.png)<!-- -->
 
 ## Predictor variable: `DiffWalk`
 
@@ -591,7 +581,7 @@ figure9 + geom_bar(aes(fill = DiffWalk), position = "dodge") +
       guides(fill = guide_legend(title = " "))
 ```
 
-![](Some%20High%20School_Analysis_files/figure-gfm/Figure-9-1.png)<!-- -->
+![](SOMEHI~1/figure-gfm/Figure-9-1.png)<!-- -->
 
 ## Predictor variable: `Age`
 
@@ -646,7 +636,7 @@ figure10 + geom_bar(aes(fill = Diabetes_binary), position = "dodge") +
     guides(fill = guide_legend(title = "Diabetes Status "))
 ```
 
-![](Some%20High%20School_Analysis_files/figure-gfm/Figure-10-1.png)<!-- -->
+![](SOMEHI~1/figure-gfm/Figure-10-1.png)<!-- -->
 
 # Modeling
 
@@ -674,13 +664,10 @@ diabetes_data_subset_test <- diabetes_data_subset[-trainIndex,]
 
 Logarithmic loss (or log loss or cross-entropy loss) is a performance
 measure for a binary classification model which outputs a probability
-between 0 and 1. Values for log loss can range from 0 to
-![\infty](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cinfty "\infty")
+between 0 and 1. Values for log loss can range from 0 to $\infty$
 infinity, with 0 representing a perfect model. The equation for
 determining Log Loss is:
-
-![LogLoss = -\frac{1}{N}\sum\_{i=1}^{N} (y_ilog(p(y_i))+(1-y_i)log (1-p(y_i))](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;LogLoss%20%3D%20-%5Cfrac%7B1%7D%7BN%7D%5Csum_%7Bi%3D1%7D%5E%7BN%7D%20%28y_ilog%28p%28y_i%29%29%2B%281-y_i%29log%20%281-p%28y_i%29%29 "LogLoss = -\frac{1}{N}\sum_{i=1}^{N} (y_ilog(p(y_i))+(1-y_i)log (1-p(y_i))")
-
+$$ LogLoss = -\frac{1}{N}\sum_{i=1}^{N} (y_ilog(p(y_i))+(1-y_i)log (1-p(y_i)) $$
 It has a desirable feature of being convex and having a single global
 minimum. This is in contrast to the MSE (mean square error) function
 used in linear regression which is not convex and can have many local
@@ -707,15 +694,11 @@ Logistic Regression is a method used on dataset where the response
 (dependent) variable is binary. The response variable is fit as a
 logistic sigmoid function of independent variables which can be
 continuous or binary. The general form of the equation is
-
-![y= \frac{1}{1+e^{-X}}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;y%3D%20%5Cfrac%7B1%7D%7B1%2Be%5E%7B-X%7D%7D "y= \frac{1}{1+e^{-X}}")
-
-where X is a vector containing all the predictor variables. The range of
-this function is 0-1, which works well with a binary dependent
-variable.  
+$$ y= \frac{1}{1+e^{-X}}$$ where X is a vector containing all the
+predictor variables. The range of this function is 0-1, which works well
+with a binary dependent variable.  
 The logistic function is linked to the X vector with the logit function.
-
-![log\frac{p}{1-p}=\beta_0 + \beta_1x_1 + \beta_2x_2+ ...+ \beta_px_p](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;log%5Cfrac%7Bp%7D%7B1-p%7D%3D%5Cbeta_0%20%2B%20%5Cbeta_1x_1%20%2B%20%5Cbeta_2x_2%2B%20...%2B%20%5Cbeta_px_p "log\frac{p}{1-p}=\beta_0 + \beta_1x_1 + \beta_2x_2+ ...+ \beta_px_p")
+$$log\frac{p}{1-p}=\beta_0 + \beta_1x_1 + \beta_2x_2+ ...+ \beta_px_p$$
 
 ### Model 1
 
@@ -740,7 +723,7 @@ formula_logistic_1
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000001a1159f4818>
+    ## <environment: 0x0000026e70805c78>
 
 ``` r
 #for reproducibility
@@ -783,7 +766,7 @@ formula_logistic_2
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk
-    ## <environment: 0x000001a1159f4818>
+    ## <environment: 0x0000026e70805c78>
 
 ``` r
 #for reproducibility
@@ -823,7 +806,7 @@ formula_logistic_3
 ```
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + GenHlth
-    ## <environment: 0x000001a1159f4818>
+    ## <environment: 0x0000026e70805c78>
 
 ``` r
 #for reproducibility
@@ -879,23 +862,17 @@ knitr::kable(logistic_results, digits = 4, align = 'll')
 Least Absolute Shrinkage and Selection Operator (LASSO) is a penalized
 method for modelling. It is used in an attempt to balance accuracy and
 simplicity. The penalty (assuming n predictor variables) is calculated
-as
+as $$L_1 = \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)$$
 
-![L_1 = \lambda \* (\|\beta_1\| + \|\beta_2\| + ... + \|\beta_n\|)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;L_1%20%3D%20%5Clambda%20%2A%20%28%7C%5Cbeta_1%7C%20%2B%20%7C%5Cbeta_2%7C%20%2B%20...%20%2B%20%7C%5Cbeta_n%7C%29 "L_1 = \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)")
-
-![\lambda](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Clambda "\lambda")
-is a tuning parameter. Larger values of
-![\lambda](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Clambda "\lambda")
-push more coefficients to zero- leading to sparser models, while smaller
-values of
-![\lambda](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Clambda "\lambda")
-allow more non-zero coefficients- corresponding to more complex models.
+$\lambda$ is a tuning parameter. Larger values of $\lambda$ push more
+coefficients to zero- leading to sparser models, while smaller values of
+$\lambda$ allow more non-zero coefficients- corresponding to more
+complex models.
 
 During the modelling the function that is minimized- referred to as the
 objective function- is the sum of the penalty function and the cost
 function (which for this logistic regression will be log loss).
-
-![Objective Function = Log Loss + L_1 = Log Loss + \lambda \* (\|\beta_1\| + \|\beta_2\| + ... + \|\beta_n\|)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;Objective%20Function%20%3D%20Log%20Loss%20%2B%20L_1%20%3D%20Log%20Loss%20%2B%20%5Clambda%20%2A%20%28%7C%5Cbeta_1%7C%20%2B%20%7C%5Cbeta_2%7C%20%2B%20...%20%2B%20%7C%5Cbeta_n%7C%29 "Objective Function = Log Loss + L_1 = Log Loss + \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)")
+$$Objective Function = Log Loss + L_1 = Log Loss + \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)$$
 
 ### Model
 
@@ -911,7 +888,7 @@ formula_lasso
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000001a1159f4818>
+    ## <environment: 0x0000026e70805c78>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
@@ -979,7 +956,7 @@ formula_classification_tree
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000001a1159f4818>
+    ## <environment: 0x0000026e70805c78>
 
 ``` r
 #Set up complexity parameter for tuneGrid
@@ -1044,9 +1021,7 @@ In `caret`, `mtry`is a tuning parameter for the number of variables. A
 general guideline is to tune up to the square root of the number of
 parameters. Here, the number of parameters corresponds to a summation
 across the parameters of number of levels-1.
-
-![Parameter = (2-1) + (2-1) +(4-1) + (2-1) + (5-1) + (2-1) + (13-1) = 23](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;Parameter%20%3D%20%282-1%29%20%2B%20%282-1%29%20%2B%284-1%29%20%2B%20%282-1%29%20%2B%20%285-1%29%20%2B%20%282-1%29%20%2B%20%2813-1%29%20%3D%2023 "Parameter = (2-1) + (2-1) +(4-1) + (2-1) + (5-1) + (2-1) + (13-1) = 23")
-
+$$Parameter = (2-1) + (2-1) +(4-1) + (2-1) + (5-1) + (2-1) + (13-1) = 23$$
 So the maximum value for `mtry` was set to 5.
 
 ### Model
@@ -1063,7 +1038,7 @@ formula_random_forest
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000001a1159f4818>
+    ## <environment: 0x0000026e70805c78>
 
 ``` r
 #Set up mtrys for tuneGrid
@@ -1114,22 +1089,17 @@ knitr::kable(random_forest_results, digits = 4, align = "ll")
 Ridge logistic regression is a penalized method for modelling. It is
 used in an attempt to balance accuracy and simplicity. The penalty
 (assuming n predictor variables) is calculated as
+$$L_2 = \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
 
-![L_2 = \frac{\lambda}{2} \* (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;L_2%20%3D%20%5Cfrac%7B%5Clambda%7D%7B2%7D%20%2A%20%28%5Cbeta_1%5E2%20%2B%20%5Cbeta_2%5E2%20%2B%20...%20%2B%20%5Cbeta_n%5E2%29 "L_2 = \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)")
-
-![\lambda](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Clambda "\lambda")
-is a complexity parameter. Larger values of
-![\lambda](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Clambda "\lambda")
-push more coefficients toward zero, while smaller values of
-![\lambda](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Clambda "\lambda")
-allow coefficients to remain larger. In ridge regression, coefficients
-will never be pushed all the way to zero.
+$\lambda$ is a complexity parameter. Larger values of $\lambda$ push
+more coefficients toward zero, while smaller values of $\lambda$ allow
+coefficients to remain larger. In ridge regression, coefficients will
+never be pushed all the way to zero.
 
 During the modelling the function that is minimized- referred to as the
 objective function- is the sum of the penalty function and the cost
 function (which for this logistic regression will be log loss).
-
-![Objective Function = Log Loss + L_2 = Log Loss + \frac{\lambda}{2} \* (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;Objective%20Function%20%3D%20Log%20Loss%20%2B%20L_2%20%3D%20Log%20Loss%20%2B%20%5Cfrac%7B%5Clambda%7D%7B2%7D%20%2A%20%28%5Cbeta_1%5E2%20%2B%20%5Cbeta_2%5E2%20%2B%20...%20%2B%20%5Cbeta_n%5E2%29 "Objective Function = Log Loss + L_2 = Log Loss + \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)")
+$$Objective Function = Log Loss + L_2 = Log Loss + \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
 
 Because L<sub>2</sub> does not include an intercept term, it is
 necessary to standardize numeric predictor variables appropriately.
@@ -1150,7 +1120,7 @@ formula_ridge
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000001a1159f4818>
+    ## <environment: 0x0000026e70805c78>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
@@ -1203,19 +1173,13 @@ absolute value of the coefficients of the predictors) from the LASSO
 method and the L<sub>2</sub> penalty (based on the square of the
 coefficients of the predictors) from the ridge method.
 
-For elastic net, the parameter
-![\alpha](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Calpha "\alpha")
-controls the balance between the L<sub>1</sub> and L<sub>2</sub>
-penalties.
+For elastic net, the parameter $\alpha$ controls the balance between the
+L<sub>1</sub> and L<sub>2</sub> penalties.
+$$ElasticNetPenalty = \alpha*L_1 + (1-\alpha)L_2 =$$
 
-![ElasticNetPenalty = \alpha\*L_1 + (1-\alpha)L_2 =](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;ElasticNetPenalty%20%3D%20%5Calpha%2AL_1%20%2B%20%281-%5Calpha%29L_2%20%3D "ElasticNetPenalty = \alpha*L_1 + (1-\alpha)L_2 =")
-
-![\alpha](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Calpha "\alpha")
-can range from 0 to 1. When
-![\alpha = 0](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Calpha%20%3D%200 "\alpha = 0"),
-elastic net is equivalent to ridge; when
-![\alpha = 1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Calpha%20%3D%201 "\alpha = 1"),
-elastic net is equivalent to LASSO.
+$\alpha$ can range from 0 to 1. When $\alpha = 0$, elastic net is
+equivalent to ridge; when $\alpha = 1$, elastic net is equivalent to
+LASSO.
 
 LASSO regression suffers from instability when predictors are collinear,
 arbitrarily selecting one predictor over another. Ridge regression may
@@ -1223,15 +1187,10 @@ keep too many predictors in a similar situation. Elastic net can strike
 a balance between the other two.
 
 While the LASSO and Ridge methods each only have one tuning parameter
-(called
-![\lambda](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Clambda "\lambda")),
-elastic net requires a two tuning parameters
-(![\alpha](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Calpha "\alpha")
-and
-![\lambda](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Clambda "\lambda")).
-Having two tuning parameters makes use of elastic net more
-time-consuming and computationally expensive then the LASSO and ridge
-methods.
+(called $\lambda$), elastic net requires a two tuning parameters
+($\alpha$ and $\lambda$). Having two tuning parameters makes use of
+elastic net more time-consuming and computationally expensive then the
+LASSO and ridge methods.
 
 ### Model
 
@@ -1247,7 +1206,7 @@ formula_elastic_net
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000001a1159f4818>
+    ## <environment: 0x0000026e70805c78>
 
 ``` r
 #Set up parameters for tuneGrid
@@ -1594,10 +1553,9 @@ any optimized model with a model that simply predicts the “most popular”
 status in the training data and assigns it to all observations in the
 “test” dataset. This comparison was performed. For “Pick the Most
 Popular” model, the Log Loss will always be infinity because the wrong
-points will have a penalty of (log(0) =
-![\infty](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cinfty "\infty")).
-Indeed one of the advantages of using Log Loss as the performance metric
-in “training” is that it will drive the model away from “most popular”.
+points will have a penalty of (log(0) = $\infty$). Indeed one of the
+advantages of using Log Loss as the performance metric in “training” is
+that it will drive the model away from “most popular”.
 
 ``` r
 # Determine Most Popular Diabetic Status in Training Dataset
