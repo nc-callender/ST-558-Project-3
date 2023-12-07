@@ -61,6 +61,10 @@ Yvette Callender
     Set](#selection-of-best-model-based-on-performance-with-test-set)
 - [Summary](#summary)
 
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
 ``` r
 EducationLevel <- c("Elementary", "Some High School","High School Graduate", "Some College or Technical School", "College Graduate")
 
@@ -723,7 +727,7 @@ formula_logistic_1
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000001c8fa2c91f8>
+    ## <environment: 0x000002742d2494b0>
 
 ``` r
 #for reproducibility
@@ -766,7 +770,7 @@ formula_logistic_2
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk
-    ## <environment: 0x000001c8fa2c91f8>
+    ## <environment: 0x000002742d2494b0>
 
 ``` r
 #for reproducibility
@@ -806,7 +810,7 @@ formula_logistic_3
 ```
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + GenHlth
-    ## <environment: 0x000001c8fa2c91f8>
+    ## <environment: 0x000002742d2494b0>
 
 ``` r
 #for reproducibility
@@ -888,7 +892,7 @@ formula_lasso
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000001c8fa2c91f8>
+    ## <environment: 0x000002742d2494b0>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
@@ -956,7 +960,7 @@ formula_classification_tree
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000001c8fa2c91f8>
+    ## <environment: 0x000002742d2494b0>
 
 ``` r
 #Set up complexity parameter for tuneGrid
@@ -1038,7 +1042,7 @@ formula_random_forest
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000001c8fa2c91f8>
+    ## <environment: 0x000002742d2494b0>
 
 ``` r
 #Set up mtrys for tuneGrid
@@ -1120,7 +1124,7 @@ formula_ridge
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000001c8fa2c91f8>
+    ## <environment: 0x000002742d2494b0>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
@@ -1206,7 +1210,7 @@ formula_elastic_net
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000001c8fa2c91f8>
+    ## <environment: 0x000002742d2494b0>
 
 ``` r
 #Set up parameters for tuneGrid

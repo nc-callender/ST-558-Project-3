@@ -8,8 +8,12 @@ output:
         toc: TRUE
         toc_depth: 3
 params: 
-    EducationLevel: "Elementary"
+    EducationLevel: "High School Graduate"
 ---
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
