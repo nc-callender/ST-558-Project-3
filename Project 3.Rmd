@@ -465,6 +465,7 @@ diabetes_data_subset_test <- diabetes_data_subset[-trainIndex,]
 [Reference](https://www.youtube.com/watch?v=MztgenIfGgM)  
 
 Logarithmic loss (or log loss or cross-entropy loss) is a performance measure for a binary classification model which outputs a probability between 0 and 1.  Values for log loss can range from 0 to $$\infty$$ infinity, with 0 representing a perfect model.  The equation for determining Log Loss is:  
+
 $$ LogLoss = -\frac{1}{N}\sum_{i=1}^{N} (y_ilog(p(y_i))+(1-y_i)log (1-p(y_i)) $$
 
 
@@ -480,7 +481,9 @@ Log loss analysis can be incorporated into `caret` by setting the `metric = logl
 ### Description
 
 Logistic Regression is a method used on dataset where the response (dependent) variable is binary. The response variable is fit as a logistic sigmoid function of independent variables which can be continuous or binary.  The general form of the equation is  
+
 $$ y= \frac{1}{1+e^{-X}}$$
+  
 where  X is a vector containing all the predictor variables.  The range of this function is 0-1, which works well with a binary dependent variable.  
 The logistic function is linked to the X vector with the logit function.  
 
@@ -612,6 +615,7 @@ Least Absolute Shrinkage and Selection Operator (LASSO) is a penalized method fo
 $$\lambda$$ is a tuning parameter.  Larger values of $$\lambda$$ push more coefficients to zero- leading to sparser models, while smaller values of $$\lambda$$ allow more non-zero coefficients- corresponding to more complex models. 
 
 During the modelling the function that is minimized- referred to as the objective function- is the sum of the penalty function and the cost function (which for this logistic regression will be log loss).  
+
 $$Objective Function = Log Loss + L_1 = Log Loss + \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)$$
 
 
@@ -710,6 +714,7 @@ Random forest is a tree-based method of modeling.  It uses multiple decision tre
 While classification trees are prone to overfitting the data (making it conform too tightly to the training set), that risk is reduced in a random forest model due to the averaging of results from uncorrelated trees.  Another advantage of random forest over classification trees is that it is easier to evaluate the importance of different predictor variables.  
 
 In `caret`, `mtry`is a tuning parameter for the number of variables.  A general guideline is to tune up to the square root of the number of parameters. Here, the number of parameters corresponds to a summation across the parameters of number of levels-1.   
+
 $$Parameter = (2-1) + (2-1) +(4-1) + (2-1) + (5-1) + (2-1) + (13-1) = 23$$
   
   So the maximum value for `mtry` was set to 5.
@@ -766,7 +771,8 @@ Ridge logistic regression is a penalized method for modelling. It is used in an 
 
 $$\lambda$$ is a complexity parameter.  Larger values of $$\lambda$$ push more coefficients toward zero, while smaller values of $$\lambda$$ allow coefficients to remain larger.  In ridge regression, coefficients will never be pushed all the way to zero.
 
-During the modelling the function that is minimized- referred to as the objective function- is the sum of the penalty function and the cost function (which for this logistic regression will be log loss).   $$Objective Function = Log Loss + L_2 = Log Loss + \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
+During the modelling the function that is minimized- referred to as the objective function- is the sum of the penalty function and the cost function (which for this logistic regression will be log loss).  
+  $$Objective Function = Log Loss + L_2 = Log Loss + \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
 
 Because L~2~ does not include an intercept term, it is necessary to standardize numeric predictor variables appropriately.  Since all the variables here are categorical, no pre-processing is necessary.
 
@@ -820,7 +826,8 @@ knitr::kable(ridge_results, digits = 4, align = "ll")
 Elastic net regression is a penalized method for modelling.  Its penalty is equal to a combination of the L~1~  penalty (based on the absolute value of the coefficients of the predictors) from the LASSO method and the L~2~ penalty (based on the square of the coefficients of the predictors) from the ridge method.  
 
 For elastic net, the parameter $$\alpha$$ controls the balance between the L~1~ and L~2~ penalties.  
-$$ElasticNetPenalty = \alpha*L_1 + (1-\alpha)L_2 =$$
+  
+$$ElasticNetPenalty = \alpha*L_1 + (1-\alpha)L_2 $$
 
 $$\alpha$$ can range from 0 to 1.  When $$\alpha = 0$$, elastic net is equivalent to ridge; when $$\alpha = 1$$, elastic net is equivalent to LASSO.
 
@@ -1120,7 +1127,7 @@ knitr::kable(test_results_elastic_net, digits = 4, col.names = c("Method", "Log 
 
 ## "Pick the Most Popular" Model
 
-The diabetes dataset was unbalanced with regard to diabetes status.  When the data is unbalanced, it is reasonable to compare the performance of any optimized model with a model that simply predicts the "most popular" status in the training data and assigns it to all observations in the "test" dataset. This comparison was performed.  For "Pick the Most Popular" model, the Log Loss will always be infinity because the wrong points will have a penalty of (log(0) = $\infty$). Indeed one of the advantages of using Log Loss as the performance metric in "training" is that it will drive the model away from "most popular".  
+The diabetes dataset was unbalanced with regard to diabetes status.  When the data is unbalanced, it is reasonable to compare the performance of any optimized model with a model that simply predicts the "most popular" status in the training data and assigns it to all observations in the "test" dataset. This comparison was performed.  For "Pick the Most Popular" model, the Log Loss will always be infinity because the wrong points will have a penalty of (log(0) = $$\infty$$). Indeed one of the advantages of using Log Loss as the performance metric in "training" is that it will drive the model away from "most popular".  
 
 ```{r, Most Popular Model}
 # Determine Most Popular Diabetic Status in Training Dataset
