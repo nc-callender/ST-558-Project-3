@@ -670,8 +670,9 @@ Logarithmic loss (or log loss or cross-entropy loss) is a performance
 measure for a binary classification model which outputs a probability
 between 0 and 1. Values for log loss can range from 0 to $\infty$
 infinity, with 0 representing a perfect model. The equation for
-determining Log Loss is:
+determining Log Loss is:  
 $$ LogLoss = -\frac{1}{N}\sum_{i=1}^{N} (y_ilog(p(y_i))+(1-y_i)log (1-p(y_i)) $$
+
 It has a desirable feature of being convex and having a single global
 minimum. This is in contrast to the MSE (mean square error) function
 used in linear regression which is not convex and can have many local
@@ -701,7 +702,8 @@ continuous or binary. The general form of the equation is
 $$ y= \frac{1}{1+e^{-X}}$$ where X is a vector containing all the
 predictor variables. The range of this function is 0-1, which works well
 with a binary dependent variable.  
-The logistic function is linked to the X vector with the logit function.
+The logistic function is linked to the X vector with the logit
+function.  
 $$log\frac{p}{1-p}=\beta_0 + \beta_1x_1 + \beta_2x_2+ ...+ \beta_px_p$$
 
 ### Model 1
@@ -727,7 +729,7 @@ formula_logistic_1
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d47c757b0>
+    ## <environment: 0x0000026d61790dc0>
 
 ``` r
 #for reproducibility
@@ -770,7 +772,7 @@ formula_logistic_2
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk
-    ## <environment: 0x0000026d47c757b0>
+    ## <environment: 0x0000026d61790dc0>
 
 ``` r
 #for reproducibility
@@ -810,7 +812,7 @@ formula_logistic_3
 ```
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + GenHlth
-    ## <environment: 0x0000026d47c757b0>
+    ## <environment: 0x0000026d61790dc0>
 
 ``` r
 #for reproducibility
@@ -892,7 +894,7 @@ formula_lasso
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d47c757b0>
+    ## <environment: 0x0000026d61790dc0>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
@@ -960,7 +962,7 @@ formula_classification_tree
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d47c757b0>
+    ## <environment: 0x0000026d61790dc0>
 
 ``` r
 #Set up complexity parameter for tuneGrid
@@ -1024,7 +1026,7 @@ variables.
 In `caret`, `mtry`is a tuning parameter for the number of variables. A
 general guideline is to tune up to the square root of the number of
 parameters. Here, the number of parameters corresponds to a summation
-across the parameters of number of levels-1.
+across the parameters of number of levels-1.  
 $$Parameter = (2-1) + (2-1) +(4-1) + (2-1) + (5-1) + (2-1) + (13-1) = 23$$
 So the maximum value for `mtry` was set to 5.
 
@@ -1042,7 +1044,7 @@ formula_random_forest
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d47c757b0>
+    ## <environment: 0x0000026d61790dc0>
 
 ``` r
 #Set up mtrys for tuneGrid
@@ -1124,7 +1126,7 @@ formula_ridge
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d47c757b0>
+    ## <environment: 0x0000026d61790dc0>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
@@ -1210,7 +1212,7 @@ formula_elastic_net
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d47c757b0>
+    ## <environment: 0x0000026d61790dc0>
 
 ``` r
 #Set up parameters for tuneGrid
