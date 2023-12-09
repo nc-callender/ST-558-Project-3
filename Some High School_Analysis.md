@@ -2,7 +2,7 @@ Project 3: Modelling of Diabetes Data for Patients with Education = Some
 High School
 ================
 Yvette Callender
-2023-12-07
+2023-12-09
 
 - [Introduction](#introduction)
   - [Data](#data)
@@ -288,7 +288,7 @@ figure1 + geom_bar() +
           title = "Figure 1. Diabetes Status Distribution")
 ```
 
-![](SOMEHI~1/figure-gfm/Figure-1-1.png)<!-- -->
+![](Some%20High%20School_Analysis_files/figure-gfm/Figure-1-1.png)<!-- -->
 
 ## Predictor variable: `HighBP`
 
@@ -332,7 +332,7 @@ figure2 + geom_bar(aes(fill = HighBP)) +
     guides(fill = guide_legend(title = "Blood Pressure"))
 ```
 
-![](SOMEHI~1/figure-gfm/Figure-2-1.png)<!-- -->
+![](Some%20High%20School_Analysis_files/figure-gfm/Figure-2-1.png)<!-- -->
 
 ## Predictor variable: `HighChol`
 
@@ -376,7 +376,7 @@ figure3 + geom_bar(aes(fill = HighChol)) +
     guides(fill = guide_legend(title = "Cholesterol"))
 ```
 
-![](SOMEHI~1/figure-gfm/Figure-3-1.png)<!-- -->
+![](Some%20High%20School_Analysis_files/figure-gfm/Figure-3-1.png)<!-- -->
 
 ## Predictor variable: `BMI`
 
@@ -413,7 +413,7 @@ figure4<-ggplot() +
 figure4
 ```
 
-![](SOMEHI~1/figure-gfm/Figure%204-1.png)<!-- -->
+![](Some%20High%20School_Analysis_files/figure-gfm/Figure%204-1.png)<!-- -->
 
 Based on [Center for Diseased Control
 guidelines](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html),
@@ -431,7 +431,7 @@ figure5 + geom_bar() +
           title = "Figure 5. BMI Classification Distribution")
 ```
 
-![](SOMEHI~1/figure-gfm/Figure-5-1.png)<!-- -->
+![](Some%20High%20School_Analysis_files/figure-gfm/Figure-5-1.png)<!-- -->
 
 The effect of BMI on the relative amounts of nondiabetics versus
 diabetics is shown here.
@@ -447,7 +447,7 @@ figure6 + geom_bar(aes(fill = Diabetes_binary), position = "dodge") +
     guides(fill = guide_legend(title = "Diabetes Status"))
 ```
 
-![](SOMEHI~1/figure-gfm/Figure-6-1.png)<!-- -->
+![](Some%20High%20School_Analysis_files/figure-gfm/Figure-6-1.png)<!-- -->
 
 ## Predictor variable: `HeartDiseaseorAttack`
 
@@ -492,7 +492,7 @@ figure7 + geom_bar(aes(fill = HeartDiseaseorAttack)) +
     guides(fill = guide_legend(title = "History of Heart Trouble"))
 ```
 
-![](SOMEHI~1/figure-gfm/Figure-7-1.png)<!-- -->
+![](Some%20High%20School_Analysis_files/figure-gfm/Figure-7-1.png)<!-- -->
 
 ## Predictor variable: `GenHlth`
 
@@ -540,7 +540,7 @@ figure8 + geom_bar(aes(fill = Diabetes_binary), position = "dodge") +
     guides(fill = guide_legend(title = "Diabetes Status"))
 ```
 
-![](SOMEHI~1/figure-gfm/Figure-8-1.png)<!-- -->
+![](Some%20High%20School_Analysis_files/figure-gfm/Figure-8-1.png)<!-- -->
 
 ## Predictor variable: `DiffWalk`
 
@@ -585,7 +585,7 @@ figure9 + geom_bar(aes(fill = DiffWalk), position = "dodge") +
       guides(fill = guide_legend(title = " "))
 ```
 
-![](SOMEHI~1/figure-gfm/Figure-9-1.png)<!-- -->
+![](Some%20High%20School_Analysis_files/figure-gfm/Figure-9-1.png)<!-- -->
 
 ## Predictor variable: `Age`
 
@@ -640,7 +640,7 @@ figure10 + geom_bar(aes(fill = Diabetes_binary), position = "dodge") +
     guides(fill = guide_legend(title = "Diabetes Status "))
 ```
 
-![](SOMEHI~1/figure-gfm/Figure-10-1.png)<!-- -->
+![](Some%20High%20School_Analysis_files/figure-gfm/Figure-10-1.png)<!-- -->
 
 # Modeling
 
@@ -727,7 +727,7 @@ formula_logistic_1
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000002742ee300e8>
+    ## <environment: 0x0000026d5f561040>
 
 ``` r
 #for reproducibility
@@ -770,7 +770,7 @@ formula_logistic_2
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk
-    ## <environment: 0x000002742ee300e8>
+    ## <environment: 0x0000026d5f561040>
 
 ``` r
 #for reproducibility
@@ -810,7 +810,7 @@ formula_logistic_3
 ```
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + GenHlth
-    ## <environment: 0x000002742ee300e8>
+    ## <environment: 0x0000026d5f561040>
 
 ``` r
 #for reproducibility
@@ -892,7 +892,7 @@ formula_lasso
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000002742ee300e8>
+    ## <environment: 0x0000026d5f561040>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
@@ -960,7 +960,7 @@ formula_classification_tree
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000002742ee300e8>
+    ## <environment: 0x0000026d5f561040>
 
 ``` r
 #Set up complexity parameter for tuneGrid
@@ -1042,7 +1042,7 @@ formula_random_forest
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000002742ee300e8>
+    ## <environment: 0x0000026d5f561040>
 
 ``` r
 #Set up mtrys for tuneGrid
@@ -1124,7 +1124,7 @@ formula_ridge
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000002742ee300e8>
+    ## <environment: 0x0000026d5f561040>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
@@ -1210,7 +1210,7 @@ formula_elastic_net
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x000002742ee300e8>
+    ## <environment: 0x0000026d5f561040>
 
 ``` r
 #Set up parameters for tuneGrid
