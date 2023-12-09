@@ -672,7 +672,7 @@ diabetes_data_subset_test <- diabetes_data_subset[-trainIndex,]
 
 Logarithmic loss (or log loss or cross-entropy loss) is a performance
 measure for a binary classification model which outputs a probability
-between 0 and 1. Values for log loss can range from 0 to $\infty$
+between 0 and 1. Values for log loss can range from 0 to $$\infty$$
 infinity, with 0 representing a perfect model. The equation for
 determining Log Loss is:  
 $$ LogLoss = -\frac{1}{N}\sum_{i=1}^{N} (y_ilog(p(y_i))+(1-y_i)log (1-p(y_i)) $$
@@ -733,7 +733,7 @@ formula_logistic_1
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d4dd07770>
+    ## <environment: 0x0000026d66674c68>
 
 ``` r
 #for reproducibility
@@ -776,7 +776,7 @@ formula_logistic_2
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk
-    ## <environment: 0x0000026d4dd07770>
+    ## <environment: 0x0000026d66674c68>
 
 ``` r
 #for reproducibility
@@ -816,7 +816,7 @@ formula_logistic_3
 ```
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + GenHlth
-    ## <environment: 0x0000026d4dd07770>
+    ## <environment: 0x0000026d66674c68>
 
 ``` r
 #for reproducibility
@@ -898,7 +898,7 @@ formula_lasso
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d4dd07770>
+    ## <environment: 0x0000026d66674c68>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
@@ -966,7 +966,7 @@ formula_classification_tree
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d4dd07770>
+    ## <environment: 0x0000026d66674c68>
 
 ``` r
 #Set up complexity parameter for tuneGrid
@@ -1032,6 +1032,7 @@ general guideline is to tune up to the square root of the number of
 parameters. Here, the number of parameters corresponds to a summation
 across the parameters of number of levels-1.  
 $$Parameter = (2-1) + (2-1) +(4-1) + (2-1) + (5-1) + (2-1) + (13-1) = 23$$
+
 So the maximum value for `mtry` was set to 5.
 
 ### Model
@@ -1184,7 +1185,7 @@ method and the L<sub>2</sub> penalty (based on the square of the
 coefficients of the predictors) from the ridge method.
 
 For elastic net, the parameter $$\alpha$$ controls the balance between
-the L<sub>1</sub> and L<sub>2</sub> penalties.
+the L<sub>1</sub> and L<sub>2</sub> penalties.  
 $$ElasticNetPenalty = \alpha*L_1 + (1-\alpha)L_2 =$$
 
 $$\alpha$$ can range from 0 to 1. When $$\alpha = 0$$, elastic net is
@@ -1197,7 +1198,7 @@ keep too many predictors in a similar situation. Elastic net can strike
 a balance between the other two.
 
 While the LASSO and Ridge methods each only have one tuning parameter
-(called $\lambda$), elastic net requires a two tuning parameters
+(called $$\lambda$$), elastic net requires a two tuning parameters
 ($$\alpha$$ and $$\lambda$$). Having two tuning parameters makes use of
 elastic net more time-consuming and computationally expensive then the
 LASSO and ridge methods.
