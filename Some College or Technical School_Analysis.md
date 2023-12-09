@@ -737,7 +737,7 @@ formula_logistic_1
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d576e9238>
+    ## <environment: 0x0000026d54c75d78>
 
 ``` r
 #for reproducibility
@@ -780,7 +780,7 @@ formula_logistic_2
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk
-    ## <environment: 0x0000026d576e9238>
+    ## <environment: 0x0000026d54c75d78>
 
 ``` r
 #for reproducibility
@@ -820,7 +820,7 @@ formula_logistic_3
 ```
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + GenHlth
-    ## <environment: 0x0000026d576e9238>
+    ## <environment: 0x0000026d54c75d78>
 
 ``` r
 #for reproducibility
@@ -903,7 +903,7 @@ formula_lasso
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d576e9238>
+    ## <environment: 0x0000026d54c75d78>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
@@ -971,7 +971,7 @@ formula_classification_tree
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d576e9238>
+    ## <environment: 0x0000026d54c75d78>
 
 ``` r
 #Set up complexity parameter for tuneGrid
@@ -1105,7 +1105,8 @@ knitr::kable(random_forest_results, digits = 4, align = "ll")
 
 Ridge logistic regression is a penalized method for modelling. It is
 used in an attempt to balance accuracy and simplicity. The penalty
-(assuming n predictor variables) is calculated as  
+(assuming n predictor variables) is calculated as
+
 $$L_2 = \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
 
 $$\lambda$$ is a complexity parameter. Larger values of $$\lambda$$ push

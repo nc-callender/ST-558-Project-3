@@ -768,6 +768,7 @@ knitr::kable(random_forest_results, digits = 4, align = "ll")
 
 ### Description
 Ridge logistic regression is a penalized method for modelling. It is used in an attempt to balance accuracy and simplicity.  The penalty (assuming n predictor variables) is calculated as  
+
 $$L_2 = \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
 
 $$\lambda$$ is a complexity parameter.  Larger values of $$\lambda$$ push more coefficients toward zero, while smaller values of $$\lambda$$ allow coefficients to remain larger.  In ridge regression, coefficients will never be pushed all the way to zero.
