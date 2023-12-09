@@ -767,11 +767,13 @@ knitr::kable(random_forest_results, digits = 4, align = "ll")
 [Reference](https://www.cvxpy.org/examples/machine_learning/ridge_regression.html)  
 
 ### Description
-Ridge logistic regression is a penalized method for modelling. It is used in an attempt to balance accuracy and simplicity.  The penalty (assuming n predictor variables) is calculated as   $$L_2 = \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
+Ridge logistic regression is a penalized method for modelling. It is used in an attempt to balance accuracy and simplicity.  The penalty (assuming n predictor variables) is calculated as  
+$$L_2 = \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
 
 $$\lambda$$ is a complexity parameter.  Larger values of $$\lambda$$ push more coefficients toward zero, while smaller values of $$\lambda$$ allow coefficients to remain larger.  In ridge regression, coefficients will never be pushed all the way to zero.
 
 During the modelling the function that is minimized- referred to as the objective function- is the sum of the penalty function and the cost function (which for this logistic regression will be log loss).  
+
   $$Objective Function = Log Loss + L_2 = Log Loss + \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
 
 Because L~2~ does not include an intercept term, it is necessary to standardize numeric predictor variables appropriately.  Since all the variables here are categorical, no pre-processing is necessary.

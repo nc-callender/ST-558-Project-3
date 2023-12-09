@@ -737,7 +737,7 @@ formula_logistic_1
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d5393ef98>
+    ## <environment: 0x0000026d5290bb60>
 
 ``` r
 #for reproducibility
@@ -780,7 +780,7 @@ formula_logistic_2
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk
-    ## <environment: 0x0000026d5393ef98>
+    ## <environment: 0x0000026d5290bb60>
 
 ``` r
 #for reproducibility
@@ -820,7 +820,7 @@ formula_logistic_3
 ```
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + GenHlth
-    ## <environment: 0x0000026d5393ef98>
+    ## <environment: 0x0000026d5290bb60>
 
 ``` r
 #for reproducibility
@@ -903,7 +903,7 @@ formula_lasso
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d5393ef98>
+    ## <environment: 0x0000026d5290bb60>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
@@ -971,7 +971,7 @@ formula_classification_tree
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d5393ef98>
+    ## <environment: 0x0000026d5290bb60>
 
 ``` r
 #Set up complexity parameter for tuneGrid
@@ -1105,7 +1105,7 @@ knitr::kable(random_forest_results, digits = 4, align = "ll")
 
 Ridge logistic regression is a penalized method for modelling. It is
 used in an attempt to balance accuracy and simplicity. The penalty
-(assuming n predictor variables) is calculated as
+(assuming n predictor variables) is calculated as  
 $$L_2 = \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
 
 $$\lambda$$ is a complexity parameter. Larger values of $$\lambda$$ push
@@ -1115,7 +1115,8 @@ never be pushed all the way to zero.
 
 During the modelling the function that is minimized- referred to as the
 objective function- is the sum of the penalty function and the cost
-function (which for this logistic regression will be log loss).  
+function (which for this logistic regression will be log loss).
+
 $$Objective Function = Log Loss + L_2 = Log Loss + \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
 
 Because L<sub>2</sub> does not include an intercept term, it is
