@@ -66,6 +66,10 @@ Yvette Callender
 </script>
 
 ``` r
+knitr::opts_chunk$set(echo = TRUE, fig.path=paste0('Figs/', params$Education_Level, '/'), warning = FALSE, message = FALSE)
+```
+
+``` r
 EducationLevel <- c("Elementary", "Some High School","High School Graduate", "Some College or Technical School", "College Graduate")
 
 output_file <- paste0(EducationLevel, "_Analysis.md")
@@ -288,7 +292,7 @@ figure1 + geom_bar() +
           title = "Figure 1. Diabetes Status Distribution")
 ```
 
-![](SOMEHI~1/figure-gfm/Figure-1-1.png)<!-- -->
+![](Figs//Figure-1-1.png)<!-- -->
 
 ## Predictor variable: `HighBP`
 
@@ -332,7 +336,7 @@ figure2 + geom_bar(aes(fill = HighBP)) +
     guides(fill = guide_legend(title = "Blood Pressure"))
 ```
 
-![](SOMEHI~1/figure-gfm/Figure-2-1.png)<!-- -->
+![](Figs//Figure-2-1.png)<!-- -->
 
 ## Predictor variable: `HighChol`
 
@@ -376,7 +380,7 @@ figure3 + geom_bar(aes(fill = HighChol)) +
     guides(fill = guide_legend(title = "Cholesterol"))
 ```
 
-![](SOMEHI~1/figure-gfm/Figure-3-1.png)<!-- -->
+![](Figs//Figure-3-1.png)<!-- -->
 
 ## Predictor variable: `BMI`
 
@@ -413,7 +417,7 @@ figure4<-ggplot() +
 figure4
 ```
 
-![](SOMEHI~1/figure-gfm/Figure%204-1.png)<!-- -->
+![](Figs//Figure%204-1.png)<!-- -->
 
 Based on [Center for Diseased Control
 guidelines](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html),
@@ -431,7 +435,7 @@ figure5 + geom_bar() +
           title = "Figure 5. BMI Classification Distribution")
 ```
 
-![](SOMEHI~1/figure-gfm/Figure-5-1.png)<!-- -->
+![](Figs//Figure-5-1.png)<!-- -->
 
 The effect of BMI on the relative amounts of nondiabetics versus
 diabetics is shown here.
@@ -447,7 +451,7 @@ figure6 + geom_bar(aes(fill = Diabetes_binary), position = "dodge") +
     guides(fill = guide_legend(title = "Diabetes Status"))
 ```
 
-![](SOMEHI~1/figure-gfm/Figure-6-1.png)<!-- -->
+![](Figs//Figure-6-1.png)<!-- -->
 
 ## Predictor variable: `HeartDiseaseorAttack`
 
@@ -492,7 +496,7 @@ figure7 + geom_bar(aes(fill = HeartDiseaseorAttack)) +
     guides(fill = guide_legend(title = "History of Heart Trouble"))
 ```
 
-![](SOMEHI~1/figure-gfm/Figure-7-1.png)<!-- -->
+![](Figs//Figure-7-1.png)<!-- -->
 
 ## Predictor variable: `GenHlth`
 
@@ -540,7 +544,7 @@ figure8 + geom_bar(aes(fill = Diabetes_binary), position = "dodge") +
     guides(fill = guide_legend(title = "Diabetes Status"))
 ```
 
-![](SOMEHI~1/figure-gfm/Figure-8-1.png)<!-- -->
+![](Figs//Figure-8-1.png)<!-- -->
 
 ## Predictor variable: `DiffWalk`
 
@@ -585,7 +589,7 @@ figure9 + geom_bar(aes(fill = DiffWalk), position = "dodge") +
       guides(fill = guide_legend(title = " "))
 ```
 
-![](SOMEHI~1/figure-gfm/Figure-9-1.png)<!-- -->
+![](Figs//Figure-9-1.png)<!-- -->
 
 ## Predictor variable: `Age`
 
@@ -640,7 +644,7 @@ figure10 + geom_bar(aes(fill = Diabetes_binary), position = "dodge") +
     guides(fill = guide_legend(title = "Diabetes Status "))
 ```
 
-![](SOMEHI~1/figure-gfm/Figure-10-1.png)<!-- -->
+![](Figs//Figure-10-1.png)<!-- -->
 
 # Modeling
 
@@ -698,12 +702,12 @@ Log loss analysis can be incorporated into `caret` by setting the
 Logistic Regression is a method used on dataset where the response
 (dependent) variable is binary. The response variable is fit as a
 logistic sigmoid function of independent variables which can be
-continuous or binary. The general form of the equation is
+continuous or binary. The general form of the equation is  
 $$ y= \frac{1}{1+e^{-X}}$$ where X is a vector containing all the
 predictor variables. The range of this function is 0-1, which works well
 with a binary dependent variable.  
-The logistic function is linked to the X vector with the logit
-function.  
+The logistic function is linked to the X vector with the logit function.
+
 $$log\frac{p}{1-p}=\beta_0 + \beta_1x_1 + \beta_2x_2+ ...+ \beta_px_p$$
 
 ### Model 1
@@ -729,7 +733,7 @@ formula_logistic_1
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d52f57078>
+    ## <environment: 0x0000026d5168aaf0>
 
 ``` r
 #for reproducibility
@@ -772,7 +776,7 @@ formula_logistic_2
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk
-    ## <environment: 0x0000026d52f57078>
+    ## <environment: 0x0000026d5168aaf0>
 
 ``` r
 #for reproducibility
@@ -812,7 +816,7 @@ formula_logistic_3
 ```
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + GenHlth
-    ## <environment: 0x0000026d52f57078>
+    ## <environment: 0x0000026d5168aaf0>
 
 ``` r
 #for reproducibility
@@ -870,14 +874,14 @@ method for modelling. It is used in an attempt to balance accuracy and
 simplicity. The penalty (assuming n predictor variables) is calculated
 as $$L_1 = \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)$$
 
-$\lambda$ is a tuning parameter. Larger values of $\lambda$ push more
-coefficients to zero- leading to sparser models, while smaller values of
-$\lambda$ allow more non-zero coefficients- corresponding to more
-complex models.
+$$\lambda$$ is a tuning parameter. Larger values of $$\lambda$$ push
+more coefficients to zero- leading to sparser models, while smaller
+values of $$\lambda$$ allow more non-zero coefficients- corresponding to
+more complex models.
 
 During the modelling the function that is minimized- referred to as the
 objective function- is the sum of the penalty function and the cost
-function (which for this logistic regression will be log loss).
+function (which for this logistic regression will be log loss).  
 $$Objective Function = Log Loss + L_1 = Log Loss + \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)$$
 
 ### Model
@@ -894,7 +898,7 @@ formula_lasso
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d52f57078>
+    ## <environment: 0x0000026d5168aaf0>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
@@ -962,7 +966,7 @@ formula_classification_tree
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d52f57078>
+    ## <environment: 0x0000026d5168aaf0>
 
 ``` r
 #Set up complexity parameter for tuneGrid
@@ -1044,7 +1048,7 @@ formula_random_forest
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d52f57078>
+    ## <environment: 0x0000026d4e118938>
 
 ``` r
 #Set up mtrys for tuneGrid
@@ -1070,7 +1074,7 @@ fit_random_forest <- train(formula_random_forest,
 fit_random_forest$bestTune$mtry
 ```
 
-    ## [1] 5
+    ## [1] 4
 
 ``` r
 #Extract logLoss and store with method to facilitate comparison
@@ -1084,7 +1088,7 @@ knitr::kable(random_forest_results, digits = 4, align = "ll")
 
 | Method        | logLoss |
 |:--------------|:--------|
-| Random Forest | 1.4083  |
+| Random Forest | 1.0002  |
 
 ## Ridge Logistic Regression
 
@@ -1097,8 +1101,8 @@ used in an attempt to balance accuracy and simplicity. The penalty
 (assuming n predictor variables) is calculated as
 $$L_2 = \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
 
-$\lambda$ is a complexity parameter. Larger values of $\lambda$ push
-more coefficients toward zero, while smaller values of $\lambda$ allow
+$$\lambda$$ is a complexity parameter. Larger values of $$\lambda$$ push
+more coefficients toward zero, while smaller values of $$\lambda$$ allow
 coefficients to remain larger. In ridge regression, coefficients will
 never be pushed all the way to zero.
 
@@ -1126,7 +1130,7 @@ formula_ridge
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d52f57078>
+    ## <environment: 0x0000026d4e118938>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
@@ -1151,7 +1155,7 @@ fit_ridge <- train(formula_ridge,
 fit_ridge$bestTune$lambda
 ```
 
-    ## [1] 0.01
+    ## [1] 0.01995262
 
 ``` r
 #Extract logLoss and store with method to facilitate comparison
@@ -1165,7 +1169,7 @@ knitr::kable(ridge_results, digits = 4, align = "ll")
 
 | Method | logLoss |
 |:-------|:--------|
-| Ridge  | 0.4791  |
+| Ridge  | 0.5165  |
 
 ## Elastic Net Logistic Regression
 
@@ -1179,12 +1183,12 @@ absolute value of the coefficients of the predictors) from the LASSO
 method and the L<sub>2</sub> penalty (based on the square of the
 coefficients of the predictors) from the ridge method.
 
-For elastic net, the parameter $\alpha$ controls the balance between the
-L<sub>1</sub> and L<sub>2</sub> penalties.
+For elastic net, the parameter $$\alpha$$ controls the balance between
+the L<sub>1</sub> and L<sub>2</sub> penalties.
 $$ElasticNetPenalty = \alpha*L_1 + (1-\alpha)L_2 =$$
 
-$\alpha$ can range from 0 to 1. When $\alpha = 0$, elastic net is
-equivalent to ridge; when $\alpha = 1$, elastic net is equivalent to
+$$\alpha$$ can range from 0 to 1. When $$\alpha = 0$$, elastic net is
+equivalent to ridge; when $$\alpha = 1$$, elastic net is equivalent to
 LASSO.
 
 LASSO regression suffers from instability when predictors are collinear,
@@ -1194,7 +1198,7 @@ a balance between the other two.
 
 While the LASSO and Ridge methods each only have one tuning parameter
 (called $\lambda$), elastic net requires a two tuning parameters
-($\alpha$ and $\lambda$). Having two tuning parameters makes use of
+($$\alpha$$ and $$\lambda$$). Having two tuning parameters makes use of
 elastic net more time-consuming and computationally expensive then the
 LASSO and ridge methods.
 
@@ -1212,7 +1216,7 @@ formula_elastic_net
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d52f57078>
+    ## <environment: 0x0000026d4e118938>
 
 ``` r
 #Set up parameters for tuneGrid
@@ -1238,14 +1242,14 @@ fit_elastic_net <- train(formula_elastic_net,
 fit_elastic_net$bestTune$alpha
 ```
 
-    ## [1] 0.1
+    ## [1] 0
 
 ``` r
 #Best lambda after tuning
 fit_elastic_net$bestTune$lambda
 ```
 
-    ## [1] 0.0002511886
+    ## [1] 0.01584893
 
 ``` r
 #Extract logLoss and store with method to facilitate comparison
@@ -1260,7 +1264,7 @@ knitr::kable(elastic_net_results, digits = 4, align = "ll")
 
 | Method      | logLoss |
 |:------------|:--------|
-| Elastic Net | 0.4781  |
+| Elastic Net | 0.5166  |
 
 ## Final Model Comparison using Log Loss from Cross Validation
 
@@ -1280,15 +1284,15 @@ knitr::kable(comparison_results, digits = 4, align = "ll", col.names = c("Method
 
 | Method              | Log Loss |
 |:--------------------|:---------|
-| Elastic Net         | 0.4781   |
 | LASSO               | 0.4782   |
-| Ridge               | 0.4791   |
 | Logistic            | 0.4796   |
 | Classification Tree | 0.5027   |
-| Random Forest       | 1.4083   |
+| Ridge               | 0.5165   |
+| Elastic Net         | 0.5166   |
+| Random Forest       | 1.0002   |
 
 Of the models studied, the “best model”, exhibiting the lowest log loss
-during cross validation is **Elastic Net** with log loss = 0.4781.
+during cross validation is **LASSO** with log loss = 0.4782.
 
 # Applying Models to Test Set
 
@@ -1469,7 +1473,7 @@ knitr::kable(test_results_random_forest, digits = 4,
 
 | Method        | Log Loss | Accuracy |
 |:--------------|---------:|---------:|
-| Random Forest |      Inf |   0.7618 |
+| Random Forest |      Inf |   0.7583 |
 
 ## Ridge Regression
 
@@ -1509,7 +1513,7 @@ knitr::kable(test_results_ridge, digits = 4, col.names = c("Method", "Log Loss",
 
 | Method | Log Loss | Accuracy |
 |:-------|---------:|---------:|
-| Ridge  |   0.4697 |   0.7671 |
+| Ridge  |   0.4734 |    0.766 |
 
 ## Elastic Net Regression
 
@@ -1549,7 +1553,7 @@ knitr::kable(test_results_elastic_net, digits = 4, col.names = c("Method", "Log 
 
 | Method      | Log Loss | Accuracy |
 |:------------|---------:|---------:|
-| Elastic Net |   0.4691 |   0.7653 |
+| Elastic Net |   0.4732 |    0.766 |
 
 ## “Pick the Most Popular” Model
 
@@ -1609,17 +1613,17 @@ knitr::kable(comparison_results_test, digits = 4,
 
 | Method              | Log Loss | Accuracy | Relative Accuracy (Rel to to Most Popular) |
 |:--------------------|---------:|---------:|-------------------------------------------:|
-| Ridge               |   0.4697 |   0.7671 |                                     1.0121 |
 | Logistic            |   0.4702 |   0.7664 |                                     1.0111 |
+| Ridge               |   0.4734 |   0.7660 |                                     1.0107 |
+| Elastic Net         |   0.4732 |   0.7660 |                                     1.0107 |
 | LASSO               |   0.4691 |   0.7653 |                                     1.0097 |
-| Elastic Net         |   0.4691 |   0.7653 |                                     1.0097 |
 | Classification Tree |   0.5028 |   0.7635 |                                     1.0074 |
-| Random Forest       |      Inf |   0.7618 |                                     1.0051 |
+| Random Forest       |      Inf |   0.7583 |                                     1.0005 |
 | Most Popular        |       NA |   0.7579 |                                     1.0000 |
 
 Based on **accuracy** in prediction of the test set, the “best model”
-(of the models studied) for Education = Some High School is **Ridge**,
-which has accuracy = 0.7671.
+(of the models studied) for Education = Some High School is
+**Logistic**, which has accuracy = 0.7664.
 
 ``` r
 comparison_results_test2 <-comparison_results_test %>%
@@ -1628,7 +1632,7 @@ comparison_results_test2 <-comparison_results_test %>%
 
 If comparisons are made based on **Log Loss** in prediction of the test
 set, the “best model” (of the models studied) for Education = Some High
-School is **Elastic Net** with Log Loss = 0.4691.
+School is **LASSO** with Log Loss = 0.4691.
 
 # Summary
 
@@ -1647,21 +1651,21 @@ for the following models:
 - Elastic Net Model
 
 The training used 5-fold cross validation with Log Loss for the metric.
-Of these models, **Elastic Net** exhibited the lowest log loss during
-cross validation with:  
-Log Loss = 0.4781.
+Of these models, **LASSO** exhibited the lowest log loss during cross
+validation with:  
+Log Loss = 0.4782.
 
 The models were then used to make predictions on a test set. The
 predictions were then analyzed using Log Loss and accuracy to compare
 performance of the models.
 
-The model exhibiting the Lowest Log Loss was **Elastic Net** with:  
+The model exhibiting the Lowest Log Loss was **LASSO** with:  
 Log Loss = 0.4691.
 
-The model exhibiting the Highest Accuracy was **Ridge** with:  
-Accuracy = 0.7671.
+The model exhibiting the Highest Accuracy was **Logistic** with:  
+Accuracy = 0.7664.
 
 Since the dataset was unbalanced, it is informative to compare the
 accuracy of the model with a simple “pick the most popular model”. The
-accuracy of the most accurate model, Ridge, was: **1.012X** that of
+accuracy of the most accurate model, Logistic, was: **1.011X** that of
 “pick the most popular” model.

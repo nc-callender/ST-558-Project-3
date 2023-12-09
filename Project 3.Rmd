@@ -5,8 +5,7 @@ date: "`r Sys.Date()`"
 output: 
     github_document:
         html_preview: FALSE
-        toc: TRUE
-        toc_depth: 3
+        
 params: 
     EducationLevel: "High School Graduate"
 ---
@@ -17,6 +16,9 @@ params:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+knitr::opts_chunk$set(echo = TRUE, fig.path=paste0('Figs/', params$Education_Level, '/'), warning = FALSE, message = FALSE)
 ```
 
 ```{r, render code, eval =FALSE}
@@ -477,9 +479,11 @@ Log loss analysis can be incorporated into `caret` by setting the `metric = logl
 
 ### Description
 
-Logistic Regression is a method used on dataset where the response (dependent) variable is binary. The response variable is fit as a logistic sigmoid function of independent variables which can be continuous or binary.  The general form of the equation is $$ y= \frac{1}{1+e^{-X}}$$
+Logistic Regression is a method used on dataset where the response (dependent) variable is binary. The response variable is fit as a logistic sigmoid function of independent variables which can be continuous or binary.  The general form of the equation is  
+$$ y= \frac{1}{1+e^{-X}}$$
 where  X is a vector containing all the predictor variables.  The range of this function is 0-1, which works well with a binary dependent variable.  
 The logistic function is linked to the X vector with the logit function.  
+
 $$log\frac{p}{1-p}=\beta_0 + \beta_1x_1 + \beta_2x_2+ ...+ \beta_px_p$$
 
 ### Model 1 
@@ -605,9 +609,10 @@ knitr::kable(logistic_results, digits = 4, align = 'll')
 
 Least Absolute Shrinkage and Selection Operator (LASSO) is a penalized method for modelling. It is used in an attempt to balance accuracy and simplicity.  The penalty (assuming n predictor variables) is calculated as   $$L_1 = \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)$$
 
-$\lambda$ is a tuning parameter.  Larger values of $\lambda$ push more coefficients to zero- leading to sparser models, while smaller values of $\lambda$ allow more non-zero coefficients- corresponding to more complex models. 
+$$\lambda$$ is a tuning parameter.  Larger values of $$\lambda$$ push more coefficients to zero- leading to sparser models, while smaller values of $$\lambda$$ allow more non-zero coefficients- corresponding to more complex models. 
 
-During the modelling the function that is minimized- referred to as the objective function- is the sum of the penalty function and the cost function (which for this logistic regression will be log loss). $$Objective Function = Log Loss + L_1 = Log Loss + \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)$$
+During the modelling the function that is minimized- referred to as the objective function- is the sum of the penalty function and the cost function (which for this logistic regression will be log loss).  
+$$Objective Function = Log Loss + L_1 = Log Loss + \lambda * (|\beta_1| + |\beta_2| + ... + |\beta_n|)$$
 
 
 ### Model
@@ -758,7 +763,7 @@ knitr::kable(random_forest_results, digits = 4, align = "ll")
 ### Description
 Ridge logistic regression is a penalized method for modelling. It is used in an attempt to balance accuracy and simplicity.  The penalty (assuming n predictor variables) is calculated as   $$L_2 = \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
 
-$\lambda$ is a complexity parameter.  Larger values of $\lambda$ push more coefficients toward zero, while smaller values of $\lambda$ allow coefficients to remain larger.  In ridge regression, coefficients will never be pushed all the way to zero.
+$$\lambda$$ is a complexity parameter.  Larger values of $$\lambda$$ push more coefficients toward zero, while smaller values of $$\lambda$$ allow coefficients to remain larger.  In ridge regression, coefficients will never be pushed all the way to zero.
 
 During the modelling the function that is minimized- referred to as the objective function- is the sum of the penalty function and the cost function (which for this logistic regression will be log loss).   $$Objective Function = Log Loss + L_2 = Log Loss + \frac{\lambda}{2} * (\beta_1^2 + \beta_2^2 + ... + \beta_n^2)$$
 
@@ -813,13 +818,13 @@ knitr::kable(ridge_results, digits = 4, align = "ll")
 ### Description
 Elastic net regression is a penalized method for modelling.  Its penalty is equal to a combination of the L~1~  penalty (based on the absolute value of the coefficients of the predictors) from the LASSO method and the L~2~ penalty (based on the square of the coefficients of the predictors) from the ridge method.  
 
-For elastic net, the parameter $\alpha$ controls the balance between the L~1~ and L~2~ penalties. $$ElasticNetPenalty = \alpha*L_1 + (1-\alpha)L_2 =$$
+For elastic net, the parameter $$\alpha$$ controls the balance between the L~1~ and L~2~ penalties. $$ElasticNetPenalty = \alpha*L_1 + (1-\alpha)L_2 =$$
 
-$\alpha$ can range from 0 to 1.  When $\alpha = 0$, elastic net is equivalent to ridge; when $\alpha = 1$, elastic net is equivalent to LASSO.
+$$\alpha$$ can range from 0 to 1.  When $$\alpha = 0$$, elastic net is equivalent to ridge; when $$\alpha = 1$$, elastic net is equivalent to LASSO.
 
 LASSO regression suffers from instability when predictors are collinear, arbitrarily selecting one predictor over another. Ridge regression may keep too many predictors in a similar situation.  Elastic net can strike a balance between the other two.  
 
-While the LASSO and Ridge methods each only have one tuning parameter (called $\lambda$), elastic net requires a two tuning parameters ($\alpha$ and $\lambda$).  Having two tuning parameters makes use of elastic net more time-consuming and computationally expensive then the LASSO and ridge methods.
+While the LASSO and Ridge methods each only have one tuning parameter (called $\lambda$), elastic net requires a two tuning parameters ($$\alpha$$ and $$\lambda$$).  Having two tuning parameters makes use of elastic net more time-consuming and computationally expensive then the LASSO and ridge methods.
 
 ### Model
 ```{r, elastic_net, cache=TRUE, warning=FALSE}
