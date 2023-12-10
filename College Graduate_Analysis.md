@@ -2,7 +2,7 @@ Project 3: Modelling of Diabetes Data for Patients with Education =
 College Graduate
 ================
 Yvette Callender
-2023-12-09
+2023-12-10
 
 - [Introduction](#introduction)
   - [Data](#data)
@@ -66,6 +66,7 @@ Yvette Callender
 </script>
 
 ``` r
+#Code fo getting figures to render correctly.
 knitr::opts_chunk$set(echo = TRUE, fig.path=paste0('Figs/', params$Education_Level, '/'), warning = FALSE, message = FALSE)
 ```
 
@@ -737,7 +738,7 @@ formula_logistic_1
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d56da7da8>
+    ## <environment: 0x0000026d57fc2fd8>
 
 ``` r
 #for reproducibility
@@ -780,7 +781,7 @@ formula_logistic_2
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk
-    ## <environment: 0x0000026d56da7da8>
+    ## <environment: 0x0000026d57fc2fd8>
 
 ``` r
 #for reproducibility
@@ -820,7 +821,7 @@ formula_logistic_3
 ```
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + GenHlth
-    ## <environment: 0x0000026d56da7da8>
+    ## <environment: 0x0000026d57fc2fd8>
 
 ``` r
 #for reproducibility
@@ -903,7 +904,7 @@ formula_lasso
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d56da7da8>
+    ## <environment: 0x0000026d57fc2fd8>
 
 ``` r
 #Set up lambdas parameter for tuneGrid
@@ -971,7 +972,7 @@ formula_classification_tree
 
     ## Diabetes_binary ~ HighBP + HighChol + BMIFactor + HeartDiseaseorAttack + 
     ##     GenHlth + DiffWalk + Age
-    ## <environment: 0x0000026d56da7da8>
+    ## <environment: 0x0000026d57fc2fd8>
 
 ``` r
 #Set up complexity parameter for tuneGrid

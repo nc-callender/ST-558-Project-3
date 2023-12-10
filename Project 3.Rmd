@@ -18,6 +18,7 @@ params:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 ```{r}
+#Code fo getting figures to render correctly.
 knitr::opts_chunk$set(echo = TRUE, fig.path=paste0('Figs/', params$Education_Level, '/'), warning = FALSE, message = FALSE)
 ```
 
